@@ -16,9 +16,9 @@ Así, los usuarios podrán gestionar todas sus cuentas y contraseñas de manera 
 <h2>Organización y roles del equipo</h2>
 <p>Al ser un grupo que en el primer año del grado ya trabajamos juntos en varios proyectos, la organización ha sido muy fácil.
 Hemos decidido que todos haremos de todo, pero cada uno tendrá un rol de “líder” en cada apartado en el que hemos distribuido el proyecto, este líder será el encargado únicamente, de marcar el tempo y de comunicar al resto del grupo cómo vamos en relación con los objetivos y fechas acordados al inicio.
-Al final de cada clase se pondrá en común el trabajo de cada integrante, con el objetivo de que todas las personas en todo momento sepan que se ha hecho ese día y si algún día hay una baja, que se pueda seguir trabajando con normalidad.
-En el aspecto de las tareas, todos haremos todas las tareas, sin excepción.
-Xavi - Frontend y VMs
-Gerard - Backend cifrado y presentaciones(PP, Genially…), escritos(GitHub)
-Tim - Backend BBDD y gestores de tareas
+Al final de cada clase se pondrá en común el trabajo de cada integrante, con el objetivo de que todas las personas en todo momento sepan que se ha hecho ese día y si algún día hay una baja, que se pueda seguir trabajando con normalidad.<br>
+En el aspecto de las tareas, todos haremos todas las tareas, sin excepción.<br>
+Xavi - Frontend y VMs<br>
+Gerard - Backend cifrado y presentaciones(PP, Genially…), escritos(GitHub)<br>
+Tim - Backend BBDD y gestores de tareas<br>
 ¡RECORDAR! Los líderes informan del tiempo, no quiere decir que trabajen más en esas áreas que otro compañero.</p>
