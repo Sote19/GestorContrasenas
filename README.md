@@ -47,7 +47,16 @@ Al final de cada clase se pondrá en común el trabajo de cada integrante, con e
   <li>BBDD: Aquí se almacenarán los datos persistentes, como las contraseñas cifradas y las cuentas de usuario.</li>
 </ul>
 </p>
-
+<h1>Estilo web</h1>
 <h2>MokUp</h2>
-![MokUp](recursos_bf/MokUp.png)
+<p>Como se muestra en el mockup, nuestra web será sencilla. Cuando iniciamos </p>
+
+![MokUp](assets_bf/MokUp.png)
+
+<h2>Colores Principales</h2>
+<p>Los colores que hemos escogido, són unos tonos verdosos ya que queremos transmitir que se está usando un cifrador de contraseñas seguro.</p>
+
+![Colores](assets_bf/colores_principales.png)
+
+
 
