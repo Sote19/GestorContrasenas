@@ -48,5 +48,6 @@ Al final de cada clase se pondrá en común el trabajo de cada integrante, con e
 </ul>
 </p>
 
+<h2>MokUp</h2>
 ![MokUp](https://github.com/user-attachments/assets/ca6e9a52-e79e-4221-9990-87c98f11d553)
 
