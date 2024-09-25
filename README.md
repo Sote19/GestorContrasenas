@@ -38,3 +38,12 @@ Al final de cada clase se pondrá en común el trabajo de cada integrante, con e
   <li>Seguridad: TLS/SSL.</li>
   <li>Software: Visual Studio, MySQL Workbench, MongoDB, MySQL, GitHub, Bootstrap, Node.JS, Cloudflare. (esta lista puede aumentarse conforme vayamos avanzando con el proyecto y adquiriendo nuevos conocimientos).</li>
 </ul>
+
+<h2>Arquitectura del sistema</h2> 
+<p>Usaremos la arquitectura cliente-servidor de tres capas, la haremos en capas para así poder trabajar cada capa por separado y hacerlo de manera más sencilla y efectiva, para poder cumplir con los plazos de entrega.
+<ul>Las tres capas se dividirán:
+  <li>Cliente: Esta parte interactuará con el usuario, es decir, la mayoría del front-end estará en esta capa.</li>
+  <li>Servidor: Manejará la parte lógica y la base de datos y se encargará del procesado de solicitudes. También se gestionará el cifrado y las contraseñas</li>
+  <li>BBDD: Aquí se almacenarán los datos persistentes, como las contraseñas cifradas y las cuentas de usuario.</li>
+</ul>
+</p>
