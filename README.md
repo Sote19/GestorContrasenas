@@ -50,8 +50,16 @@ Al final de cada clase se pondrá en común el trabajo de cada integrante, con e
 <h1>Estilo web</h1>
 <h2>MokUp</h2>
 <p>
-  Como se muestra en el mockup, nuestra web será sencilla. Cuando entremos a la web por primera vez, nos encontraremos con un panel sencillo que nos dará dos opciones, "Iniciar sesión" y "Registrarse".<br>
-  Cada opción nos mandará a la página correspondiente, cuyo diseño será parecido al ya visto, con la diferencia que los títulos referenciarán donde nos encontramos.
+Como se muestra en el mockup, nuestra web será sencilla. Cuando entremos a la web por primera vez, nos encontraremos con un panel sencillo que nos dará dos opciones, **"Iniciar sesión"** y **"Registrarse"**.  
+Cada opción nos mandará a la página correspondiente, cuyo diseño será parecido al ya visto, con la diferencia que los títulos referenciarán dónde nos encontramos.  
+En la página de **registrarse** nos saldrá un pequeño "cuestionario" que nos solicitará correo electrónico, contraseña para entrar y nombre de usuario. Además, habrá un botón que permitirá ir a la página de **iniciar sesión** si ya tienes una cuenta registrada.  
+En la página de **iniciar sesión** nos mostrará los espacios correspondientes para introducir el usuario y la contraseña previamente registrada en la web. También estará disponible la opción de **"¿Has olvidado tu contraseña?"**, **"¿No tienes cuenta? Regístrate ya"**, la casilla para activar si quieres recordar el dispositivo y un ojo que mostrará la contraseña, ya que cuando se escribe no se muestra.  
+
+Una vez dentro, nos mostrará una ventana que pedirá registrar la **llave maestra**. Una vez configurada, el diseño de la web será simple. Se mostrarán las aplicaciones que hemos guardado en el gestor, con un botón que agregará una aplicación en la parte superior.  
+
+A la hora de **registrar una aplicación**, se pedirá la URL del sitio web de la aplicación, el usuario y si se quiere generar una contraseña o poner una personal. También habrá un espacio para poner comentarios. Una vez configurado, se usará un botón con **"Guardar"** para finalizar la acción de agregar una aplicación.  
+
+Una vez tengamos algunas aplicaciones registradas, seleccionando alguna de ellas accederemos a una ventana donde se mostrará la información previamente introducida para la aplicación correspondiente y dos botones: **"Editar"** y **"Eliminar"**, además de una cruz en la parte superior por si queremos salir de la ventana, regresando a la vista general de la web.
 </p>
 
 ![MokUp](assets_bf/MokUp.png)
