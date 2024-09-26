@@ -17,6 +17,10 @@ body.my-login-page {
     background-color: #b5ffa6 !important;
 }
 
+.row {
+    justify-content: center;
+}
+
 .card-title{
 	font-weight: bold;
     padding-top: 3rem;
