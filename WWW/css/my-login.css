@@ -17,12 +17,16 @@ body.my-login-page {
     margin-bottom: -12%;
 }
 
+.olvidar {
+    padding-top: 10%;
+}
+
 .card {
     background-color: #b5ffa6 !important;
 }
 
-.card-title{
-	font-weight: bold;
+.card-title {
+    font-weight: bold;
 }
 
 .my-login-page .brand img {
@@ -35,7 +39,7 @@ body.my-login-page {
 
 .my-login-page .card {
     border-color: transparent;
-    box-shadow: 0 4px 8px rgba(0,0,0,.05);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, .05);
 }
 
 .my-login-page .card.fat {
@@ -50,14 +54,20 @@ body.my-login-page {
 .my-login-page .form-control {
     background-color: #eeffe7;
     border: 2px solid #234c17;
+    height: 50px; /* Mantiene la altura del campo */
+    padding-right: 45px; /* Espacio para el ícono del ojo */
+}
+
+.password-toggle {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
 }
 
 .my-login-page .form-group label {
     width: 100%;
-}
-
-.input-group #putoboot{
-	display: none !important;
 }
 
 /* Estilos del botón de login */
@@ -68,9 +78,13 @@ body.my-login-page {
     color: white;
     border-radius: 25px;
     position: relative;
-    overflow: hidden; /* Oculta el pseudo-elemento */
-    transition: all 0.4s ease; /* Transición suave */
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1); /* Sombra inicial */
+    overflow: hidden;
+    transition: all 0.4s ease;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.eye.icon{
+    margin-right: 2%;
 }
 
 .my-login-page .btn.btn-block::before {
@@ -82,22 +96,22 @@ body.my-login-page {
     height: 300%;
     background: radial-gradient(circle, rgba(255, 255, 255, 0.2), transparent);
     transition: transform 0.5s ease;
-    transform: translate(-50%, -50%) scale(0); /* Comienza pequeño */
+    transform: translate(-50%, -50%) scale(0);
     border-radius: 50%;
 }
 
 .my-login-page .btn.btn-block:hover::before {
-    transform: translate(-50%, -50%) scale(1); /* Agranda el efecto circular en hover */
+    transform: translate(-50%, -50%) scale(1);
 }
 
 .my-login-page .btn.btn-block:hover {
-    background-color: #5c5c5c !important; /* Cambia el color de fondo en hover */
-    transform: scale(1.05); /* Aumenta ligeramente el tamaño */
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3); /* Aumenta la sombra */
+    background-color: #5c5c5c !important;
+    transform: scale(1.05);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
 }
 
 .my-login-page .footer {
-    margin: 40px 0;
+    margin: 5%;
     color: #888;
     text-align: center;
 }
