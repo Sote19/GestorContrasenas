@@ -1,7 +1,3 @@
-html, body {
-    height: 100%;
-}
-
 body.my-login-page {
     background-color: #5c5c5c;
     font-size: 14px;
@@ -17,16 +13,13 @@ body.my-login-page {
     margin-bottom: -12%;
 }
 
-.olvidar {
-    padding-top: 10%;
-}
-
 .card {
     background-color: #b5ffa6 !important;
 }
 
-.card-title {
-    font-weight: bold;
+.card-title{
+	font-weight: bold;
+    padding-top: 3rem;
 }
 
 .my-login-page .brand img {
@@ -39,7 +32,7 @@ body.my-login-page {
 
 .my-login-page .card {
     border-color: transparent;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, .05);
+    box-shadow: 0 4px 8px rgba(0,0,0,.05);
 }
 
 .my-login-page .card.fat {
@@ -54,39 +47,42 @@ body.my-login-page {
 .my-login-page .form-control {
     background-color: #eeffe7;
     border: 2px solid #234c17;
-    height: 50px; /* Mantiene la altura del campo */
-    padding-right: 45px; /* Espacio para el ícono del ojo */
-}
-
-.password-toggle {
-    position: absolute;
-    right: 10px;
-    top: 50%;
-    transform: translateY(-50%);
-    cursor: pointer;
 }
 
 .my-login-page .form-group label {
     width: 100%;
+    display: flex;
+    margin-bottom: .5rem;
+    align-items: center;
+    flex-direction: row;
+    justify-content: space-between;
 }
+
+.input-group #putoboot{
+	display: none !important;
+}
+
+.input-group-text {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+}
+
 
 /* Estilos del botón de login */
 .my-login-page .btn.btn-block {
     padding: 12px 10px;
-    background-color: #234c17 !important;
-    border: 2px solid #234c17 !important;
+    background-color: #234c17 !important; /* Color de fondo verde */
+    border: 2px solid #234c17 !important; /* Borde verde */
     color: white;
     border-radius: 25px;
     position: relative;
-    overflow: hidden;
-    transition: all 0.4s ease;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    overflow: hidden; /* Oculta el pseudo-elemento */
+    transition: all 0.4s ease; /* Transición suave */
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1); /* Sombra inicial */
 }
 
-.eye.icon{
-    margin-right: 2%;
-}
-
+/* Efecto de onda radial */
 .my-login-page .btn.btn-block::before {
     content: '';
     position: absolute;
@@ -96,22 +92,26 @@ body.my-login-page {
     height: 300%;
     background: radial-gradient(circle, rgba(255, 255, 255, 0.2), transparent);
     transition: transform 0.5s ease;
-    transform: translate(-50%, -50%) scale(0);
+    transform: translate(-50%, -50%) scale(0); /* Comienza pequeño */
     border-radius: 50%;
 }
 
+/* Agrandar el efecto circular en hover */
 .my-login-page .btn.btn-block:hover::before {
-    transform: translate(-50%, -50%) scale(1);
+    transform: translate(-50%, -50%) scale(1); /* Agranda el efecto circular en hover */
 }
 
+/* Hover sin cambiar de color */
 .my-login-page .btn.btn-block:hover {
-    background-color: #5c5c5c !important;
-    transform: scale(1.05);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+    transform: scale(1.05); /* Aumenta ligeramente el tamaño */
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3); /* Aumenta la sombra */
+    background-color: #234c17 !important; /* Mantiene el color de fondo verde */
 }
+
+
 
 .my-login-page .footer {
-    margin: 5%;
+    margin: 40px 0;
     color: #888;
     text-align: center;
 }
