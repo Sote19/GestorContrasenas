@@ -64,10 +64,16 @@ Una vez tengamos algunas aplicaciones registradas, seleccionando alguna de ellas
 
 ![MokUp](assets_bf/MokUp.png)
 
-<h2>Colores Principales XAVICO SOPLAPOLLAS</h2>
-<p>Los colores que hemos escogido, són unos tonos verdosos ya que queremos transmitir que se está usando un cifrador de contraseñas seguro.</p>
+<h2>Colores </h2>
+<p>Hemos optado por una paleta de colores en tonos verdes, que van desde un verde oscuro (#234C17) a un verde más claro (#B5FFA6). Estos colores están pensados para transmitir una sensación de seguridad, estabilidad y confianza, características fundamentales en un gestor de contraseñas. El verde también está asociado con zonas seguras y aprobadas, lo que refuerza la idea de que los usuarios estarán en un entorno protegido para almacenar su información sensible. Además, los colores blanco (#ffffff) y negro (#000000) se usan como base para asegurar legibilidad y simplicidad, sin distraer la atención de la funcionalidad principal de la plataforma.</p>
 
 ![Colores](assets_bf/colores_principales.png)
+
+<h2>Logotipo</h2>
+<p>El logotipo elegido es un escudo verde con una cerradura en el centro, lo que simboliza la protección de las contraseñas, que actúan como llaves para acceder a las diferentes cuentas de los usuarios. El escudo representa seguridad, confiabilidad y defensa, lo que refuerza el objetivo del gestor de contraseñas: proporcionar un entorno seguro para almacenar y gestionar de manera centralizada los datos de autenticación. El detalle del circuito en el fondo del escudo agrega un toque tecnológico, conectando el concepto de ciberseguridad con el propósito del proyecto.</p>
+
+![Logotipo(assets_bf/logo.svg)]
+
 
 
 
