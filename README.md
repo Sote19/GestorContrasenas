@@ -64,7 +64,7 @@ Una vez tengamos algunas aplicaciones registradas, seleccionando alguna de ellas
 
 ![MokUp](assets_bf/MokUp.png)
 
-<h2>Colores Principales</h2>
+<h2>Colores Principales XAVICO SOPLAPOLLAS</h2>
 <p>Los colores que hemos escogido, són unos tonos verdosos ya que queremos transmitir que se está usando un cifrador de contraseñas seguro.</p>
 
 ![Colores](assets_bf/colores_principales.png)
