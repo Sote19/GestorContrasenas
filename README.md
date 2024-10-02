@@ -48,7 +48,7 @@ Al final de cada clase se pondrá en común el trabajo de cada integrante, con e
 </ul>
 </p>
 <h1>Estilo web</h1>
-<h2>MokUp</h2>
+<h2>MockUp</h2>
 <p>
 Como se muestra en el mockup, nuestra web será sencilla. Cuando entremos a la web por primera vez, nos encontraremos con un panel sencillo que nos dará dos opciones, "Iniciar sesión" y "Registrarse".  
 Cada opción nos mandará a la página correspondiente, cuyo diseño será parecido al ya visto, con la diferencia que los títulos referenciarán dónde nos encontramos.  
