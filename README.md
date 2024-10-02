@@ -62,18 +62,27 @@ A la hora de registrar una aplicación, se pedirá la URL del sitio web de la ap
 Una vez tengamos algunas aplicaciones registradas, seleccionando alguna de ellas accederemos a una ventana donde se mostrará la información previamente introducida para la aplicación correspondiente y dos botones: "Editar" y "Eliminar", además de una cruz en la parte superior por si queremos salir de la ventana, regresando a la vista general de la web.
 </p>
 
-![MokUp](assets_bf/MokUp.png)
+<div align="center">
+  <img src="assets_bf/MockUp.png" alt="MockUp" with="800">
+</div>
+
+
+<h2>Árbol Web</h2>
+
+<div align="center">
+  <img src="assets_bf/arbolweb.png" alt="ArbolWeb" with="800">
+</div>
 
 <h2>Colores </h2>
 <p>Hemos optado por una paleta de colores en tonos verdes, que van desde un verde oscuro (#234C17) a un verde más claro (#B5FFA6). Estos colores están pensados para transmitir una sensación de seguridad, estabilidad y confianza, características fundamentales en un gestor de contraseñas. El verde también está asociado con zonas seguras y aprobadas, lo que refuerza la idea de que los usuarios estarán en un entorno protegido para almacenar su información sensible. Además, los colores blanco (#ffffff) y negro (#000000) se usan como base para asegurar legibilidad y simplicidad, sin distraer la atención de la funcionalidad principal de la plataforma.</p>
 
-![Colores](assets_bf/colores_principales.png)
+<div align="center">
+  <img src="assets_bf/colores_principales.png" alt="Colores" with="800">
+</div>
 
 <h2>Logotipo</h2>
 <p>El logotipo elegido es un escudo verde con una cerradura en el centro, lo que simboliza la protección de las contraseñas, que actúan como llaves para acceder a las diferentes cuentas de los usuarios. El escudo representa seguridad, confiabilidad y defensa, lo que refuerza el objetivo del gestor de contraseñas: proporcionar un entorno seguro para almacenar y gestionar de manera centralizada los datos de autenticación. El detalle del circuito en el fondo del escudo agrega un toque tecnológico, conectando el concepto de ciberseguridad con el propósito del proyecto.</p>
 
-![Logotipo](assets_bf/logo.svg)
-
-
-
-
+<div align="center">
+  <img src="assets_bf/logo.svg" alt="Logo" with="300">
+</div>
