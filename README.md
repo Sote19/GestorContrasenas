@@ -84,5 +84,5 @@ Una vez tengamos algunas aplicaciones registradas, seleccionando alguna de ellas
 <p>El logotipo elegido es un escudo verde con una cerradura en el centro, lo que simboliza la protección de las contraseñas, que actúan como llaves para acceder a las diferentes cuentas de los usuarios. El escudo representa seguridad, confiabilidad y defensa, lo que refuerza el objetivo del gestor de contraseñas: proporcionar un entorno seguro para almacenar y gestionar de manera centralizada los datos de autenticación. El detalle del circuito en el fondo del escudo agrega un toque tecnológico, conectando el concepto de ciberseguridad con el propósito del proyecto.</p>
 
 <div align="center">
-  <img src="assets_bf/logo.svg" alt="Logo" with="300">
+  <img src="assets_bf/logo.svg" alt="Logo" with="100">
 </div>
