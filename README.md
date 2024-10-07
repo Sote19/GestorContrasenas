@@ -32,11 +32,11 @@ Al final de cada clase se pondrá en común el trabajo de cada integrante, con e
   <li>Front-end: HTML, CSS, JavaScript con ayuda de Bootstrap.
     <br>Colores que usaremos en el front-end: #234C17 y #B5FFA6
   </li>
-  <li>Back-end: Python e intentaremos PHP.</li>
-  <li>Base de Datos: Intentaremos aprender y usar MongoDB, pero la 2a opción será el conocido MySQL.</li>
+  <li>Back-end: Python, Java Script e intentaremos PHP.</li>
+  <li>Base de Datos: Google Firebase.</li>
   <li>Cifrado: según vayamos avanzando con el proyecto elegiremos una de las 3 opciones: AES-256, bcrypt/Argon2, PBKDF2.</li>
   <li>Seguridad: TLS/SSL.</li>
-  <li>Software: Visual Studio, MySQL Workbench, MongoDB, MySQL, GitHub, Bootstrap, Node.JS, Cloudflare. (esta lista puede aumentarse conforme vayamos avanzando con el proyecto y adquiriendo nuevos conocimientos).</li>
+  <li>Software: Visual Studio, Google Firebase, GitHub, Bootstrap, Node.JS, Cloudflare. (esta lista puede aumentarse conforme vayamos avanzando con el proyecto y adquiriendo nuevos conocimientos).</li>
 </ul>
 
 <h2>Arquitectura del sistema</h2> 
