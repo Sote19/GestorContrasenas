@@ -86,3 +86,10 @@ Una vez tengamos algunas aplicaciones registradas, seleccionando alguna de ellas
 <div align="center">
   <img src="assets_bf/logo.svg" alt="Logo" with="100">
 </div>
+
+<h2>Diagrama de Red</h2>
+<p>Para conseguír una conexión correcta, trabajaremos dentro de un entrono ProxMox, el cual montaremos en un ordenador disponible de clase... (hay que escribir esto bien y acabarlo)</p>
+
+<div align="center">
+  <img src="assets_bf/diagrama_red.png" alt="diagrama_red" with="100">
+</div>
