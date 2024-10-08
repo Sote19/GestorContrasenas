@@ -1,0 +1,43 @@
+/* Global Styles */
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #f0f2f5;
+}
+
+/* Header Styles */
+header {
+    background-color: #ffffff;
+    border-bottom: 2px solid #eaeaea;
+}
+
+header .btn {
+    font-size: 1rem;
+}
+
+header .btn-outline-dark {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Main Section Styles */
+main .btn-primary {
+    font-size: 1.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.app-btn {
+    font-size: 1.1rem;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.app-btn i {
+    margin-right: 10px;
+    font-size: 1.5rem;
+}
