@@ -87,9 +87,29 @@ Una vez tengamos algunas aplicaciones registradas, seleccionando alguna de ellas
   <img src="assets_bf/logo.svg" alt="Logo" with="100">
 </div>
 
-<h2>Diagrama de Red</h2>
-<p>Para conseguír una conexión correcta, trabajaremos dentro de un entrono ProxMox, el cual montaremos en un ordenador disponible de clase... (hay que escribir esto bien y acabarlo)</p>
+<h2>PROXMOX</h2>
+<p>Para la creación de nuestro poryecto, vamos a hacer uso de Proxmox. Para ello lo instalaremos en una maquina real .... (acabar explicación general)</p>
+<h3>Entorno ProxMox</h3>
+<p>(explicación maquinas que vamos a crear en proxmox)</p>
+
+<h3>Diagrama de Red</h3>
+<p>Para conseguír una conexión correcta, trabajaremos dentro de un entrono ProxMox, el cual montaremos en un ordenador disponible de clase... (hay que escribir esto bien y acabar de explicar la creación de red interna vmbr1)</p>
+
+<img src="assets_bf/adaptador_puente_prox.png" alt="adaptador puente" with="100">
 
 <div align="center">
   <img src="assets_bf/diagrama_red.png" alt="diagrama_red" with="100">
+
+  |               | Proxmox              | VM Ubuntu Router       | VM Ubuntu Cliente     |
+  |---------------|----------------------|------------------------|-----------------------|
+  | **IP (estática)** | 100.77.20.113/24 | IP: 100.77.20.77/24    | IP: 10.20.30.5/24     |
+  | **IP Gateway**    | 100.77.20.1      | 100.77.20.1            | 10.20.30.1            |
+  | **Red**           | NAT              | vmbr0                  | vmbr1                 |
+  |---------------|----------------------|------------------------|-----------------------|
+  | **IP (estática)** | ---------------- | IP: 10.20.30.1/24      | ----------------      |
+  | **IP Gateway**    | ---------------- | 100.77.20.1            | ----------------      |
+  | **Red**           | ---------------- | vmbr1                  | ----------------      |
 </div>
+
+
+<h3></h3>
