@@ -111,5 +111,14 @@ Una vez tengamos algunas aplicaciones registradas, seleccionando alguna de ellas
   | **Red**           | ---------------- | vmbr1                  | ----------------      |
 </div>
 
+<h3>Configuración de red para el "ROUTER"</h3>
+<p>Configuramos netplan para router con ens18(red exterior) ens19(red interna)</p>
+
+<img src="assets_bf/netplan_router.png" alt="netplan de router" with="100">
+
+<h3>Configuración de red para el "CLIENTE"</h3>
+<p>Configuramos netplan para el cliente solo con ens19 con IP para dentro de la red</p>
+
+<img src="assets_bf/netplan_cliente.png" alt="netplan de cliente" with="100">
 
 <h3></h3>
