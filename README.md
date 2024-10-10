@@ -25,19 +25,24 @@ Al final de cada clase se pondrá en común el trabajo de cada integrante, con e
   <li>Gerard - Back-end cifrado y presentaciones(PP, Genially…), escritos(GitHub)</li>
   <li>Tim - Back-end BBDD y gestores de tareas</li>
 </ul>
-¡RECORDAR! Los líderes informan del tiempo, no quiere decir que trabajen más en esas áreas que otro compañero.</p>
+
+> [!IMPORTANT]
+> Los líderes informan del tiempo, no quiere decir que trabajen más en esas áreas que otro compañero.</p>
 
 <h2>Tecnologías a utilizar (lenguajes, framework, sistemas, software...)</h2>
 <ul>
-  <li>Front-end: HTML, CSS, JavaScript con ayuda de Bootstrap.
+  <li>Front-end: HTML, CSS con ayuda de Bootstrap.
     <br>Colores que usaremos en el front-end: #234C17 y #B5FFA6
   </li>
   <li>Back-end: Python, Java Script e intentaremos PHP.</li>
   <li>Base de Datos: Google Firebase.</li>
   <li>Cifrado: según vayamos avanzando con el proyecto elegiremos una de las 3 opciones: AES-256, bcrypt/Argon2, PBKDF2.</li>
   <li>Seguridad: TLS/SSL.</li>
-  <li>Software: Visual Studio, Google Firebase, GitHub, Bootstrap, Node.JS, Cloudflare. (esta lista puede aumentarse conforme vayamos avanzando con el proyecto y adquiriendo nuevos conocimientos).</li>
+  <li>Software: Visual Studio, Google Firebase, GitHub, Bootstrap, Node.JS, Cloudflare.</li>
 </ul>
+
+> [!NOTE]
+> Esta lista puede aumentarse conforme vayamos avanzando con el proyecto y adquiriendo nuevos conocimientos.</p>
 
 <h2>Arquitectura del sistema</h2> 
 <p>Usaremos la arquitectura cliente-servidor de tres capas, la haremos en capas para así poder trabajar cada capa por separado y hacerlo de manera más sencilla y efectiva, para poder cumplir con los plazos de entrega.
@@ -92,11 +97,8 @@ Una vez tengamos algunas aplicaciones registradas, seleccionando alguna de ellas
 
 <h3>Entorno ProxMox</h3>
 
-> [!WARNING]
-> no está acabado
-
-<p>(explicación maquinas que vamos a crear en proxmox) Dentro de nuestro Proxmox, configuraremos una red Nat para que todas las maquinas virtuales que creemos tengan conexión entre ellas. <br>
-Como elementos principales tendremos 2 UbuntuServers. Uno de ellos hará de router virutal proporcionando DHCP y siendo un servidor DNS. El otro será un equipo cliente. Una vez tengamos estas dos maquinas bien configuradas, pasaremos a la creación e integración de una maquina que hará como base de datos.
+<p>Dentro de nuestro Proxmox, configuraremos una red Nat para que todas las maquinas virtuales que creemos tengan conexión entre ellas. <br>
+Como elementos principales tendremos 2 UbuntuServers. Uno de ellos hará de router virutal proporcionando DHCP y siendo un servidor DNS. El otro será un equipo cliente. Una vez tengamos estas dos maquinas bien configuradas, pasaremos a la creación e integración de una maquina que hará como base de datos y otra que alojará nuestra página web.
 </p>
 
 <h3>Diagrama de Red</h3>
@@ -104,7 +106,9 @@ Como elementos principales tendremos 2 UbuntuServers. Uno de ellos hará de rout
 > [!WARNING]
 > no está acabado
 
-<p>Para conseguír una conexión correcta, trabajaremos dentro de un entrono ProxMox, el cual montaremos en un ordenador disponible de clase... (hay que escribir esto bien y acabar de explicar la creación de red interna vmbr1)</p>
+<p>explicar donde se encuentra la configuración de red nat (linux bridge)
+Para crear la red Nat con la que se comunicarán las maquinas dentro de Proxmox, añadiremos un "Linux Bridge"
+</p>
 
 <img src="assets_bf/adaptador_puente_prox.png" alt="adaptador puente" with="100">
 
