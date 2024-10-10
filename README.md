@@ -96,22 +96,17 @@ Una vez tengamos algunas aplicaciones registradas, seleccionando alguna de ellas
 <p>Para la creación de nuestro poryecto, vamos a hacer uso de Proxmox. Por ello haremos uso de uno de los ordenadores disponibles en el aula para hacer nuestro equipo PROXMOX, con el que trabajaremos para crear los servicios requeridos.</p>
 
 <h3>Entorno ProxMox</h3>
-
 <p>Dentro de nuestro Proxmox, configuraremos una red Nat para que todas las maquinas virtuales que creemos tengan conexión entre ellas. <br>
-Como elementos principales tendremos 2 UbuntuServers. Uno de ellos hará de router virutal proporcionando DHCP y siendo un servidor DNS. El otro será un equipo cliente. Una vez tengamos estas dos maquinas bien configuradas, pasaremos a la creación e integración de una maquina que hará como base de datos y otra que alojará nuestra página web.
+Como elementos principales tendremos 2 UbuntuServers. Uno de ellos hará de router virutal proporcionando DHCP y siendo un servidor DNS. El otro será un equipo cliente. Una vez tengamos estas dos maquinas bien configuradas, pasaremos a la creación e integración de una maquina que hará como base de datos y otra que alojará nuestra página web.</p>
+
+<p>Para crear la red Nat con la que se comunicarán las maquinas dentro de Proxmox, añadiremos un "Linux Bridge" y lo configuraremos para crear la red "interna", llamada vmbr1. Por defecto la red externa (en nuestro caso la del aula), se llama vmbr0.<br>
+El proceso que hemos seguido ha sido el siguiente: instalar y configurar la maquina router. Cuando añadimos la maquina, en el apartado de hardware le añadiremos la nueva interfaz de red que creamos anteriormente.Una vez configurado, duplicaremos la maquina router para proceder con la configuración de la maquina cliente, modificando el netplan para que tenga su propia dirección IP dentro de la red.
 </p>
+
+<p>Configuración del adaptador puente<img src="assets_bf/adaptador_puente_prox.png" alt="adaptador puente" with="100"></p>
+<p>Configuración Hardware del Cliente<img src="assets_bf/interfaz_red_router.png" alt="interfaz red router" with="100"></p>
 
 <h3>Diagrama de Red</h3>
-
-> [!WARNING]
-> no está acabado
-
-<p>explicar donde se encuentra la configuración de red nat (linux bridge)
-Para crear la red Nat con la que se comunicarán las maquinas dentro de Proxmox, añadiremos un "Linux Bridge"
-</p>
-
-<img src="assets_bf/adaptador_puente_prox.png" alt="adaptador puente" with="100">
-
 <div align="center">
   <img src="assets_bf/diagrama_red.png" alt="diagrama_red" with="100">
 
