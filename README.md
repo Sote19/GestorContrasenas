@@ -11,7 +11,6 @@ Nuestro gestor podrá almacenar todas las contraseñas de forma cifrada, y estar
 Para los usuarios, la seguridad se basará en dos cosas: su contraseña de usuario y la masterkey.
 Así, los usuarios podrán gestionar todas sus cuentas y contraseñas de manera centralizada, segura y sencilla.</p>
 
-
 <h2>Objetivo que se persigue</h2>
 <p>Nuestro objetivo es crear una aplicación web que gestione usuarios y contraseñas de manera cifrada. Además, tendremos una BBDD segura protegida por una única contraseña maestra que será enlazada a la app. Queremos facilitar la vida a los usuarios para que gasten el tiempo mínimo en buscar, añadir o manejar sus datos personales de autenticación.</p>
 
@@ -19,6 +18,7 @@ Así, los usuarios podrán gestionar todas sus cuentas y contraseñas de manera 
 <p>Al ser un grupo que en el primer año del grado ya trabajamos juntos en varios proyectos, la organización ha sido muy fácil.
 Hemos decidido que todos haremos de todo, pero cada uno tendrá un rol de “líder” en cada apartado en el que hemos distribuido el proyecto, este líder será el encargado únicamente, de marcar el tempo y de comunicar al resto del grupo cómo vamos en relación con los objetivos y fechas acordados al inicio.
 Al final de cada clase se pondrá en común el trabajo de cada integrante, con el objetivo de que todas las personas en todo momento sepan que se ha hecho ese día y si algún día hay una baja, que se pueda seguir trabajando con normalidad.</p>
+
 <p>En el aspecto de las tareas, todos haremos todas las tareas, sin excepción.
 <ul>
   <li>Xavi - Front-end y VMs</li>
@@ -30,10 +30,10 @@ Al final de cada clase se pondrá en común el trabajo de cada integrante, con e
 > Los líderes informan del tiempo, no quiere decir que trabajen más en esas áreas que otro compañero.</p>
 
 <h2>Tecnologías a utilizar (lenguajes, framework, sistemas, software...)</h2>
+<p>
 <ul>
-  <li>Front-end: HTML, CSS con ayuda de Bootstrap.
-    <br>Colores que usaremos en el front-end: #234C17 y #B5FFA6
-  </li>
+  <li>Front-end: HTML, CSS con ayuda de Bootstrap.<br>
+    Colores que usaremos en el front-end: #234C17 y #B5FFA6</li>
   <li>Back-end: Python, Java Script e intentaremos PHP.</li>
   <li>Base de Datos: Google Firebase.</li>
   <li>Cifrado: según vayamos avanzando con el proyecto elegiremos una de las 3 opciones: AES-256, bcrypt/Argon2, PBKDF2.</li>
@@ -52,6 +52,7 @@ Al final de cada clase se pondrá en común el trabajo de cada integrante, con e
   <li>BBDD: Aquí se almacenarán los datos persistentes, como las contraseñas cifradas y las cuentas de usuario.</li>
 </ul>
 </p>
+
 <h1>Estilo web</h1>
 <h2>MockUp</h2>
 <p>
@@ -93,18 +94,17 @@ Una vez tengamos algunas aplicaciones registradas, seleccionando alguna de ellas
 </div>
 
 <h2>PROXMOX</h2>
-<p>Para la creación de nuestro poryecto, vamos a hacer uso de Proxmox. Por ello haremos uso de uno de los ordenadores disponibles en el aula para hacer nuestro equipo PROXMOX, con el que trabajaremos para crear los servicios requeridos.</p>
+<p>Para la creación de nuestro proyecto, vamos a usar Proxmox. Utilizaremos uno de los ordenadores disponibles en el aula para montar nuestro equipo PROXMOX, con el que trabajaremos para crear todos los servicios que necesitamos.</p>
 
 <h3>Entorno ProxMox</h3>
-<p>Dentro de nuestro Proxmox, configuraremos una red Nat para que todas las maquinas virtuales que creemos tengan conexión entre ellas. <br>
-Como elementos principales tendremos 2 UbuntuServers. Uno de ellos hará de router virutal proporcionando DHCP y siendo un servidor DNS. El otro será un equipo cliente. Una vez tengamos estas dos maquinas bien configuradas, pasaremos a la creación e integración de una maquina que hará como base de datos y otra que alojará nuestra página web.</p>
+<p>Dentro de Proxmox, configuraremos una red NAT para que todas las máquinas virtuales que creemos tengan conexión entre ellas.<br>
+Como elementos principales, tendremos dos Ubuntu Servers. Uno de ellos hará de router virtual, proporcionando DHCP y actuando como servidor DNS. El otro será un equipo cliente. Una vez tengamos estas dos máquinas configuradas correctamente, procederemos a crear e integrar una máquina que funcionará como base de datos y otra que alojará nuestra página web.</p>
 
-<p>Para crear la red Nat con la que se comunicarán las maquinas dentro de Proxmox, añadiremos un "Linux Bridge" y lo configuraremos para crear la red "interna", llamada vmbr1. Por defecto la red externa (en nuestro caso la del aula), se llama vmbr0.<br>
-El proceso que hemos seguido ha sido el siguiente: instalar y configurar la maquina router. Cuando añadimos la maquina, en el apartado de hardware le añadiremos la nueva interfaz de red que creamos anteriormente.Una vez configurado, duplicaremos la maquina router para proceder con la configuración de la maquina cliente, modificando el netplan para que tenga su propia dirección IP dentro de la red.
-</p>
+<p>Para crear la red NAT con la que se comunicarán las máquinas dentro de Proxmox, añadiremos un "Linux Bridge" y lo configuraremos para crear la red "interna", a la que llamaremos vmbr1. Por defecto, la red externa (en nuestro caso la del aula) se llama vmbr0.<br>
+El proceso que seguimos fue el siguiente: primero, instalamos y configuramos la máquina router. Al añadir la máquina, le asignamos la nueva interfaz de red que creamos anteriormente en el apartado de hardware. Una vez configurado el router, duplicamos la máquina para crear el equipo cliente, y modificamos el netplan para que tenga su propia dirección IP dentro de la red interna.</p>
 
 <p>Configuración del adaptador puente<img src="assets_bf/adaptador_puente_prox.png" alt="adaptador puente" with="100"></p>
-<p>Configuración Hardware del Cliente<img src="assets_bf/interfaz_red_router.png" alt="interfaz red router" with="100"></p>
+<p>Configuración del hardware del cliente<img src="assets_bf/interfaz_red_router.png" alt="interfaz red router" with="100"></p>
 
 <h3>Diagrama de Red</h3>
 <div align="center">
