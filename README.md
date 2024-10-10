@@ -88,11 +88,22 @@ Una vez tengamos algunas aplicaciones registradas, seleccionando alguna de ellas
 </div>
 
 <h2>PROXMOX</h2>
-<p>Para la creación de nuestro poryecto, vamos a hacer uso de Proxmox. Para ello lo instalaremos en una maquina real .... (acabar explicación general)</p>
+<p>Para la creación de nuestro poryecto, vamos a hacer uso de Proxmox. Por ello haremos uso de uno de los ordenadores disponibles en el aula para hacer nuestro equipo PROXMOX, con el que trabajaremos para crear los servicios requeridos.</p>
+
 <h3>Entorno ProxMox</h3>
-<p>(explicación maquinas que vamos a crear en proxmox)</p>
+
+> [!WARNING]
+> no está acabado
+
+<p>(explicación maquinas que vamos a crear en proxmox) Dentro de nuestro Proxmox, configuraremos una red Nat para que todas las maquinas virtuales que creemos tengan conexión entre ellas. <br>
+Como elementos principales tendremos 2 UbuntuServers. Uno de ellos hará de router virutal proporcionando DHCP y siendo un servidor DNS. El otro será un equipo cliente. Una vez tengamos estas dos maquinas bien configuradas, pasaremos a la creación e integración de una maquina que hará como base de datos.
+</p>
 
 <h3>Diagrama de Red</h3>
+
+> [!WARNING]
+> no está acabado
+
 <p>Para conseguír una conexión correcta, trabajaremos dentro de un entrono ProxMox, el cual montaremos en un ordenador disponible de clase... (hay que escribir esto bien y acabar de explicar la creación de red interna vmbr1)</p>
 
 <img src="assets_bf/adaptador_puente_prox.png" alt="adaptador puente" with="100">
