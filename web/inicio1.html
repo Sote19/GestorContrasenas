@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestor de Contraseñas</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/inicio1.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="bg-light py-3 mb-4 border-bottom shadow-sm">
+        <div class="container">
+            <div class="d-flex justify-content-between align-items-center">
+                <!-- Botón de perfil (icono) -->
+                <button class="btn btn-outline-dark rounded-circle d-flex justify-content-center align-items-center icono" style="width: 40px; height: 40px;">
+                    <i class="bi bi-person"></i>
+                </button>
+
+                <!-- Menú de Navegación para pantallas grandes y botón hamburguesa para pantallas pequeñas -->
+                <nav class="navbar navbar-expand-lg navbar-light">
+                    <div class="container-fluid">
+                        <!-- Botón de hamburguesa para dispositivos móviles -->
+                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+
+                        <!-- Links del menú -->
+                        <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+                            <ul class="navbar-nav">
+                                <li class="nav-item">
+                                    <a href="pagina1.html" class="btn btn-outline-secondary botonesmenu">Página 1</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="pagina2.html" class="btn btn-outline-secondary botonesmenu">Página 2</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="pagina3.html" class="btn btn-outline-secondary botonesmenu">Página 3</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
+
+                <!-- Botón Cerrar Sesión -->
+                <button class="btn btn-danger">Cerrar Sesión</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container">
+        <!-- Botón Añadir APP -->
+        <div class="text-center mb-5">
+            <button onclick="location.href='nuevapp.html'" class="btn btn-primary btn-lg px-5 py-3 shadow-sm anadirapp" id="addAppBtn">
+                <i class="bi bi-plus-circle me-2"></i>Añadir APP
+            </button>
+        </div>
+
+        <!-- Lista de Apps -->
+        <div class="row g-3 justify-content-center" id="appList">
+            <!-- Aquí se agregarán las apps dinámicamente -->
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Función para cargar las apps desde localStorage
+        function loadApps() {
+            const apps = JSON.parse(localStorage.getItem("apps")) || [];
+            const appList = document.getElementById("appList");
+
+            apps.forEach(app => {
+                const appButton = document.createElement("div");
+                appButton.className = "col-md-6";
+                appButton.innerHTML = `
+                    <button class="btn btn-outline-secondary w-100 py-3 app-btn shadow-sm app">
+                        <i class="bi bi-box"></i> ${app.appName} (Usuario: ${app.user})
+                    </button>
+                `;
+                appList.appendChild(appButton);
+            });
+        }
+
+        // Al cargar la página, cargar las apps
+        document.addEventListener("DOMContentLoaded", loadApps);
+    </script>
+</body>
+</html>
