@@ -1,7 +1,6 @@
 <h1>ASIX2_Gestor de Contraseñas_GTX<br>
 Trabajo realizado por Gerard Soteras, Tim Kalugin y Xavi Conde </h1>
 <hr>
-
 <h2>Explicación de la idea del proyecto</h2>
 <p>En este proyecto nos vamos a centrar en crear una aplicación web que funcione como un gestor de contraseñas. La idea es que esta web permita crear un usuario y que pueda añadir sus aplicaciones, webs, usuarios y contraseñas de forma fácil e intuitiva, pero siempre con seguridad. Nos vamos a enfocar principalmente en el back-end, pero también intentaremos que el front-end esté bien diseñado para que sea accesible para cualquier usuario.
 Nuestro gestor podrá almacenar todas las contraseñas de forma cifrada, y estarán gestionadas por una contraseña maestra (masterkey).</p>
@@ -116,13 +115,17 @@ El proceso que seguimos fue el siguiente: primero, instalamos y configuramos la 
   | **Red**           | ---------------- | vmbr1                  | ----------------      |
 </div>
 
+> [!WARNING]
+> REVISAR.
+
+
 <h2>Configuración de red para el "ROUTER"</h2>
-<p>Configuramos netplan para router con ens18(red exterior) ens19(red interna)</p>
+<p>Configuramos la red del router. Para ello cambiaremos el netplan ajustando las IP según la red interna previamente creada o la externa.Con ens18 identificaremos la red exterior y con ens19 la red interna</p>
 
 <img src="assets_bf/netplan_router.png" alt="netplan de router" with="100">
 
 <h2>Configuración de red para el "CLIENTE"</h2>
-<p>Configuramos netplan para el cliente solo con ens19 con IP para dentro de la red</p>
+<p>Configuramos la red del router. Para ello cambiaremos el netplan con ens19 con IP para dentro de la red. Como aún no hemos configurado ningún servicio DHCP, asignaremos la IP estatica 10.20.30.5</p>
 
 <img src="assets_bf/netplan_cliente.png" alt="netplan de cliente" with="100">
 
