@@ -1,6 +1,4 @@
-<h2>ASIX2_Gestor de Contraseñas</h2>
-
-<h1>ASIX2_GTX<br>
+<h1>ASIX2_Gestor de Contraseñas_GTX<br>
 Trabajo realizado por Gerard Soteras, Tim Kalugin y Xavi Conde </h1>
 <hr>
 
@@ -55,8 +53,7 @@ Al final de cada clase se pondrá en común el trabajo de cada integrante, con e
 
 <h1>Estilo web</h1>
 <h2>MockUp</h2>
-<p>
-Como se muestra en el mockup, nuestra web será sencilla. Cuando entremos a la web por primera vez, nos encontraremos con un panel sencillo que nos dará dos opciones, "Iniciar sesión" y "Registrarse".  
+<p>Como se muestra en el mockup, nuestra web será sencilla. Cuando entremos a la web por primera vez, nos encontraremos con un panel sencillo que nos dará dos opciones, "Iniciar sesión" y "Registrarse".  
 Cada opción nos mandará a la página correspondiente, cuyo diseño será parecido al ya visto, con la diferencia que los títulos referenciarán dónde nos encontramos.  
 En la página de registrarse nos saldrá un pequeño "cuestionario" que nos solicitará correo electrónico, contraseña para entrar y nombre de usuario. Además, habrá un botón que permitirá ir a la página de iniciar sesión si ya tienes una cuenta registrada.  
 En la página de iniciar sesión nos mostrará los espacios correspondientes para introducir el usuario y la contraseña previamente registrada en la web. También estará disponible la opción de "¿Has olvidado tu contraseña?", "¿No tienes cuenta? Regístrate ya", la casilla para activar si quieres recordar el dispositivo y un ojo que mostrará la contraseña, ya que cuando se escribe no se muestra.  
@@ -65,13 +62,11 @@ Una vez dentro, nos mostrará una ventana que pedirá registrar la llave maestra
 
 A la hora de registrar una aplicación, se pedirá la URL del sitio web de la aplicación, el usuario y si se quiere generar una contraseña o poner una personal. También habrá un espacio para poner comentarios. Una vez configurado, se usará un botón con "Guardar" para finalizar la acción de agregar una aplicación.  
 
-Una vez tengamos algunas aplicaciones registradas, seleccionando alguna de ellas accederemos a una ventana donde se mostrará la información previamente introducida para la aplicación correspondiente y dos botones: "Editar" y "Eliminar", además de una cruz en la parte superior por si queremos salir de la ventana, regresando a la vista general de la web.
-</p>
+Una vez tengamos algunas aplicaciones registradas, seleccionando alguna de ellas accederemos a una ventana donde se mostrará la información previamente introducida para la aplicación correspondiente y dos botones: "Editar" y "Eliminar", además de una cruz en la parte superior por si queremos salir de la ventana, regresando a la vista general de la web.</p>
 
 <div align="center">
   <img src="assets_bf/MockUp.png" alt="MockUp" with="800">
 </div>
-
 
 <h2>Árbol Web</h2>
 
@@ -93,10 +88,10 @@ Una vez tengamos algunas aplicaciones registradas, seleccionando alguna de ellas
   <img src="assets_bf/logo.svg" alt="Logo" with="100">
 </div>
 
-<h2>PROXMOX</h2>
+<h1>PROXMOX</h1>
 <p>Para la creación de nuestro proyecto, vamos a usar Proxmox. Utilizaremos uno de los ordenadores disponibles en el aula para montar nuestro equipo PROXMOX, con el que trabajaremos para crear todos los servicios que necesitamos.</p>
 
-<h3>Entorno ProxMox</h3>
+<h2>Entorno ProxMox</h2>
 <p>Dentro de Proxmox, configuraremos una red NAT para que todas las máquinas virtuales que creemos tengan conexión entre ellas.<br>
 Como elementos principales, tendremos dos Ubuntu Servers. Uno de ellos hará de router virtual, proporcionando DHCP y actuando como servidor DNS. El otro será un equipo cliente. Una vez tengamos estas dos máquinas configuradas correctamente, procederemos a crear e integrar una máquina que funcionará como base de datos y otra que alojará nuestra página web.</p>
 
@@ -106,27 +101,27 @@ El proceso que seguimos fue el siguiente: primero, instalamos y configuramos la 
 <p>Configuración del adaptador puente<img src="assets_bf/adaptador_puente_prox.png" alt="adaptador puente" with="100"></p>
 <p>Configuración del hardware del cliente<img src="assets_bf/interfaz_red_router.png" alt="interfaz red router" with="100"></p>
 
-<h3>Diagrama de Red</h3>
+<h2>Diagrama de Red</h2>
 <div align="center">
   <img src="assets_bf/diagrama_red.png" alt="diagrama_red" with="100">
 
   |               | Proxmox              | VM Ubuntu Router       | VM Ubuntu Cliente     |
   |---------------|----------------------|------------------------|-----------------------|
-  | **IP (estática)** | 100.77.20.113/24 | IP: 100.77.20.77/24    | IP: 10.20.30.5/24     |
+  | **IP (estática)** | 100.77.20.113/24 | IP: 100.77.20.77/24    | IP: DHCP              |
   | **IP Gateway**    | 100.77.20.1      | 100.77.20.1            | 10.20.30.1            |
-  | **Red**           | NAT              | vmbr0                  | vmbr1                 |
+  | **Red**           | NAT              | vmbr0                  | vmbr1 (10.20.30.0/24) |
   |---------------|----------------------|------------------------|-----------------------|
   | **IP (estática)** | ---------------- | IP: 10.20.30.1/24      | ----------------      |
   | **IP Gateway**    | ---------------- | 100.77.20.1            | ----------------      |
   | **Red**           | ---------------- | vmbr1                  | ----------------      |
 </div>
 
-<h3>Configuración de red para el "ROUTER"</h3>
+<h2>Configuración de red para el "ROUTER"</h2>
 <p>Configuramos netplan para router con ens18(red exterior) ens19(red interna)</p>
 
 <img src="assets_bf/netplan_router.png" alt="netplan de router" with="100">
 
-<h3>Configuración de red para el "CLIENTE"</h3>
+<h2>Configuración de red para el "CLIENTE"</h2>
 <p>Configuramos netplan para el cliente solo con ens19 con IP para dentro de la red</p>
 
 <img src="assets_bf/netplan_cliente.png" alt="netplan de cliente" with="100">
