@@ -94,11 +94,12 @@ Una vez tengamos algunas aplicaciones registradas, seleccionando alguna de ellas
 <p>Dentro de Proxmox, configuraremos una red NAT para que todas las máquinas virtuales que creemos tengan conexión entre ellas.<br>
 Como elementos principales, tendremos dos Ubuntu Servers. Uno de ellos hará de router virtual, proporcionando DHCP y actuando como servidor DNS. El otro será un equipo cliente. Una vez tengamos estas dos máquinas configuradas correctamente, procederemos a crear e integrar una máquina que funcionará como base de datos y otra que alojará nuestra página web.</p>
 
+**Ver _anexo 1_ para configuración del adaptador puente**
+
 <p>Para crear la red NAT con la que se comunicarán las máquinas dentro de Proxmox, añadiremos un "Linux Bridge" y lo configuraremos para crear la red "interna", a la que llamaremos vmbr1. Por defecto, la red externa (en nuestro caso la del aula) se llama vmbr0.<br>
 El proceso que seguimos fue el siguiente: primero, instalamos y configuramos la máquina router. Al añadir la máquina, le asignamos la nueva interfaz de red que creamos anteriormente en el apartado de hardware. Una vez configurado el router, duplicamos la máquina para crear el equipo cliente, y modificamos el netplan para que tenga su propia dirección IP dentro de la red interna.</p>
 
-<p>Configuración del adaptador puente<img src="assets_bf/adaptador_puente_prox.png" alt="adaptador puente" with="100"></p>
-<p>Configuración del hardware del cliente<img src="assets_bf/interfaz_red_router.png" alt="interfaz red router" with="100"></p>
+**Ver _anexo 2_ para configuración del hardware del cliente**
 
 <h2>Diagrama de Red</h2>
 <div align="center">
@@ -115,22 +116,22 @@ El proceso que seguimos fue el siguiente: primero, instalamos y configuramos la 
   | **Red**           | ---------------- | vmbr1                  | ----------------      |
 </div>
 
-> [!WARNING]
-> REVISAR.
-
-
 <h2>Configuración de red para el "ROUTER"</h2>
 <p>Configuramos la red del router. Para ello cambiaremos el netplan ajustando las IP según la red interna previamente creada o la externa.Con ens18 identificaremos la red exterior y con ens19 la red interna</p>
 
-**Ver _anexo 1_ para configuración netplan del router**
+**Ver _anexo 3_ para configuración netplan del router**
 
 <h2>Configuración de red para el "CLIENTE"</h2>
 <p>Configuramos la red del router. Para ello cambiaremos el netplan con ens19 con una IP dentro de la red. Como aún no hemos configurado ningún servicio DHCP, asignaremos la IP estatica 10.20.30.5</p>
 
-
+**Ver _anexo 4_ para configuración netplan del router**
 
 <h1>Anexos</h1>
 <h3>Anexo 1</h3>
-<img src="assets_bf/netplan_router.png" alt="netplan de router" with="100">
+<img src="assets_bf/adaptador_puente_prox.png" alt="adaptador puente" with="100">
 <h3>Anexo 2</h3>
+<img src="assets_bf/interfaz_red_router.png" alt="interfaz red router" with="100">
+<h3>Anexo 3</h3>
+<img src="assets_bf/netplan_router.png" alt="netplan de router" with="100">
+<h3>Anexo 4</h3>
 <img src="assets_bf/netplan_cliente.png" alt="netplan de cliente" with="100">
