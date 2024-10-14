@@ -13,7 +13,7 @@ Así, los usuarios podrán gestionar todas sus cuentas y contraseñas de manera 
 
 <h2>Organización y roles del equipo</h2>
 <p>Al ser un grupo que en el primer año del grado ya trabajamos juntos en varios proyectos, la organización ha sido muy fácil.
-Hemos decidido que todos haremos de todo, pero cada uno tendrá un rol de “líder” en cada apartado en el que hemos distribuido el proyecto, este líder será el encargado únicamente, de marcar el tempo y de comunicar al resto del grupo cómo vamos en relación con los objetivos y fechas acordados al inicio.
+Hemos decidido que todos haremos de todo, pero cada uno tendrá un rol de “líder” en cada apartado en el que hemos distribuido el proyecto, este líder será el encargado únicamente de marcar el tempo y de comunicar al resto del grupo cómo vamos en relación con los objetivos y fechas acordados al inicio.
 Al final de cada clase se pondrá en común el trabajo de cada integrante, con el objetivo de que todas las personas en todo momento sepan que se ha hecho ese día y si algún día hay una baja, que se pueda seguir trabajando con normalidad.</p>
 
 <p>En el aspecto de las tareas, todos haremos todas las tareas, sin excepción.
@@ -59,7 +59,7 @@ En la página de iniciar sesión nos mostrará los espacios correspondientes par
 
 Una vez dentro, nos mostrará una ventana que pedirá registrar la llave maestra. Una vez configurada, el diseño de la web será simple. Se mostrarán las aplicaciones que hemos guardado en el gestor, con un botón que agregará una aplicación en la parte superior.  
 
-A la hora de registrar una aplicación, se pedirá la URL del sitio web de la aplicación, el usuario y si se quiere generar una contraseña o poner una personal. También habrá un espacio para poner comentarios. Una vez configurado, se usará un botón con "Guardar" para finalizar la acción de agregar una aplicación.  
+A la hora de registrar una aplicación, se pedirá la URL del sitio web de la aplicación, el usuario y si se quiere generar una contraseña o introducir una personal. También habrá un espacio para poner comentarios. Una vez configurado, se usará un botón con "Guardar" para finalizar la acción de agregar una aplicación.  
 
 Una vez tengamos algunas aplicaciones registradas, seleccionando alguna de ellas accederemos a una ventana donde se mostrará la información previamente introducida para la aplicación correspondiente y dos botones: "Editar" y "Eliminar", además de una cruz en la parte superior por si queremos salir de la ventana, regresando a la vista general de la web.</p>
 
@@ -122,11 +122,15 @@ El proceso que seguimos fue el siguiente: primero, instalamos y configuramos la 
 <h2>Configuración de red para el "ROUTER"</h2>
 <p>Configuramos la red del router. Para ello cambiaremos el netplan ajustando las IP según la red interna previamente creada o la externa.Con ens18 identificaremos la red exterior y con ens19 la red interna</p>
 
-<img src="assets_bf/netplan_router.png" alt="netplan de router" with="100">
+**Ver _anexo 1_ para configuración netplan del router**
 
 <h2>Configuración de red para el "CLIENTE"</h2>
-<p>Configuramos la red del router. Para ello cambiaremos el netplan con ens19 con IP para dentro de la red. Como aún no hemos configurado ningún servicio DHCP, asignaremos la IP estatica 10.20.30.5</p>
+<p>Configuramos la red del router. Para ello cambiaremos el netplan con ens19 con una IP dentro de la red. Como aún no hemos configurado ningún servicio DHCP, asignaremos la IP estatica 10.20.30.5</p>
 
+
+
+<h1>Anexos</h1>
+<h3>Anexo 1</h3>
+<img src="assets_bf/netplan_router.png" alt="netplan de router" with="100">
+<h3>Anexo 2</h3>
 <img src="assets_bf/netplan_cliente.png" alt="netplan de cliente" with="100">
-
-<h3></h3>
