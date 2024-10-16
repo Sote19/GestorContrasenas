@@ -56,28 +56,31 @@ A la hora de registrar una aplicación, se pedirá la URL del sitio web de la ap
 
 Una vez tengamos algunas aplicaciones registradas, seleccionando alguna de ellas accederemos a una ventana donde se mostrará la información previamente introducida para la aplicación correspondiente y dos botones: "Editar" y "Eliminar", además de una cruz en la parte superior por si queremos salir de la ventana, regresando a la vista general de la web.
 
-<div align="center">
-  <img src="assets_bf/MockUp.png" alt="MockUp" with="800">
-</div>
+![MockUp](assets_bf/MockUp.png)
 
 <h2>Árbol Web</h2>
 
 <div align="center">
-  <img src="assets_bf/arbolweb.png" alt="ArbolWeb" with="800">
+  
+  ![ArbolWeb](assets_bf/arbolweb.png)
 </div>
+
+
 
 ## Colores
 Hemos optado por una paleta de colores en tonos verdes, que van desde un verde oscuro (#234C17) a un verde más claro (#B5FFA6). Estos colores están pensados para transmitir una sensación de seguridad, estabilidad y confianza, características fundamentales en un gestor de contraseñas. El verde también está asociado con zonas seguras y aprobadas, lo que refuerza la idea de que los usuarios estarán en un entorno protegido para almacenar su información sensible. Además, los colores blanco (#ffffff) y negro (#000000) se usan como base para asegurar legibilidad y simplicidad, sin distraer la atención de la funcionalidad principal de la plataforma.
 
 <div align="center">
-  <img src="assets_bf/colores_principales.png" alt="Colores" with="800">
+
+  ![Colores](assets_bf/colores_principales.png)
 </div>
 
 ## Logotipo
 El logotipo elegido es un escudo verde con una cerradura en el centro, lo que simboliza la protección de las contraseñas, que actúan como llaves para acceder a las diferentes cuentas de los usuarios. El escudo representa seguridad, confiabilidad y defensa, lo que refuerza el objetivo del gestor de contraseñas: proporcionar un entorno seguro para almacenar y gestionar de manera centralizada los datos de autenticación. El detalle del circuito en el fondo del escudo agrega un toque tecnológico, conectando el concepto de ciberseguridad con el propósito del proyecto.
 
 <div align="center">
-  <img src="assets_bf/logo.svg" alt="Logo" with="100">
+  
+  ![Logo](assets_bf/logo.svg)
 </div>
 
 # PROXMOX
@@ -97,7 +100,8 @@ El proceso que seguimos fue el siguiente: primero, instalamos y configuramos la 
 
 ## Arquitectura de Red
 <div align="center">
-  <img src="assets_bf/diagrama_red.png" alt="diagrama_red" with="100">
+
+  ![diagrama de red](assets_bf/diagrama_red.png)
 
   |               | Proxmox              | VM Ubuntu Router       | VM Ubuntu Cliente     |
   |---------------|----------------------|------------------------|-----------------------|
@@ -148,28 +152,20 @@ Para comprobar que la configuración es correcta, realizamos un ping hacia la re
 
 # Anexos
 ### Anexo 1
-<img src="assets_bf/adaptador_puente_prox.png" alt="adaptador puente" with="100">
-
+![adaptador puente](assets_bf/adaptador_puente_prox.png)
 ### Anexo 2
-<img src="assets_bf/interfaz_red_router.png" alt="interfaz red router" with="100">
-
+![interfaz red router](assets_bf/interfaz_red_router.png)
 ### Anexo 3
-<img src="assets_bf/netplan_router.png" alt="netplan de router" with="100">
-
+![netplan de router](assets_bf/netplan_router.png)
 ### Anexo 4
-<img src="assets_bf/netplan_cliente.png" alt="netplan de cliente" with="100">
-
+![netplan de cliente](assets_bf/netplan_cliente.png)
 ### Anexo 5
-<img src="assets_bf/pingmaquinas.png" alt="ping maquinas" with="200">
-
+![ping maquinas](assets_bf/pingmaquinas.png)
 ### Anexo 6
-<img src="assets_bf/sysctl.png" alt="sysctl" with="100">
-
+![sysctl](assets_bf/sysctl.png)
 ### Anexo 7
-<img src="assets_bf/iptables.png" alt="configuracion iptables" with="100">
-
+![configuracion iptables](assets_bf/iptables.png)
 ### Anexo 8
-<img src="assets_bf/iptablespersistent.png" alt="menu iptablespersistent" with="200">
-
+![menu iptablespersistent](assets_bf/iptablespersistent.png)
 ### Anexo 9
-<img src="assets_bf/pinggoogle.png" alt="ping a google" with="400">
+![ping a google](assets_bf/pinggoogle.png)
