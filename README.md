@@ -146,7 +146,7 @@ El proceso que seguimos fue el siguiente: primero, instalamos y configuramos la 
 
 <p>Para comprobar que la configuración es correcta, realizamos un ping hacia la red exterior desde el cliente y el router, por ejemplo, a "google.com".</p>
 
-**Ver _anexo 9_ para ping hacia Google**
+**Ver _anexo 9_ para ping hacia google.com**
 
 
 <h1>Anexos</h1>
@@ -165,6 +165,6 @@ El proceso que seguimos fue el siguiente: primero, instalamos y configuramos la 
 <h3>Anexo 7</h3>
 <img src="assets_bf/iptables.png" alt="configuracion iptables" with="100">
 <h3>Anexo 8</h3>
-<img src="assets_bf/iptablespersist.png" alt="menu iptablespersistent" with="200">
+<img src="assets_bf/iptablespersistent.png" alt="menu iptablespersistent" with="200">
 <h3>Anexo 9</h3>
 <img src="assets_bf/pinggoogle.png" alt="ping a google" with="100">
