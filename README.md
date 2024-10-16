@@ -167,4 +167,4 @@ El proceso que seguimos fue el siguiente: primero, instalamos y configuramos la 
 <h3>Anexo 8</h3>
 <img src="assets_bf/iptablespersistent.png" alt="menu iptablespersistent" with="200">
 <h3>Anexo 9</h3>
-<img src="assets_bf/pinggoogle.png" alt="ping a google" with="100">
+<img src="assets_bf/pinggoogle.png" alt="ping a google" with="400">
