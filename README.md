@@ -136,6 +136,18 @@ El proceso que seguimos fue el siguiente: primero, instalamos y configuramos la 
 
 **Ver _anexo 6_ para configuración "sysctl.conf"**
 
+<p>Proseguiremos verificando si tenemos alguna regla de **IPTables** habilitada y configuramos una nueva introduciendo el siguiente comando: **iptables -t nat -A POSTROUTING -o ens18 -j MASQUERADE**. Gracias a este comando, realizaremos el enmascaramiento NAT en el tráfico saliente de la interfaz de red **ens18**.<br> Seguidamente, aplicaremos **sudo sysctl -p** y **sudo iptables -A FORWARD -i ens18 -o ens19 -j ACCEPT**. Con esto, hemos configurado una regla que nos permitirá que el tráfico de la red interna fluya hacia la red externa.<br> Por último, añadiremos otra regla que permita que las solicitudes desde la red interna puedan regresar. De ese modo, conseguiremos una comunicación bidireccional. El comando será el siguiente: **sudo iptables -A FORWARD -i ens19 -o ens18 -m state --state ESTABLISHED,RELATED -j ACCEPT**.<br> Para guardar los cambios hechos en **IPTables**, usamos el siguiente comando: **sudo iptables-save**. </p>
+
+**Ver _anexo 7_ para configuración IPTables**
+
+<p>Para mantener las reglas de **IPTables** configuradas después de reiniciar el sistema, instalamos el paquete llamado **iptables-persistent**.</p>
+
+**Ver _anexo 8_ para panel IPTablesPersistant**
+
+<p>Para comprobar que la configuración es correcta, realizamos un ping hacia la red exterior desde el cliente y el router, por ejemplo, a "google.com".</p>
+
+**Ver _anexo 9_ para ping hacia Google**
+
 
 <h1>Anexos</h1>
 <h3>Anexo 1</h3>
@@ -147,6 +159,12 @@ El proceso que seguimos fue el siguiente: primero, instalamos y configuramos la 
 <h3>Anexo 4</h3>
 <img src="assets_bf/netplan_cliente.png" alt="netplan de cliente" with="100">
 <h3>Anexo 5</h3>
-<img src="assets_bf/pingmaquinas.png" alt="ping maquinas" with="100">
+<img src="assets_bf/pingmaquinas.png" alt="ping maquinas" with="200">
 <h3>Anexo 6</h3>
 <img src="assets_bf/sysctl.png" alt="sysctl" with="100">
+<h3>Anexo 7</h3>
+<img src="assets_bf/iptables.png" alt="configuracion iptables" with="100">
+<h3>Anexo 8</h3>
+<img src="assets_bf/iptablespersist.png" alt="menu iptablespersistent" with="200">
+<h3>Anexo 9</h3>
+<img src="assets_bf/pinggoogle.png" alt="ping a google" with="100">
