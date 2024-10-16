@@ -136,13 +136,13 @@ El proceso que seguimos fue el siguiente: primero, instalamos y configuramos la 
 
 **Ver _anexo 6_ para configuración "sysctl.conf"**
 
-<p>Proseguiremos verificando si tenemos alguna regla de **IPTables** habilitada y configuramos una nueva introduciendo el siguiente comando: **iptables -t nat -A POSTROUTING -o ens18 -j MASQUERADE**. Gracias a este comando, realizaremos el enmascaramiento NAT en el tráfico saliente de la interfaz de red **ens18**.<br> Seguidamente, aplicaremos **sudo sysctl -p** y **sudo iptables -A FORWARD -i ens18 -o ens19 -j ACCEPT**. Con esto, hemos configurado una regla que nos permitirá que el tráfico de la red interna fluya hacia la red externa.<br> Por último, añadiremos otra regla que permita que las solicitudes desde la red interna puedan regresar. De ese modo, conseguiremos una comunicación bidireccional. El comando será el siguiente: **sudo iptables -A FORWARD -i ens19 -o ens18 -m state --state ESTABLISHED,RELATED -j ACCEPT** .<br> Para guardar los cambios hechos en <b>IPTables</b>, usamos el siguiente comando: <b>sudo iptables-save</b>. </p>
+<p>Proseguiremos verificando si tenemos alguna regla de <b>IPTables</b> habilitada y configuramos una nueva introduciendo el siguiente comando: <b>iptables -t nat -A POSTROUTING -o ens18 -j MASQUERADE</b>. Gracias a este comando, realizaremos el enmascaramiento NAT en el tráfico saliente de la interfaz de red <b>ens18</b>.<br> Seguidamente, aplicaremos <b>sudo sysctl -p</b> y <b>sudo iptables -A FORWARD -i ens18 -o ens19 -j ACCEPT</b>. Con esto, hemos configurado una regla que nos permitirá que el tráfico de la red interna fluya hacia la red externa.<br> Por último, añadiremos otra regla que permita que las solicitudes desde la red interna puedan regresar. De ese modo, conseguiremos una comunicación bidireccional. El comando será el siguiente: <b>sudo iptables -A FORWARD -i ens19 -o ens18 -m state --state ESTABLISHED,RELATED -j ACCEPT</b>.<br> Para guardar los cambios hechos en <b>IPTables</b>, usamos el siguiente comando: <b>sudo iptables-save</b>. </p>
 
 **Ver _anexo 7_ para configuración IPTables**
 
-<p>Para mantener las reglas de **IPTables** configuradas después de reiniciar el sistema, instalamos el paquete llamado **iptables-persistent**.</p>
+<p>Para mantener las reglas de <b>IPTables</b> configuradas después de reiniciar el sistema, instalamos el paquete llamado <b>iptables-persistent</b>.</p>
 
-**Ver _anexo 8_ para panel IPTablesPersistant**
+**Ver _anexo 8_ para panel IPTablesPersistent**
 
 <p>Para comprobar que la configuración es correcta, realizamos un ping hacia la red exterior desde el cliente y el router, por ejemplo, a "google.com".</p>
 
