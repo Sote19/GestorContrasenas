@@ -101,7 +101,7 @@ El proceso que seguimos fue el siguiente: primero, instalamos y configuramos la 
 
 **Ver _anexo 2_ para configuración del hardware del cliente**
 
-<h2>Diagrama de Red</h2>
+<h2>Arquitectura de Red</h2>
 <div align="center">
   <img src="assets_bf/diagrama_red.png" alt="diagrama_red" with="100">
 
@@ -126,6 +126,17 @@ El proceso que seguimos fue el siguiente: primero, instalamos y configuramos la 
 
 **Ver _anexo 4_ para configuración netplan del router**
 
+<h2>Comprobación de conexión entre máquinas</h2>
+<p>Una vez configurado el netplan tanto en el router como en el cliente, realizamos un ping entre ambas máquinas para comprobar que hay conexión dentro de la red NAT que hemos creado. <br> Tras verificar el correcto funcionamiento de la red, haremos un ping desde el router hacia la red exterior, como por ejemplo a "google.com". Si obtenemos conexión, podremos concluir que tanto el router como el cliente están bien configurados hasta este punto.</p>
+
+**Ver _anexo 5_ para ping entre maquinas**
+
+<h2>Configuración de IPTables</h2>
+<p>Para permitir que el cliente tenga acceso a la red exterior, debemos configurar IPTables en el router para habilitar el redireccionamiento del tráfico. Para ello, modificaremos el archivo "/etc/sysctl.conf". <br> Dentro de este archivo, simplemente descomentaremos una línea que permitirá reenviar el tráfico entre las diferentes interfaces de red hacia el router que tenemos en Proxmox.</p>
+
+**Ver _anexo 6_ para configuración "sysctl.conf"**
+
+
 <h1>Anexos</h1>
 <h3>Anexo 1</h3>
 <img src="assets_bf/adaptador_puente_prox.png" alt="adaptador puente" with="100">
@@ -135,3 +146,7 @@ El proceso que seguimos fue el siguiente: primero, instalamos y configuramos la 
 <img src="assets_bf/netplan_router.png" alt="netplan de router" with="100">
 <h3>Anexo 4</h3>
 <img src="assets_bf/netplan_cliente.png" alt="netplan de cliente" with="100">
+<h3>Anexo 5</h3>
+<img src="assets_bf/pingmaquinas.png" alt="ping maquinas" with="100">
+<h3>Anexo 6</h3>
+<img src="assets_bf/sysctl.png" alt="sysctl" with="100">
