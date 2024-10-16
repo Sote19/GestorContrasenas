@@ -149,6 +149,11 @@ Para comprobar que la configuración es correcta, realizamos un ping hacia la re
 
 > **Ver _anexo 9_ para ping hacia google.com**
 
+## Configuración QEMU
+Instalaremos tanto en la máquina cliente como en la máquina router el paquete qemu-guest-agent. Gracias a esto, podremos administrar las máquinas virtuales de una manera más fácil.
+Una vez instalado en las máquinas, debemos configurar las máquinas virtuales en las opciones que nos ofrece Proxmox.
+
+> **Ver _anexo 10_ para configuración en proxmox**
 
 # Anexos
 ### Anexo 1
@@ -169,3 +174,5 @@ Para comprobar que la configuración es correcta, realizamos un ping hacia la re
 ![menu iptablespersistent](assets_bf/iptablespersistent.png)
 ### Anexo 9
 ![ping a google](assets_bf/pinggoogle.png)
+### Anexo 10
+![configuración de proxmox qemu](assets_bf/qemuproxmox.png)
