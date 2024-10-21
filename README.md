@@ -176,3 +176,28 @@ Una vez instalado en las máquinas, debemos configurar las máquinas virtuales e
 ![ping a google](assets_bf/pinggoogle.png)
 ### Anexo 10
 ![configuración de proxmox qemu](assets_bf/qemuproxmox.png)
+### Anexo 11
+APPS (Colección)
+├── app_id_1
+│   ├── nombre_app: ""       (Nombre de la aplicación)
+│   └── url_app: ""          (URL de la aplicación)
+
+USUARIOS (Colección)
+├── user_id_1
+│   ├── email: ""            (Correo electrónico del usuario)
+│   ├── nombre: ""           (Nombre del usuario)
+│   ├── password_registro: ""(Contraseña del registro, debe estar hasheada)
+│   ├── master_key: ""       (Clave maestra para cifrado/descifrado)
+│   └── passwords            (Colección de contraseñas)
+│       ├── password_1
+│       │   ├── nombre_app: ""    (Nombre de la aplicación)
+│       │   ├── username_app: ""  (Nombre de usuario en la app)
+│       │   └── password_app: ""  (Contraseña de la app, cifrada)
+│       ├── password_2
+│       │   ├── nombre_app: ""    (Nombre de la aplicación)
+│       │   ├── username_app: ""  (Nombre de usuario en la app)
+│       │   └── password_app: ""  (Contraseña de la app, cifrada)
+│       └── ...
+└── user_id_2
+    └── ...
+
