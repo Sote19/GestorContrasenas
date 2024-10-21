@@ -64,7 +64,7 @@ A la hora de registrar una aplicación, se pedirá la URL del sitio web de la ap
 
 Una vez tengamos algunas aplicaciones registradas, seleccionando alguna de ellas accederemos a una ventana donde se mostrará la información previamente introducida para la aplicación correspondiente y dos botones: "Editar" y "Eliminar", además de una cruz en la parte superior por si queremos salir de la ventana, regresando a la vista general de la web.
 
-![MockUp](assets_bf/MockUp.png)
+![MockUp](assets_bf/mockup.png)
 
 <h2>Árbol Web</h2>
 
@@ -136,10 +136,7 @@ Además, hemos implementado el servicio de DHCP en el router para que todos los 
 Para permitir que el cliente tenga acceso a la red exterior, debemos instalar y configurar IPTables en el router para habilitar el redireccionamiento del tráfico. Para ello, modificaremos el archivo "/etc/sysctl.conf". 
 Dentro de este archivo, simplemente descomentaremos una línea que permitirá reenviar el tráfico entre las diferentes interfaces de red hacia el router que tenemos en Proxmox.
 
-Proseguiremos verificando si tenemos alguna regla de **IPTables** habilitada y configuramos una nueva introduciendo el siguiente comando:
-```
-iptables -t nat -A POSTROUTING -o ens18 -j MASQUERADE
-```
+Proseguiremos verificando si tenemos alguna regla de **IPTables** habilitada y configuramos una nueva introduciendo el siguiente comando: ```iptables -t nat -A POSTROUTING -o ens18 -j MASQUERADE```
 Gracias a este comando, realizaremos el enmascaramiento NAT en el tráfico saliente de la interfaz de red **ens18**.
 Seguidamente, aplicaremos ```sudo sysctl -p``` y ```sudo iptables -A FORWARD -i ens18 -o ens19 -j ACCEPT```. 
 Con esto, hemos configurado una regla que nos permitirá que el tráfico de la red interna fluya hacia la red externa.
