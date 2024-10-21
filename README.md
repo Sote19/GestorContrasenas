@@ -96,36 +96,22 @@ Para la creación de nuestro proyecto, vamos a usar Proxmox. Utilizaremos uno de
 
 ## Entorno ProxMox
 Dentro de Proxmox, configuraremos una red NAT para que todas las máquinas virtuales que creemos tengan conexión entre ellas.
-Como elementos principales, tendremos dos Ubuntu Servers. Uno de ellos hará de router virtual, proporcionando DHCP y actuando como servidor DNS. El otro será un equipo cliente. 
-Una vez tengamos estas dos máquinas configuradas correctamente, procederemos a crear e integrar una máquina que funcionará como base de datos y otra que alojará nuestra página web.
+Como elementos principales, tendremos dos Ubuntu Servers. Uno de ellos hará de router virtual, proporcionando DHCP. El otro será un equipo cliente. 
+Una vez tengamos estas dos máquinas configuradas correctamente, procederemos a crear e integrar una máquina que funcionará como base de datos y otra que proporcione servicio DNS.
 
 Para crear la red NAT con la que se comunicarán las máquinas dentro de Proxmox, añadiremos un "Linux Bridge" y lo configuraremos para crear la red "interna", a la que llamaremos vmbr1. Por defecto, la red externa (en nuestro caso la del aula) se llama vmbr0.
-El proceso que seguimos fue el siguiente: primero, instalamos y configuramos la máquina router. Al añadir la máquina, le asignamos la nueva interfaz de red que creamos anteriormente en el apartado de hardware. Una vez configurado el router, duplicamos la máquina para crear el equipo cliente, y modificamos el netplan para que tenga su propia dirección IP dentro de la red interna.
+El proceso que seguimos fue el siguiente: primero, instalamos y configuramos la máquina router. Al añadir la máquina, le asignamos la nueva interfaz de red que creamos anteriormente en el apartado de hardware. Una vez configurado el router, duplicamos la máquina para crear el equipo cliente, y modificamos el netplan para que tenga su propia dirección IP dentro de la red interna. En los anexos dejamos el primer borrador de la arquitectura de red que hicimos.
 
 > **Ver _anexo 1_ para configuración de entorno PROXMOX**
 
 ## Arquitectura de Red
-### Borrador de arquitectura de red
-<div align="center">
-
-  ![diagrama de red](assets_bf/diagrama_red.png)
-
-  |               | Proxmox              | VM Ubuntu Router       | VM Ubuntu Cliente     |
-  |---------------|----------------------|------------------------|-----------------------|
-  | **IP (estática)** | 100.77.20.113/24 | IP: 100.77.20.77/24    | IP: DHCP              |
-  | **IP Gateway**    | 100.77.20.1      | 100.77.20.1            | 10.20.30.1            |
-  | **Red**           | NAT              | vmbr0                  | vmbr1 (10.20.30.0/24) |
-  |---------------|----------------------|------------------------|-----------------------|
-  | **IP (estática)** | ---------------- | IP: 10.20.30.1/24      | ----------------      |
-  | **IP Gateway**    | ---------------- | 100.77.20.1            | ----------------      |
-  | **Red**           | ---------------- | vmbr1                  | ----------------      |
-</div>
-
 ### Arquitectura de red final
 
 <div align="center">
 
   ![diagrama de red](assets_bf/diagrama_red_final.png)
+
+  <br>
 
   |               | Proxmox              | VM Ubuntu Router       | VM Ubuntu Cliente     |
   |---------------|----------------------|------------------------|-----------------------|
@@ -224,6 +210,8 @@ USUARIOS (Colección)
 ![adaptador puente](assets_bf/adaptador_puente_prox.png)
 ### Interfaz de red para el router
 ![interfaz red router](assets_bf/interfaz_red_router.png)
+### Borrador de arquitectura de red inicial
+![diagrama de red](assets_bf/diagrama_red.png)
 ## Anexo 2
 ### Netplan del router
 ![netplan de router](assets_bf/netplan_router.png)
