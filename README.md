@@ -42,6 +42,13 @@ Usaremos la arquitectura cliente-servidor de tres capas, la haremos en capas par
     - Servidor: Manejará la parte lógica y la base de datos y se encargará del procesado de solicitudes. También se gestionará el cifrado y las contraseñas
     - BBDD: Aquí se almacenarán los datos persistentes, como las contraseñas cifradas y las cuentas de usuario.
 
+
+  | Máquina       | S.O                  | IP                     | Servicio     | 
+  |---------------|----------------------|------------------------|--------------|
+  | **Router**    |Ubuntu server 22.04.2 | 100.77.20.77/24 y 10.20.30.1/24 | DHCP|
+  | **Cliente**   |Ubuntu server 22.04.2 | DHCP                   |              |
+
+
 # Estilo web
 ## MockUp
 Como se muestra en el mockup, nuestra web será sencilla. Cuando entremos a la web por primera vez, nos encontraremos con un panel sencillo que nos dará dos opciones, "Iniciar sesión" y "Registrarse".<br>
@@ -91,14 +98,13 @@ Dentro de Proxmox, configuraremos una red NAT para que todas las máquinas virtu
 Como elementos principales, tendremos dos Ubuntu Servers. Uno de ellos hará de router virtual, proporcionando DHCP y actuando como servidor DNS. El otro será un equipo cliente. 
 Una vez tengamos estas dos máquinas configuradas correctamente, procederemos a crear e integrar una máquina que funcionará como base de datos y otra que alojará nuestra página web.
 
-> **Ver _anexo 1_ para configuración del adaptador puente**
-
 Para crear la red NAT con la que se comunicarán las máquinas dentro de Proxmox, añadiremos un "Linux Bridge" y lo configuraremos para crear la red "interna", a la que llamaremos vmbr1. Por defecto, la red externa (en nuestro caso la del aula) se llama vmbr0.
 El proceso que seguimos fue el siguiente: primero, instalamos y configuramos la máquina router. Al añadir la máquina, le asignamos la nueva interfaz de red que creamos anteriormente en el apartado de hardware. Una vez configurado el router, duplicamos la máquina para crear el equipo cliente, y modificamos el netplan para que tenga su propia dirección IP dentro de la red interna.
 
-> **Ver _anexo 2_ para configuración del hardware del cliente**
+> **Ver _anexo 1_ para configuración de entorno PROXMOX**
 
 ## Arquitectura de Red
+### Borrador de arquitectura de red
 <div align="center">
 
   ![diagrama de red](assets_bf/diagrama_red.png)
@@ -114,40 +120,59 @@ El proceso que seguimos fue el siguiente: primero, instalamos y configuramos la 
   | **Red**           | ---------------- | vmbr1                  | ----------------      |
 </div>
 
-## Configuración de red para el "ROUTER"
-Configuramos la red del router. Para ello cambiaremos el netplan ajustando las IP según la red interna previamente creada o la externa.Con ens18 identificaremos la red exterior y con ens19 la red interna
+### Arquitectura de red final
 
-> **Ver _anexo 3_ para configuración netplan del router**
+<div align="center">
+
+  ![diagrama de red](assets_bf/diagrama_red_final.png)
+
+  |               | Proxmox              | VM Ubuntu Router       | VM Ubuntu Cliente     |
+  |---------------|----------------------|------------------------|-----------------------|
+  | **IP (estática)** | 100.77.20.113/24 | IP: 100.77.20.77/24    | IP: DHCP              |
+  | **IP Gateway**    | 100.77.20.1      | 100.77.20.1            | 10.20.30.1            |
+  | **Red**           | NAT              | vmbr0                  | vmbr1 (10.20.30.0/24) |
+  |---------------|----------------------|------------------------|-----------------------|
+  | **IP (estática)** | ---------------- | IP: 10.20.30.1/24      | ----------------      |
+  | **IP Gateway**    | ---------------- | 100.77.20.1            | ----------------      |
+  | **Red**           | ---------------- | vmbr1                  | ----------------      |
+</div>
+
+## Configuración de red para el "ROUTER"
+Primero configuramos la red del router. Para ello cambiaremos el netplan ajustando las IP según la red interna previamente creada o la externa.Con ens18 identificaremos la red exterior y con ens19 la red interna.
+Además, hemos implementado el servicio de DHCP en el router para que todos los dispositivos que estén dentro de la red virtual puedan obtener una IP sin necesidad de asignarla manualmente.
+
+> **Ver _anexo 2_ para configuración del Router**
 
 ## Configuración de red para el "CLIENTE"
-Configuramos la red del router. Para ello cambiaremos el netplan con ens19 con una IP dentro de la red. Como aún no hemos configurado ningún servicio DHCP, asignaremos la IP estatica 10.20.30.5
+Configuramos la red del router cambiando el netplan para usar la interfaz ens19 con una IP dentro de la red. Como aún no hemos configurado ningún servicio DHCP, asignaremos la IP estática 10.20.30.5.
+Una vez tengamos el servicio DHCP configurado, modificaremos nuevamente el netplan para conseguir que la interfaz obtenga una IP dinámica.
 
-> **Ver _anexo 4_ para configuración netplan del router**
-
-<h2>Comprobación de conexión entre máquinas</h2>
-<p>Una vez configurado el netplan tanto en el router como en el cliente, realizamos un ping entre ambas máquinas para comprobar que hay conexión dentro de la red NAT que hemos creado. <br> Tras verificar el correcto funcionamiento de la red, haremos un ping desde el router hacia la red exterior, como por ejemplo a "google.com". Si obtenemos conexión, podremos concluir que tanto el router como el cliente están bien configurados hasta este punto.</p>
-
-> **Ver _anexo 5_ para ping entre maquinas**
+> **Ver _anexo 3_ para configuración del Cliente**
 
 ## Configuración de IPTables
 Para permitir que el cliente tenga acceso a la red exterior, debemos instalar y configurar IPTables en el router para habilitar el redireccionamiento del tráfico. Para ello, modificaremos el archivo "/etc/sysctl.conf". <br> Dentro de este archivo, simplemente descomentaremos una línea que permitirá reenviar el tráfico entre las diferentes interfaces de red hacia el router que tenemos en Proxmox.
 
-> **Ver _anexo 6_ para configuración "sysctl.conf"**
+Proseguiremos verificando si tenemos alguna regla de **IPTables** habilitada y configuramos una nueva introduciendo el siguiente comando:
+```
+iptables -t nat -A POSTROUTING -o ens18 -j MASQUERADE
+```
+Gracias a este comando, realizaremos el enmascaramiento NAT en el tráfico saliente de la interfaz de red **ens18**.
+Seguidamente, aplicaremos ```sudo sysctl -p``` y ```sudo iptables -A FORWARD -i ens18 -o ens19 -j ACCEPT```. Con esto, hemos configurado una regla que nos permitirá que el tráfico de la red interna fluya hacia la red externa.
+Por último, añadiremos otra regla que permita que las solicitudes desde la red interna puedan regresar. De ese modo, conseguiremos una comunicación bidireccional. El comando será el siguiente: 
 
-Proseguiremos verificando si tenemos alguna regla de **IPTables** habilitada y configuramos una nueva introduciendo el siguiente comando: **iptables -t nat -A POSTROUTING -o ens18 -j MASQUERADE**. Gracias a este comando, realizaremos el enmascaramiento NAT en el tráfico saliente de la interfaz de red **ens18**.
-Seguidamente, aplicaremos **sudo sysctl -p** y **sudo iptables -A FORWARD -i ens18 -o ens19 -j ACCEPT**. Con esto, hemos configurado una regla que nos permitirá que el tráfico de la red interna fluya hacia la red externa.
-Por último, añadiremos otra regla que permita que las solicitudes desde la red interna puedan regresar. De ese modo, conseguiremos una comunicación bidireccional. El comando será el siguiente: **sudo iptables -A FORWARD -i ens19 -o ens18 -m state --state ESTABLISHED,RELATED -j ACCEPT**
+```
+sudo iptables -A FORWARD -i ens19 -o ens18 -m state --state ESTABLISHED,RELATED -j ACCEPT
+```
 Para guardar los cambios hechos en **IPTables**, usamos el siguiente comando: **sudo iptables-save**.
-
-> **Ver _anexo 7_ para configuración IPTables**
-
 Para mantener las reglas de **IPTables** configuradas después de reiniciar el sistema, instalamos el paquete llamado **iptables-persistent**.
 
-> **Ver _anexo 8_ para panel IPTablesPersistent**
+> **Ver _anexo 4_ para configuración IPTables**
 
-Para comprobar que la configuración es correcta, realizamos un ping hacia la red exterior desde el cliente y el router, por ejemplo, a "google.com".
+## Comprobación de conexión entre máquinas</h2>
+Una vez configurado el netplan tanto en el router como en el cliente, realizamos un ping entre ambas máquinas para comprobar que hay conexión dentro de la red NAT que hemos creado.
+Tras verificar el correcto funcionamiento de la red, haremos un ping desde el router y el cliente hacia la red exterior, como por ejemplo a "google.com". Si obtenemos conexión, podremos concluir que tanto el router como el cliente están bien configurados.
 
-> **Ver _anexo 9_ para ping hacia google.com**
+> **Ver _anexo 5_ para verificación de configuración**
 
 ## Configuración QEMU
 Instalaremos tanto en la máquina cliente como en la máquina router el paquete qemu-guest-agent. Gracias a esto, podremos administrar las máquinas virtuales de una manera más fácil.
@@ -155,28 +180,35 @@ Una vez instalado en las máquinas, debemos configurar las máquinas virtuales e
 
 > **Ver _anexo 10_ para configuración en proxmox**
 
+# Base de datos
+Para nuestro proyecto, crearemos una maquina que alojará nuestra base de datos. Pero no usaremos una base de datos relacional como podría ser MySQL, usaremos una base de datos no relacional gracias a FireBase. 
+Con FireBase hostea Firestore DataBase.
+
+
+<hr>
+
 # Anexos
-### Anexo 1
+## Anexo 1
 ![adaptador puente](assets_bf/adaptador_puente_prox.png)
-### Anexo 2
 ![interfaz red router](assets_bf/interfaz_red_router.png)
-### Anexo 3
+## Anexo 2
 ![netplan de router](assets_bf/netplan_router.png)
-### Anexo 4
+## Anexo 3
 ![netplan de cliente](assets_bf/netplan_cliente.png)
-### Anexo 5
-![ping maquinas](assets_bf/pingmaquinas.png)
-### Anexo 6
+## Anexo 5
+
+## Anexo 6
 ![sysctl](assets_bf/sysctl.png)
-### Anexo 7
+## Anexo 7
 ![configuracion iptables](assets_bf/iptables.png)
-### Anexo 8
+## Anexo 8
 ![menu iptablespersistent](assets_bf/iptablespersistent.png)
-### Anexo 9
+## Anexo 9
+![ping maquinas](assets_bf/pingmaquinas.png)
 ![ping a google](assets_bf/pinggoogle.png)
-### Anexo 10
+## Anexo 10
 ![configuración de proxmox qemu](assets_bf/qemuproxmox.png)
-### Anexo 11
+## Anexo 11
 APPS (Colección)
 ├── app_id_1
 │   ├── nombre_app: ""       (Nombre de la aplicación)
