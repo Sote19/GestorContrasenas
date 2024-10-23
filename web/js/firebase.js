@@ -1,12 +1,11 @@
-// Import the functions you need from the SDKs you need
+// Importar las funciones desde SDKs que se necesitan 
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { getFirestore } from "firebase/firestore";
-// TODO: Add SDKs for Firebase products that you want to use
+import { collection, addDoc, getDocs } from "firebase/firestore";
 // https://firebase.google.com/docs/web/setup#available-libraries
 
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+// Configuración de firebase
 const firebaseConfig = {
   apiKey: "AIzaSyCF6y0zxzW5YmVwqZeelTXiqtm5JXhC_Us",
   authDomain: "gtx-database.firebaseapp.com",
@@ -17,7 +16,33 @@ const firebaseConfig = {
   measurementId: "G-C6H1EMYN6H"
 };
 
-// Initialize Firebase
+// Inicializar Firebase
 const app = initializeApp(firebaseConfig);
+// Inicializar Firestore
 const db = getFirestore(app);
 const analytics = getAnalytics(app);
+
+// 5. Función para escribir datos en Firestore
+async function addData() {
+  try {
+    const docRef = await addDoc(collection(db, "users"), {
+      name: "Ada Wong",
+      age: 30
+    });
+    console.log("Document written with ID: ", docRef.id);
+  } catch (e) {
+    console.error("Error adding document: ", e);
+  }
+}
+
+// 6. Función para leer datos de Firestore
+async function getData() {
+  const querySnapshot = await getDocs(collection(db, "users"));
+  querySnapshot.forEach((doc) => {
+    console.log(`${doc.id} => ${doc.data()}`);
+  });
+}
+
+// 7. Llamar a las funciones
+addData();  // Escribir datos
+getData();  // Leer datos
