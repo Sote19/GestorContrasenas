@@ -43,12 +43,13 @@ Usaremos la arquitectura cliente-servidor de tres capas, la haremos en capas par
     - BBDD: Aquí se almacenarán los datos persistentes, como las contraseñas cifradas y las cuentas de usuario.
 <br>
 
-  | Máquina       | S.O                  | Almacenamiento / Memoria   | IP        | Servicio     | 
-  |---------------|----------------------|------------------------|--------------|---------------|
-  | **Router**    |Ubuntu server 22.04.2 | 14Gb / 4Gb             | 100.77.20.77/24 y 10.20.30.1/24 | DHCP|
-  | **Cliente**   |Ubuntu server 22.04.2 | 14Gb / 4Gb             |       DHCP       |      -       |
-  | **FireBase**  |Ubuntu server 22.04.2 | 14Gb / 4Gb             |  10.20.30.1/24   |Base de datos |
-  | **Pi-Hole**   |Ubuntu server 22.04.2 | 14Gb / 4Gb             |       DHCP       |      -       |
+  | Máquina       | S.O                  | Almacenamiento / Memoria| IP               | Servicio     | 
+  |---------------|----------------------|-------------------------|------------------|--------------|
+  | **Proxmox**   |Proxmox-VE 8.2        | 93Gb / 8Gb              |   100.77.20.113  |  Hypervisor  |
+  | **Router**    |Ubuntu server 22.04.2 | 14Gb / 4Gb              | 100.77.20.77/24 y 10.20.30.1/24 | DHCP|
+  | **Cliente**   |Ubuntu server 22.04.2 | 14Gb / 4Gb              |       DHCP       |      -       |
+  | **FireBase**  |Ubuntu server 22.04.2 | 14Gb / 4Gb              |  10.20.30.1/24   |Base de datos |
+  | **Pi-Hole**   | -                    | -                       |       -          |      DNS     |
 
 # Estilo web
 ## MockUp
