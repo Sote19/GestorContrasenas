@@ -114,7 +114,7 @@ El proceso que seguimos fue el siguiente: primero, instalamos y configuramos la 
 
   <br>
 
-  | Maquinas         | IP                                         | IP Gateway                          | Red                           |
+  | Máquinas         | IP                                         | IP Gateway                          | Red                           |
 |------------------|--------------------------------------------|-------------------------------------|-------------------------------|
 | Proxmox          | 100.77.20.113                              | 100.77.20.1                         | 100.77.20.0/24                |
 | VM Ubuntu Router | 100.77.20.77 (externa)<br>10.20.30.1 (interna) | 100.77.20.1 (externa)<br>10.20.30.1 (interna) | vmbr0 (100.77.20.0/24)<br>vmbr1 (10.20.30.0/24) |
