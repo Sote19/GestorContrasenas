@@ -43,13 +43,14 @@ Usaremos la arquitectura cliente-servidor de tres capas, la haremos en capas par
     - BBDD: Aquí se almacenarán los datos persistentes, como las contraseñas cifradas y las cuentas de usuario.
 <br>
 
-  | Máquina       | S.O                  | Almacenamiento / Memoria| IP               | Servicio     | 
-  |---------------|----------------------|-------------------------|------------------|--------------|
-  | **Proxmox**   |Proxmox-VE 8.2        | 93Gb / 8Gb              |   100.77.20.113  |  Hypervisor  |
-  | **Router**    |Ubuntu server 22.04.2 | 14Gb / 4Gb              | 100.77.20.77/24 y 10.20.30.1/24 | DHCP|
-  | **Cliente**   |Ubuntu server 22.04.2 | 14Gb / 4Gb              |       DHCP       |      -       |
-  | **FireBase**  |Ubuntu server 22.04.2 | 14Gb / 4Gb              |  10.20.30.1/24   |Base de datos |
-  | **Pi-Hole**   | -                    | -                       |       -          |      DNS     |
+  | Máquina       | S.O                  | Almacenamiento / Memoria| Servicio     | 
+  |---------------|----------------------|-------------------------|--------------|
+  | **Proxmox**   |Proxmox-VE 8.2        | 93Gb / 8Gb              |  Hypervisor  |
+  | **Router**    |Ubuntu server 22.04.2 | 14Gb / 4Gb              |  DHCP        |
+  | **Cliente**   |Ubuntu server 22.04.2 | 14Gb / 4Gb              |      -       |
+  | **FireBase**  |Ubuntu server 22.04.2 | 14Gb / 4Gb              |Base de datos |
+  | **Pi-Hole**   | -                    | -                       |      DNS     |
+  | **NGinx**     | -                    | -                       |      Web     |
 
 # Estilo web
 ## MockUp
@@ -114,7 +115,7 @@ El proceso que seguimos fue el siguiente: primero, instalamos y configuramos la 
 
   <br>
 
-  | Máquinas         | IP                                         | IP Gateway                          | Red                           |
+| Máquinas         | IP                                         | IP Gateway                          | Red                           |
 |------------------|--------------------------------------------|-------------------------------------|-------------------------------|
 | Proxmox          | 100.77.20.113                              | 100.77.20.1                         | 100.77.20.0/24                |
 | VM Ubuntu Router | 100.77.20.77 (externa)<br>10.20.30.1 (interna) | 100.77.20.1 (externa)<br>10.20.30.1 (interna) | vmbr0 (100.77.20.0/24)<br>vmbr1 (10.20.30.0/24) |
@@ -128,8 +129,8 @@ Primero configuramos la red del router. Para ello cambiaremos el netplan ajustan
 Además, hemos implementado el servicio de DHCP en el router para que todos los dispositivos que estén dentro de la red virtual puedan obtener una IP sin necesidad de asignarla manualmente.
 
 ### Configuración de DHCP
-> [!WARNING]
-> Falta añadir info
+Para la configuración de DHCP, instalaremos el servicio en el router con ```sudo apt install isc-dhcp-server```. Luego crearemos una copia del archivo que vamos a modificar con el comando ```sudo cp /etc/dhcp/dhcpd.conf /etc/dhcp/dhcpd.conf.BKP``` y procederemos a modificar el archivo de configuración con ```sudo nano /etc/dhcp/dhcpd.conf```. 
+En nuestro caso, hemos asignado el rango de IPs de la *10.20.30.20* a la *10.20.30.50*. Además, modificaremos el archivo ```/etc/default/isc-dhcp-server``` para indicarle al router que actúe como servidor DHCP en la interfaz ens19.
 
 ### Configuración de IPTables
 Para permitir que el cliente tenga acceso a la red exterior, debemos instalar y configurar IPTables en el router para habilitar el redireccionamiento del tráfico. Para ello, modificaremos el archivo "/etc/sysctl.conf". 
@@ -201,28 +202,37 @@ USUARIOS (Colección)
 <hr>
 
 # Anexos
-## Anexo 1
+## Anexo 1 (configuración de entorno PROXMOX)
 ### Adaptador puente
 ![adaptador puente](assets_bf/adaptador_puente_prox.png)
 ### Interfaz de red para el router
 ![interfaz red router](assets_bf/interfaz_red_router.png)
 ### Borrador de arquitectura de red inicial
 ![diagrama de red](assets_bf/diagrama_red.png)
-## Anexo 2
+## Anexo 2 (configuración del Router)
 ### Netplan del router
 ![netplan de router](assets_bf/netplan_router.png)
 ### Archivo sysctl
 ![sysctl](assets_bf/sysctl.png)
-### Configuración IPtables + instalación IPtablesPersistent
+### Archivo de configuración DHCP en el router
+![configuracion dhcp](assets_bf/configuracion_dhcp.png)
+### Archivo de configuración DHCP-ISC en el router
+![configuracion isc](assets_bf/router_isc_dhcp.png)
+### Configuración IPtables
 ![configuracion iptables](assets_bf/iptables.png)
+### Instalación IPtablesPersistent
 ![menu iptablespersistent](assets_bf/iptablespersistent.png)
-## Anexo 3
-### Netplan del cliente
+## Anexo 3 (configuración del Cliente)
+### Netplan inicial del cliente con IP estática
 ![netplan de cliente](assets_bf/netplan_cliente.png)
-## Anexo 4
+### Netplan final del cliente con IP dinámica
+![netplan de cliente con dhcp](assets_bf/netplan_cliente_dhcp.png)
+## Anexo 4 (verificación de configuración)
 ### Conexión entre máquinas
 ![ping maquinas](assets_bf/pingmaquinas.png)
-### Conexión hacia red exterior
+### Conexión hacia red exterior con IP estática
 ![ping a google](assets_bf/pinggoogle.png)
-## Anexo 5
+### Conexión hacia red exterior con IP dinámica + comprovación de conexión hacia la red exterior.
+![verificación final cliente](assets_bf/configuracion_cliente_dhcp.png)
+## Anexo 5 (configuración QEMU Proxmox)
 ![configuración de proxmox qemu](assets_bf/qemuproxmox.png)
