@@ -164,6 +164,16 @@ Una vez instalado en las máquinas, debemos configurar las máquinas virtuales e
 
 > **Ver _anexo 5_ para configuración QEMU Proxmox**
 
+#Servidor DNS
+Para crear un servidor DNS dentro de nuestra red interna, hemos decidido usar la herramient pi-hole y ejecutarla dentro de un contenedor ya que nunca habiamos usado pihole ni contendores y asi hemos podido hacer una primera toma de contacto con ambos.
+Despues de crear el contenedor de proxmox XAVI GAY con el hardware especificado en la tabla "Arquitectura del sistema" usamos el comando que te indican en la pagina oficial de pi-hole
+```
+git clone --depth 1 https://github.com/pi-hole/pi-hole.git Pi-hole
+cd "Pi-hole/automated install/"
+sudo bash basic-install.sh
+```
+Lo tenemos que hacer con "git clone" ya que en el propio contenedor el comando "curl" no lo reconoce. 
+
 # Base de datos
 Para nuestro proyecto, crearemos una máquina que alojará nuestra base de datos. En lugar de usar una base de datos relacional como MySQL, optaremos por una base de datos no relacional gracias a Firebase.
 
