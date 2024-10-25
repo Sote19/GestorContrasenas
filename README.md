@@ -132,6 +132,9 @@ Además, hemos implementado el servicio de DHCP en el router para que todos los 
 Para la configuración de DHCP, instalaremos el servicio en el router con ```sudo apt install isc-dhcp-server```. Luego crearemos una copia del archivo que vamos a modificar con el comando ```sudo cp /etc/dhcp/dhcpd.conf /etc/dhcp/dhcpd.conf.BKP``` y procederemos a modificar el archivo de configuración con ```sudo nano /etc/dhcp/dhcpd.conf```. 
 En nuestro caso, hemos asignado el rango de IPs de la *10.20.30.20* a la *10.20.30.50*. Además, modificaremos el archivo ```/etc/default/isc-dhcp-server``` para indicarle al router que actúe como servidor DHCP en la interfaz ens19.
 
+> [!WARNING]
+> Falta añadir que a la ip 20 siempre se le asigna a nginx por mac (añadir imagenes en el anexo)
+
 ### Configuración de IPTables
 Para permitir que el cliente tenga acceso a la red exterior, debemos instalar y configurar IPTables en el router para habilitar el redireccionamiento del tráfico. Para ello, modificaremos el archivo "/etc/sysctl.conf". 
 Dentro de este archivo, simplemente descomentaremos una línea que permitirá reenviar el tráfico entre las diferentes interfaces de red hacia el router que tenemos en Proxmox.
@@ -143,6 +146,9 @@ Con esto, hemos configurado una regla que nos permitirá que el tráfico de la r
 Por último, añadiremos otra regla que permita que las solicitudes desde la red interna puedan regresar. De ese modo, conseguiremos una comunicación bidireccional. El comando será el siguiente: ```sudo iptables -A FORWARD -i ens19 -o ens18 -m state --state ESTABLISHED,RELATED -j ACCEPT```.
 Para guardar los cambios hechos en **IPTables**, usamos el siguiente comando: ```sudo iptables-save```.
 Para mantener las reglas de **IPTables** configuradas después de reiniciar el sistema, instalamos el paquete llamado **iptables-persistent**.
+
+> [!WARNING]
+> Falta añadir que que hemos abierto el puerto 80 en el router para poder acceder a la pagina web nginx desde los ordenadores de clase
 
 > **Ver _anexo 2_ para configuración del Router**
 
