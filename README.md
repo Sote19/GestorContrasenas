@@ -97,6 +97,19 @@ El proceso que seguimos fue el siguiente: primero, instalamos y configuramos la 
 > **Ver _anexo 1_ para configuración de entorno PROXMOX**
 
 ## Arquitectura de Red
+Para nuestro proyecto, hemos configurado una red local utilizando Proxmox, en la cual hemos desplegado todos los servicios esenciales para nuestro gestor de contraseñas. En la imagen, se puede observar cómo hemos dividido el "Entorno Aula" y el "Entorno Proxmox".
+
+En el Entorno Aula (con la red 100.77.20.0/24), contamos con acceso a internet y dispositivos físicos que se comunican con el router, mientras que en el Entorno Proxmox (red 10.20.30.0/24), hemos creado una red privada donde residen los servidores y servicios internos, proporcionando un entorno controlado para nuestro sistema.
+
+Cada dispositivo en Proxmox cumple un rol específico:
+
+- Router: conecta ambas redes, actúa como gateway y distribuye direcciones IP mediante DHCP en la red de Proxmox.
+- Pi-hole (10.20.30.2): configurado como servidor DNS, filtra y redirige las solicitudes DNS dentro de la red interna.
+- Cliente Nginx (10.20.30.20): ofrece el servicio web (Nginx) accesible desde la red del aula mediante una regla en IPTables.
+- Firebase: proporciona los servicios de base de datos y almacenamiento necesarios para el funcionamiento del gestor de contraseñas.
+En la imagen, los dispositivos que ofrecen servicios se encuentran subrayados en verde, mientras que aquellos que consumen servicios están subrayados en rojo.
+También se ha indicado si las IPs son estáticas para facilitar la configuración y el acceso a cada servicio. De esta forma, el diseño asegura que cada dispositivo esté claramente identificado y cumpla su función en la red interna de Proxmox.
+
 ### Arquitectura de red final
 
 <div align="center">
@@ -262,3 +275,10 @@ USUARIOS (Colección)
 ![verificación final cliente](assets_bf/configuracion_cliente_dhcp.png)
 ## Anexo 5 (configuración QEMU Proxmox)
 ![configuración de proxmox qemu](assets_bf/qemuproxmox.png)
+
+# Informe de errores
+En este apartado se encuantran todas las dificultades y errores que han ido surgiendo a medida que progresava el proyecto.
+
+## Errores con el router
+Por fallos a la hora de escribir la identación del netplan, hubo dificultades a la hora de configurar el router.
+También tubimos problemas 
