@@ -96,6 +96,7 @@ Para crear la red NAT con la que se comunicarán las máquinas dentro de Proxmox
 El proceso que seguimos fue el siguiente: primero, instalamos y configuramos la máquina router. Al añadir la máquina, le asignamos la nueva interfaz de red que creamos anteriormente en el apartado de hardware. Una vez configurado el router, duplicamos la máquina para crear el equipo cliente, y modificamos el netplan para que tenga su propia dirección IP dentro de la red interna. En los anexos dejamos el primer borrador de la arquitectura de red que hicimos.
 
 > 📎 [**Ver _anexo 1_ para configuración de entorno PROXMOX**](#anexo-1-configuración-de-entorno-proxmox)
+> 
 > 🚩 [Ver informe de errores.](#errores-pi-hole-dns-server)
 
 ## Arquitectura de Red
