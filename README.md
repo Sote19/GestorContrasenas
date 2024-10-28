@@ -69,29 +69,19 @@ Una vez tengamos algunas aplicaciones registradas, seleccionando alguna de ellas
 ![MockUp](assets_bf/mockup.png)
 
 <h2>Árbol Web</h2>
+Como se puede ver en la imagen del árbol web, hemos optado por crear una página sencilla e intuitiva para el usuario. Para mejorar la experiencia, hemos diseñado la navegación de forma que el usuario necesite hacer el menor número de clics posible para acceder a todas las funcionalidades de nuestra web.
 
-<div align="center">
-  
-  ![ArbolWeb](assets_bf/arbolweb.png)
-</div>
-
-
+![ArbolWeb](assets_bf/arbolweb.png)
 
 ## Colores
 Hemos optado por una paleta de colores en tonos verdes, que van desde un verde oscuro (#234C17) a un verde más claro (#B5FFA6). Estos colores están pensados para transmitir una sensación de seguridad, estabilidad y confianza, características fundamentales en un gestor de contraseñas. El verde también está asociado con zonas seguras y aprobadas, lo que refuerza la idea de que los usuarios estarán en un entorno protegido para almacenar su información sensible. Además, los colores blanco (#ffffff) y negro (#000000) se usan como base para asegurar legibilidad y simplicidad, sin distraer la atención de la funcionalidad principal de la plataforma.
 
-<div align="center">
-
   ![Colores](assets_bf/colores_principales.png)
-</div>
 
 ## Logotipo
 El logotipo elegido es un escudo verde con una cerradura en el centro, lo que simboliza la protección de las contraseñas, que actúan como llaves para acceder a las diferentes cuentas de los usuarios. El escudo representa seguridad, confiabilidad y defensa, lo que refuerza el objetivo del gestor de contraseñas: proporcionar un entorno seguro para almacenar y gestionar de manera centralizada los datos de autenticación. El detalle del circuito en el fondo del escudo agrega un toque tecnológico, conectando el concepto de ciberseguridad con el propósito del proyecto.
 
-<div align="center">
-  
   ![Logo](assets_bf/logo.svg)
-</div>
 
 # PROXMOX
 Para la creación de nuestro proyecto, vamos a usar Proxmox. Utilizaremos uno de los ordenadores disponibles en el aula para montar nuestro equipo PROXMOX, con el que trabajaremos para crear todos los servicios que necesitamos.
@@ -129,26 +119,46 @@ Primero configuramos la red del router. Para ello cambiaremos el netplan ajustan
 Además, hemos implementado el servicio de DHCP en el router para que todos los dispositivos que estén dentro de la red virtual puedan obtener una IP sin necesidad de asignarla manualmente.
 
 ### Configuración de DHCP
-Para la configuración de DHCP, instalaremos el servicio en el router con ```sudo apt install isc-dhcp-server```. Luego crearemos una copia del archivo que vamos a modificar con el comando ```sudo cp /etc/dhcp/dhcpd.conf /etc/dhcp/dhcpd.conf.BKP``` y procederemos a modificar el archivo de configuración con ```sudo nano /etc/dhcp/dhcpd.conf```. 
-En nuestro caso, hemos asignado el rango de IPs de la *10.20.30.20* a la *10.20.30.50*. Además, modificaremos el archivo ```/etc/default/isc-dhcp-server``` para indicarle al router que actúe como servidor DHCP en la interfaz ens19.
+Para configurar el servicio DHCP, primero lo instalaremos en el router con el comando correspondiente. Luego crearemos una copia de seguridad del archivo de configuración para conservar la configuración original. Procederemos a editar el archivo de configuración y, en nuestro caso, hemos asignado el rango de IPs de *10.20.30.20* a *10.20.30.50*.
 
-> [!WARNING]
-> Falta añadir que a la ip 20 siempre se le asigna a nginx por mac (añadir imagenes en el anexo)
+También configuraremos la IP *10.20.30.20* para que siempre se asigne a la máquina que contiene el servicio de Nginx. Esto nos permitirá abrir el puerto 80 con IPTables y dirigirlo hacia esta dirección IP, logrando que podamos acceder a nuestra página de Nginx desde los ordenadores del aula. Además, modificaremos el archivo *isc-dhcp-server* para indicar al router que funcione como servidor DHCP en la interfaz ens19.
+
+```
+# comandos usados
+
+sudo apt install isc-dhcp-server                        # instalación del servicio
+sudo cp /etc/dhcp/dhcpd.conf /etc/dhcp/dhcpd.conf.BKP   # creación de la copia de archivo
+sudo nano /etc/dhcp/dhcpd.conf                          # modificación del archivo de configuración
+sudo nano /etc/default/isc-dhcp-server                  # modificación del archivo de asiganción de interfaz
+```
 
 ### Configuración de IPTables
-Para permitir que el cliente tenga acceso a la red exterior, debemos instalar y configurar IPTables en el router para habilitar el redireccionamiento del tráfico. Para ello, modificaremos el archivo "/etc/sysctl.conf". 
-Dentro de este archivo, simplemente descomentaremos una línea que permitirá reenviar el tráfico entre las diferentes interfaces de red hacia el router que tenemos en Proxmox.
+Para permitir que el cliente tenga acceso a la red exterior, debemos instalar y configurar IPTables en el router para habilitar el redireccionamiento del tráfico. Para ello, modificaremos el archivo */etc/sysctl.conf*. Dentro de este archivo, descomentaremos una línea que permitirá reenviar el tráfico entre las diferentes interfaces de red hacia el router que tenemos en Proxmox.
 
-Proseguiremos verificando si tenemos alguna regla de **IPTables** habilitada y configuramos una nueva introduciendo el siguiente comando: ```iptables -t nat -A POSTROUTING -o ens18 -j MASQUERADE```
-Gracias a este comando, realizaremos el enmascaramiento NAT en el tráfico saliente de la interfaz de red **ens18**.
-Seguidamente, aplicaremos ```sudo sysctl -p``` y ```sudo iptables -A FORWARD -i ens18 -o ens19 -j ACCEPT```. 
-Con esto, hemos configurado una regla que nos permitirá que el tráfico de la red interna fluya hacia la red externa.
-Por último, añadiremos otra regla que permita que las solicitudes desde la red interna puedan regresar. De ese modo, conseguiremos una comunicación bidireccional. El comando será el siguiente: ```sudo iptables -A FORWARD -i ens19 -o ens18 -m state --state ESTABLISHED,RELATED -j ACCEPT```.
-Para guardar los cambios hechos en **IPTables**, usamos el siguiente comando: ```sudo iptables-save```.
-Para mantener las reglas de **IPTables** configuradas después de reiniciar el sistema, instalamos el paquete llamado **iptables-persistent**.
+También añadiremos una regla para permitir el tránsito por el puerto 80 y, de este modo, poder acceder al servicio de Nginx desde un ordenador del aula, que está fuera de la red interna de Proxmox.
 
-> [!WARNING]
-> Falta añadir que que hemos abierto el puerto 80 en el router para poder acceder a la pagina web nginx desde los ordenadores de clase
+En el archivo de configuración, verificaremos si hay alguna regla habilitada en IPTables y añadiremos una nueva para realizar el enmascaramiento NAT en el tráfico saliente de la interfaz de red ens18. Configuraremos una regla que permita que el tráfico de la red interna fluya hacia la red externa. Por último, añadiremos una regla adicional para que las solicitudes desde la red interna puedan regresar, logrando así una comunicación bidireccional.
+
+Una vez finalizadas las configuraciones de IPTables, guardaremos dichas reglas con el comando adecuado. Para que las reglas de IPTables se mantengan después de reiniciar el sistema, instalaremos el paquete *iptables-persistent*.
+
+```
+# comandos usados para la configuración principal de IPtables
+
+sudo iptables -t nat -A POSTROUTING -o ens18 -j MASQUERADE                                 # regla de enmascaramiento NAT en el tráfico saliente
+sudo iptables -A FORWARD -i ens18 -o ens19 -j ACCEPT                                       # regla para permitir el tráfico de la red interna hacia la externa
+sudo sysctl -p                                                                             # aplicación de las nuevas reglas
+sudo iptables -A FORWARD -i ens19 -o ens18 -m state --state ESTABLISHED,RELATED -j ACCEPT  # regla para permitir el tráfico de retorno
+sudo iptables-save                                                                         # guardar reglas de IPtables
+```
+
+Para permitir que los ordenadores del aula puedan conectarse a nuestro servicio de Nginx en el puerto 80 (IP externa: 100.77.20.77:80), hemos añadido una nueva regla en IPTables para redirigir el tráfico al servidor Nginx.
+
+```
+# comando usado para añadir regla de reenvio de puerto 80
+
+sudo iptables -t nat -A PREROUTING -i ens18 -p tcp --dport 80 -j DNAT --to-destination 10.20.30.20:80
+```
+
 
 > **Ver _anexo 2_ para configuración del Router**
 
