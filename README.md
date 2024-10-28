@@ -95,7 +95,8 @@ Una vez tengamos estas dos máquinas configuradas correctamente, procederemos a 
 Para crear la red NAT con la que se comunicarán las máquinas dentro de Proxmox, añadiremos un "Linux Bridge" y lo configuraremos para crear la red "interna", a la que llamaremos vmbr1. Por defecto, la red externa (en nuestro caso la del aula) se llama vmbr0.
 El proceso que seguimos fue el siguiente: primero, instalamos y configuramos la máquina router. Al añadir la máquina, le asignamos la nueva interfaz de red que creamos anteriormente en el apartado de hardware. Una vez configurado el router, duplicamos la máquina para crear el equipo cliente, y modificamos el netplan para que tenga su propia dirección IP dentro de la red interna. En los anexos dejamos el primer borrador de la arquitectura de red que hicimos.
 
-> **Ver _anexo 1_ para configuración de entorno PROXMOX**
+> 📎 [**Ver _anexo 1_ para configuración de entorno PROXMOX**](#anexo-1-configuración-de-entorno-proxmox)
+> 🚩 [Ver informe de errores.](#errores-pi-hole-dns-server)
 
 ## Arquitectura de Red
 Para nuestro proyecto, hemos configurado una red local utilizando Proxmox, en la cual hemos desplegado todos los servicios esenciales para nuestro gestor de contraseñas. En la imagen, se puede observar cómo hemos dividido el "Entorno Aula" y el "Entorno Proxmox".
@@ -174,27 +175,27 @@ sudo iptables -t nat -A PREROUTING -i ens18 -p tcp --dport 80 -j DNAT --to-desti
 ```
 
 
-> **Ver _anexo 2_ para configuración del Router**
+> 📎 [**Ver _anexo 2_ para configuración del Router**](#anexo-2-configuración-del-router)
 
 ## Configuración de red para el "CLIENTE"
 Configuramos la red del router cambiando el netplan para usar la interfaz ens19 con una IP dentro de la red. Como aún no hemos configurado ningún servicio DHCP, asignaremos la IP estática 10.20.30.5.
 Una vez tengamos el servicio DHCP configurado, modificaremos nuevamente el netplan para conseguir que la interfaz obtenga una IP dinámica.
 
-> **Ver _anexo 3_ para configuración del Cliente**
+> 📎[**Ver _anexo 3_ para configuración del Cliente**](#anexo-3-configuración-del-cliente)
 
 ## Comprobación de conexión entre máquinas
 Una vez configurado el netplan tanto en el router como en el cliente, realizamos un ping entre ambas máquinas para comprobar que hay conexión dentro de la red NAT que hemos creado.
 Tras verificar el correcto funcionamiento de la red, haremos un ping desde el router y el cliente hacia la red exterior, como por ejemplo a "google.com". Si obtenemos conexión, podremos concluir que tanto el router como el cliente están bien configurados.
 
-> **Ver _anexo 4_ para verificación de configuración**
+> 📎 [**Ver _anexo 4_ para verificación de configuración**](#anexo-4-verificación-de-configuración)
 
 ## Configuración QEMU
 Instalaremos tanto en la máquina cliente como en la máquina router el paquete qemu-guest-agent. Gracias a esto, podremos administrar las máquinas virtuales de una manera más fácil.
 Una vez instalado en las máquinas, debemos configurar las máquinas virtuales en las opciones que nos ofrece Proxmox.
 
-> **Ver _anexo 5_ para configuración QEMU Proxmox**
+> 📎 [**Ver _anexo 5_ para configuración QEMU Proxmox**](#anexo-5-configuración-qemu-proxmox)
 
-#Servidor DNS
+# Servidor DNS
 Para crear un servidor DNS dentro de nuestra red interna, hemos decidido usar la herramient pi-hole y ejecutarla dentro de un contenedor ya que nunca habiamos usado pihole ni contendores y asi hemos podido hacer una primera toma de contacto con ambos.
 Despues de crear el contenedor de proxmox con el hardware especificado en la tabla "Arquitectura del sistema" usamos el comando que te indican en la pagina oficial de pi-hole
 ```
@@ -207,8 +208,7 @@ Una vez hecho esto trabajaremos todo el servidor DNS dentro del archivo ```/etc/
 Pondremos todas las lineas de ese archivo, comentadas.
 Añadiremos la linea "nameserver 127.0.0.1" para que el mismo contenedor de pi-hole sea su propio servidor DNS.
 
-> 🚩 [Ver informe de errores.](#-informe-de-errores)
-
+> 🚩 [Ver informe de errores.](#errores-pi-hole-dns-server)
 
 # Base de datos
 Para nuestro proyecto, crearemos una máquina que alojará nuestra base de datos. En lugar de usar una base de datos relacional como MySQL, optaremos por una base de datos no relacional gracias a Firebase.
@@ -247,7 +247,7 @@ USUARIOS (Colección)
 
 <hr>
 
-# Anexos
+# 📎 Anexos
 ## Anexo 1 (configuración de entorno PROXMOX)
 ### Adaptador puente
 ![adaptador puente](assets_bf/adaptador_puente_prox.png)
@@ -282,6 +282,8 @@ USUARIOS (Colección)
 ![verificación final cliente](assets_bf/configuracion_cliente_dhcp.png)
 ## Anexo 5 (configuración QEMU Proxmox)
 ![configuración de proxmox qemu](assets_bf/qemuproxmox.png)
+
+<hr>
 
 # 🚩 Informe de errores
 En este apartado se encuantran todas las dificultades y errores que han ido surgiendo a medida que progresava el proyecto.
