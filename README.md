@@ -79,7 +79,8 @@ Hemos optado por una paleta de colores en tonos verdes, que van desde un verde o
   ![Colores](assets_bf/colores_principales.png)
 
 ## Logotipo
-El logotipo elegido es un escudo verde con una cerradura en el centro, lo que simboliza la protección de las contraseñas, que actúan como llaves para acceder a las diferentes cuentas de los usuarios. El escudo representa seguridad, confiabilidad y defensa, lo que refuerza el objetivo del gestor de contraseñas: proporcionar un entorno seguro para almacenar y gestionar de manera centralizada los datos de autenticación. El detalle del circuito en el fondo del escudo agrega un toque tecnológico, conectando el concepto de ciberseguridad con el propósito del proyecto.
+El logotipo elegido es un escudo verde con una cerradura en el centro, lo que simboliza la protección de las contraseñas, que actúan como llaves para acceder a las diferentes cuentas de los usuarios. El escudo representa seguridad, confiabilidad y defensa, lo que refuerza el objetivo del gestor de contraseñas: proporcionar un entorno seguro para almacenar y gestionar de manera centralizada los datos de autenticación. 
+El detalle del circuito en el fondo del escudo agrega un toque tecnológico, conectando el concepto de ciberseguridad con el propósito del proyecto.
 
   ![Logo](assets_bf/logo.svg)
 
@@ -134,7 +135,7 @@ Además, hemos implementado el servicio de DHCP en el router para que todos los 
 ### Configuración de DHCP
 Para configurar el servicio DHCP, primero lo instalaremos en el router con el comando correspondiente. Luego crearemos una copia de seguridad del archivo de configuración para conservar la configuración original. Procederemos a editar el archivo de configuración y, en nuestro caso, hemos asignado el rango de IPs de *10.20.30.20* a *10.20.30.50*.
 
-También configuraremos la IP *10.20.30.20* para que siempre se asigne a la máquina que contiene el servicio de Nginx. Esto nos permitirá abrir el puerto 80 con IPTables y dirigirlo hacia esta dirección IP, logrando que podamos acceder a nuestra página de Nginx desde los ordenadores del aula. Además, modificaremos el archivo *isc-dhcp-server* para indicar al router que funcione como servidor DHCP en la interfaz ens19.
+También configuraremos la IP *10.20.30.20* para que siempre se asigne a la máquina que contiene el servicio de Nginx. Esto nos permitirá abrir el puerto 80 con IPTables y dirigirlo hacia esta dirección IP, logrando que podamos acceder a nuestra página de Nginx desde los ordenadores del aula. Además, modificaremos el archivo ```isc-dhcp-server``` para indicar al router que funcione como servidor DHCP en la interfaz ens19.
 
 ```
 # comandos usados
@@ -146,7 +147,7 @@ sudo nano /etc/default/isc-dhcp-server                  # modificación del arch
 ```
 
 ### Configuración de IPTables
-Para permitir que el cliente tenga acceso a la red exterior, debemos instalar y configurar IPTables en el router para habilitar el redireccionamiento del tráfico. Para ello, modificaremos el archivo */etc/sysctl.conf*. Dentro de este archivo, descomentaremos una línea que permitirá reenviar el tráfico entre las diferentes interfaces de red hacia el router que tenemos en Proxmox.
+Para permitir que el cliente tenga acceso a la red exterior, debemos instalar y configurar IPTables en el router para habilitar el redireccionamiento del tráfico. Para ello, modificaremos el archivo ```/etc/sysctl.conf```. Dentro de este archivo, descomentaremos una línea que permitirá reenviar el tráfico entre las diferentes interfaces de red hacia el router que tenemos en Proxmox.
 
 También añadiremos una regla para permitir el tránsito por el puerto 80 y, de este modo, poder acceder al servicio de Nginx desde un ordenador del aula, que está fuera de la red interna de Proxmox.
 
@@ -202,11 +203,11 @@ cd "Pi-hole/automated install/"
 sudo bash basic-install.sh
 ```
 Lo tenemos que hacer con "git clone" ya que en el propio contenedor el comando "curl" no lo reconoce. 
-Una vez hecho esto trabajaremos todo el servidor DNS dentro del archivo /etc/resolv.conf.
+Una vez hecho esto trabajaremos todo el servidor DNS dentro del archivo ```/etc/resolv.conf```.
 Pondremos todas las lineas de ese archivo, comentadas.
 Añadiremos la linea "nameserver 127.0.0.1" para que el mismo contenedor de pi-hole sea su propio servidor DNS.
 
-> :triangular_flag_on_post: Ver informe de errores.
+> 🚩 [Ver informe de errores.](#-informe-de-errores)
 
 
 # Base de datos
