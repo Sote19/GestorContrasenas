@@ -32,8 +32,8 @@ En el aspecto de las tareas, todos haremos todas las tareas, sin excepción.
   - Seguridad: TLS/SSL.
   - Software: Visual Studio, Google Firebase, GitHub, Bootstrap, Node.JS, Cloudflare.
 
-> [!NOTE]
-> Esta lista puede aumentarse conforme vayamos avanzando con el proyecto y adquiriendo nuevos conocimientos.</p>
+>  [!NOTE]
+>  Esta lista puede aumentarse conforme vayamos avanzando con el proyecto y adquiriendo nuevos conocimientos.</p>
 
 ## Arquitectura del sistema
 Usaremos la arquitectura cliente-servidor de tres capas, la haremos en capas para así poder trabajar cada capa por separado y hacerlo de manera más sencilla y efectiva, para poder cumplir con los plazos de entrega.
@@ -195,13 +195,19 @@ Una vez instalado en las máquinas, debemos configurar las máquinas virtuales e
 
 #Servidor DNS
 Para crear un servidor DNS dentro de nuestra red interna, hemos decidido usar la herramient pi-hole y ejecutarla dentro de un contenedor ya que nunca habiamos usado pihole ni contendores y asi hemos podido hacer una primera toma de contacto con ambos.
-Despues de crear el contenedor de proxmox XAVI GAY con el hardware especificado en la tabla "Arquitectura del sistema" usamos el comando que te indican en la pagina oficial de pi-hole
+Despues de crear el contenedor de proxmox con el hardware especificado en la tabla "Arquitectura del sistema" usamos el comando que te indican en la pagina oficial de pi-hole
 ```
 git clone --depth 1 https://github.com/pi-hole/pi-hole.git Pi-hole
 cd "Pi-hole/automated install/"
 sudo bash basic-install.sh
 ```
 Lo tenemos que hacer con "git clone" ya que en el propio contenedor el comando "curl" no lo reconoce. 
+Una vez hecho esto trabajaremos todo el servidor DNS dentro del archivo /etc/resolv.conf.
+Pondremos todas las lineas de ese archivo, comentadas.
+Añadiremos la linea "nameserver 127.0.0.1" para que el mismo contenedor de pi-hole sea su propio servidor DNS.
+
+> :triangular_flag_on_post: Ver informe de errores.
+
 
 # Base de datos
 Para nuestro proyecto, crearemos una máquina que alojará nuestra base de datos. En lugar de usar una base de datos relacional como MySQL, optaremos por una base de datos no relacional gracias a Firebase.
@@ -276,9 +282,43 @@ USUARIOS (Colección)
 ## Anexo 5 (configuración QEMU Proxmox)
 ![configuración de proxmox qemu](assets_bf/qemuproxmox.png)
 
-# Informe de errores
+# 🚩 Informe de errores
 En este apartado se encuantran todas las dificultades y errores que han ido surgiendo a medida que progresava el proyecto.
 
 ## Errores con el router
 Por fallos a la hora de escribir la identación del netplan, hubo dificultades a la hora de configurar el router.
 También tubimos problemas 
+
+## Errores Pi-hole DNS Server
+En la version de **Proxmox 8.2.2**, el archivo ```/etc/resolv.conf``` se sobrescribe automáticamente dos veces al reiniciar el contenedor debido a:
+
+**1a vez:** *Servicio systemd-resolved:* Modifica el archivo de configuración DNS, de manera automática.
+
+**2a vez:** *Proxmox:* Sobrescribe el archivo durante el inicio del contenedor.
+
+Esto provoca que:
+  **No** podemos modificar manualmente el archivo /etc/resolv.conf.
+  **No** se pueden ejecutar scripts que cambien el archivo en el arranque del contenedor.
+  **No** se puede filtrar el tráfico DNS adecuadamente.
+  El DNS **siempre** se establece en 8.8.8.8, ignorando configuraciones internas.
+  Entre muchas otras conseqüencias...
+  
+:white_check_mark:**SOLUCIÓN**
+
+**Paso 1:** *Detener el servicio systemd-resolved*
+
+Detenemos el servicio para evitar que sobrescriba el archivo DNS.
+```
+systemctl disable systemd-resolved
+systemctl stop systemd-resolved
+```
+**Paso 2:** *Configurar DNS en cada arranque. utilizando ```crontab```*
+
+Modificar el archivo crontab, ya que este archivo ejecuta instrucciones de manera persistente.
+```
+#Localizacion del archivo /tmp/crontab.RwAtVi/crontab
+crontab -e
+@reboot echo "nameserver 127.0.0.1" > /etc/resolv.conf #Añadir esta linea, dentro del archivo
+```
+Esta línea asegura que el archivo ```/etc/resolv.conf``` apunte al servidor DNS local (127.0.0.1) en cada reinicio, evitando sobrescrituras por parte de Proxmox o systemd-resolved.
+Con estos pasos, se asegura que el contenedor de Pi-hole utilice su propio servidor DNS de manera persistente, permitiendo un filtrado efectivo del tráfico DNS y manteniendo la configuración deseada entre reinicios.
