@@ -290,8 +290,9 @@ USUARIOS (Colección)
 En este apartado se encuantran todas las dificultades y errores que han ido surgiendo a medida que progresava el proyecto.
 
 ## Errores con el router
-Por fallos a la hora de escribir la identación del netplan, hubo dificultades a la hora de configurar el router.
-También tubimos problemas 
+A la hora de configurar el router, tuvimos sobre todo problemas con errores tipográficos. Esto sucedió tanto en la configuración de Netplan como en la configuración de las reglas de IPtables.
+
+Además, tuvimos varios problemas al intentar guardar las reglas de IPtables, ya que, al reiniciar el router, algunas reglas desaparecían. Esto ocurría porque las reglas no se guardaban de modo persistente.
 
 ## Errores Pi-hole DNS Server
 En la version de **Proxmox 8.2.2**, el archivo ```/etc/resolv.conf``` se sobrescribe automáticamente dos veces al reiniciar el contenedor debido a:
