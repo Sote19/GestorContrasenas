@@ -128,7 +128,7 @@ También se ha indicado si las IPs son estáticas para facilitar la configuraci�
 | Pihole           | 10.20.30.5                                 | 10.20.30.1                          | vmbr1 (10.20.30.0/24)         |
 </div>
 
-## Configuración de red para el "ROUTER"
+## Configuración de ROUTER
 Primero configuramos la red del router. Para ello cambiaremos el netplan ajustando las IP según la red interna previamente creada o la externa.Con ens18 identificaremos la red exterior y con ens19 la red interna.
 Además, hemos implementado el servicio de DHCP en el router para que todos los dispositivos que estén dentro de la red virtual puedan obtener una IP sin necesidad de asignarla manualmente.
 
@@ -178,7 +178,7 @@ sudo iptables -t nat -A PREROUTING -i ens18 -p tcp --dport 80 -j DNAT --to-desti
 >
 > 🚩 [Ver informe de errores.](#errores-con-el-router)
 
-## Configuración de red para el "CLIENTE"
+## Configuración de CLIENTE
 Configuramos la red del router cambiando el netplan para usar la interfaz ens19 con una IP dentro de la red. Como aún no hemos configurado ningún servicio DHCP, asignaremos la IP estática 10.20.30.5.
 Una vez tengamos el servicio DHCP configurado, modificaremos nuevamente el netplan para conseguir que la interfaz obtenga una IP dinámica.
 
@@ -190,13 +190,13 @@ Tras verificar el correcto funcionamiento de la red, haremos un ping desde el ro
 
 > 📎 [**Ver _anexo 4_ para verificación de configuración**](#anexo-4-verificación-de-configuración)
 
-## Configuración QEMU
+## Configuración de QEMU
 Instalaremos tanto en la máquina cliente como en la máquina router el paquete qemu-guest-agent. Gracias a esto, podremos administrar las máquinas virtuales de una manera más fácil.
 Una vez instalado en las máquinas, debemos configurar las máquinas virtuales en las opciones que nos ofrece Proxmox.
 
 > 📎 [**Ver _anexo 5_ para configuración QEMU Proxmox**](#anexo-5-configuración-qemu-proxmox)
 
-# Servidor DNS
+## Configuración de Servidor DNS
 Para crear un servidor DNS dentro de nuestra red interna, hemos decidido usar la herramient pi-hole y ejecutarla dentro de un contenedor ya que nunca habiamos usado pihole ni contendores y asi hemos podido hacer una primera toma de contacto con ambos.
 Despues de crear el contenedor de proxmox con el hardware especificado en la tabla "Arquitectura del sistema" usamos el comando que te indican en la pagina oficial de pi-hole
 ```
@@ -209,10 +209,11 @@ Una vez hecho esto trabajaremos todo el servidor DNS dentro del archivo ```/etc/
 Pondremos todas las lineas de ese archivo, comentadas.
 Añadiremos la linea "nameserver 127.0.0.1" para que el mismo contenedor de pi-hole sea su propio servidor DNS.
 
-> 📎 [**Ver _anexo 6_ para configuración Pi-hole**](#anexo-5-configuración-qemu-proxmox)
+> 📎 [**Ver _anexo 6_ para configuración Pi-hole**](#anexo-6-configuración-pi-hole)
+> 
 > 🚩 [Ver informe de errores.](#errores-pi-hole-dns-server)
 
-# Base de datos
+## Configuración de Base de Datos
 Para nuestro proyecto, crearemos una máquina que alojará nuestra base de datos. En lugar de usar una base de datos relacional como MySQL, optaremos por una base de datos no relacional gracias a Firebase.
 
 > [!WARNING]
@@ -245,6 +246,13 @@ USUARIOS (Colección)
 └── user_id_2
     └── ...
 ```
+
+## Configuración de Nginx
+Para nuestro proyecto, el uso del servicio Nginx no es estrictamente necesario, pero realizaremos una instalación sencilla para demostrar cómo se llevaría a cabo la configuración de dicho servicio.
+Gracias a que previamente hemos creado una regla en el router para permitir el acceso a la web desde los ordenadores del aula, nos será más fácil comprobar que la configuración se está realizando correctamente.
+
+
+
 
 
 <hr>
