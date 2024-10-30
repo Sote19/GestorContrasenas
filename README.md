@@ -96,8 +96,6 @@ Para crear la red NAT con la que se comunicarán las máquinas dentro de Proxmox
 El proceso que seguimos fue el siguiente: primero, instalamos y configuramos la máquina router. Al añadir la máquina, le asignamos la nueva interfaz de red que creamos anteriormente en el apartado de hardware. Una vez configurado el router, duplicamos la máquina para crear el equipo cliente, y modificamos el netplan para que tenga su propia dirección IP dentro de la red interna. En los anexos dejamos el primer borrador de la arquitectura de red que hicimos.
 
 > 📎 [**Ver _anexo 1_ para configuración de entorno PROXMOX**](#anexo-1-configuración-de-entorno-proxmox)
-> 
-> 🚩 [Ver informe de errores.](#errores-pi-hole-dns-server)
 
 ## Arquitectura de Red
 Para nuestro proyecto, hemos configurado una red local utilizando Proxmox, en la cual hemos desplegado todos los servicios esenciales para nuestro gestor de contraseñas. En la imagen, se puede observar cómo hemos dividido el "Entorno Aula" y el "Entorno Proxmox".
@@ -177,6 +175,8 @@ sudo iptables -t nat -A PREROUTING -i ens18 -p tcp --dport 80 -j DNAT --to-desti
 
 
 > 📎 [**Ver _anexo 2_ para configuración del Router**](#anexo-2-configuración-del-router)
+>
+> 🚩 [Ver informe de errores.](#errores-con-el-router)
 
 ## Configuración de red para el "CLIENTE"
 Configuramos la red del router cambiando el netplan para usar la interfaz ens19 con una IP dentro de la red. Como aún no hemos configurado ningún servicio DHCP, asignaremos la IP estática 10.20.30.5.
@@ -209,6 +209,7 @@ Una vez hecho esto trabajaremos todo el servidor DNS dentro del archivo ```/etc/
 Pondremos todas las lineas de ese archivo, comentadas.
 Añadiremos la linea "nameserver 127.0.0.1" para que el mismo contenedor de pi-hole sea su propio servidor DNS.
 
+> 📎 [**Ver _anexo 6_ para configuración Pi-hole**](#anexo-5-configuración-qemu-proxmox)
 > 🚩 [Ver informe de errores.](#errores-pi-hole-dns-server)
 
 # Base de datos
@@ -282,7 +283,13 @@ USUARIOS (Colección)
 ### Conexión hacia red exterior con IP dinámica + comprovación de conexión hacia la red exterior.
 ![verificación final cliente](assets_bf/configuracion_cliente_dhcp.png)
 ## Anexo 5 (configuración QEMU Proxmox)
+### Panel de configuración en Proxmox para activar QEMU
 ![configuración de proxmox qemu](assets_bf/qemuproxmox.png)
+## Anexo 6 (configuración Pi-hole)
+### Archivo de resolución DNS
+![configuración de archivo pi-hole](assets_bf/resolvconf.png)
+### Archivo de automatización de arranque persistente
+![configuración de archivo pi-hole arranque](assets_bf/crontab.png)
 
 <hr>
 
