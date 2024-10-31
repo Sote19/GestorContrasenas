@@ -252,6 +252,38 @@ USUARIOS (Colección)
 Para nuestro proyecto, el uso del servicio Nginx no es estrictamente necesario, pero realizaremos una instalación sencilla para demostrar cómo se llevaría a cabo la configuración de dicho servicio.
 Gracias a que previamente hemos creado una regla en el router para permitir el acceso a la web desde los ordenadores del aula, nos será más fácil comprobar que la configuración se está realizando correctamente.
 
+Primero, configuramos el archivo ```gtx.com.conf``` en el directorio de configuración de Nginx, ubicado en ```/etc/nginx/sites-available/```.
+
+Dentro de ```gtx.com.conf```, especificamos que el servidor escuche en el puerto 80. 
+También definimos el nombre del servidor como gtx.com. Configuramos rutas específicas para almacenar los logs de errores y de acceso, permitiendo así un mejor seguimiento de las solicitudes HTTP atendidas por Nginx. 
+Indicamos el directorio raíz donde se almacenarán los archivos de la página web, y definimos el archivo de inicio (index.html, ya que no utilizamos index.php en este proyecto).
+No incluimos index.php en la configuración ya que nuestra base de datos es NoSQL y no requerimos PHP para nuestro sitio web.
+
+Para habilitar el sitio, creamos un enlace simbólico desde sites-available a sites-enabled.
+
+```
+# copiamos el archivo default preinstalado en un nuevo archivo llamado gtx.com.conf
+sudo cp /etc/nginx/sites-available/default /etc/nginx/sites-available/gtx.com.conf
+
+# enlace simbólico desde sites-available a sites-enabled
+sudo ln -s /etc/nginx/sites-available/gtx.com.conf /etc/nginx/sites-enabled/
+````
+
+Crear el Directorio del Sitio Web
+Creamos un nuevo directorio dentro de /var/www/ para almacenar todos los archivos de la página web:
+
+bash
+Copiar código
+sudo mkdir -p /var/www/gtx.com
+Luego, clonamos el repositorio de la web desde Git dentro de este directorio para poder visualizar nuestra página web desde los equipos del aula al acceder a la IP pública del router (100.77.20.77) en el puerto 80:
+
+bash
+Copiar código
+git clone <URL_DEL_REPOSITORIO> /var/www/gtx.com
+
+> [!WARNING]
+> Falta añadir info
+
 
 
 
