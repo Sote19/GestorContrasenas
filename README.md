@@ -123,9 +123,10 @@ También se ha indicado si las IPs son estáticas para facilitar la configuraci�
 |------------------|--------------------------------------------|-------------------------------------|-------------------------------|
 | Proxmox          | 100.77.20.113                              | 100.77.20.1                         | 100.77.20.0/24                |
 | VM Ubuntu Router | 100.77.20.77 (externa)<br>10.20.30.1 (interna) | 100.77.20.1 (externa)<br>10.20.30.1 (interna) | vmbr0 (100.77.20.0/24)<br>vmbr1 (10.20.30.0/24) |
-| VM Ubuntu Cliente| DHCP                                       | 10.20.30.1                          | vmbr1 (DHCP)                  |
-| Nginx            | DHCP                                       | 10.20.30.1                          | vmbr1 (DHCP)                  |
+| VM Ubuntu Cliente| DHCP                                       | 10.20.30.1                          | vmbr1 (10.20.30.0/24)         |
+| Nginx            | DHCP (fija por MAC a la IP 10.20.30.20)    | 10.20.30.1                          | vmbr1 (10.20.30.0/24)         | 
 | Pihole           | 10.20.30.5                                 | 10.20.30.1                          | vmbr1 (10.20.30.0/24)         |
+| FireBase         | 10.20.30.6                                 | 10.20.30.1                          | vmbr1 (10.20.30.0/24)         |
 </div>
 
 ## Configuración de ROUTER
@@ -165,7 +166,7 @@ sudo iptables -A FORWARD -i ens19 -o ens18 -m state --state ESTABLISHED,RELATED 
 sudo iptables-save                                                                         # guardar reglas de IPtables
 ```
 
-Para permitir que los ordenadores del aula puedan conectarse a nuestro servicio de Nginx en el puerto 80 (IP externa: 100.77.20.77:80), hemos añadido una nueva regla en IPTables para redirigir el tráfico al servidor Nginx.
+Para permitir que los ordenadores del aula puedan conectarse a nuestro servicio de Nginx en el puerto 80 (IP externa: 100.77.20.77:80), hemos añadido una nueva regla en IPTables para redirigir el tráfico al servidor Nginx especificando su dirección IP.
 
 ```
 # comando usado para añadir regla de reenvio de puerto 80
