@@ -269,7 +269,7 @@ sudo cp /etc/nginx/sites-available/default /etc/nginx/sites-available/gtx.com.co
 sudo ln -s /etc/nginx/sites-available/gtx.com.conf /etc/nginx/sites-enabled/
 ````
 
-Crear el Directorio del Sitio Web
+### Crear el Directorio del Sitio Web
 Creamos un nuevo directorio dentro de /var/www/ para almacenar todos los archivos de la página web:
 
 bash
@@ -281,9 +281,26 @@ bash
 Copiar código
 git clone <URL_DEL_REPOSITORIO> /var/www/gtx.com
 
-> [!WARNING]
-> Falta añadir info
+### Configuración DNS en Pi-hole
+Para facilitar el acceso a la página web en la red interna de Proxmox, añadimos un registro DNS en Pi-hole para que gestorgtx.com resuelva a la IP interna del servidor Nginx (10.20.30.20). Esta configuración se realizó desde la interfaz gráfica de Pi-hole.
 
+Ahora, al buscar gestorgtx.com en la red interna de Proxmox, los dispositivos obtienen la dirección interna y pueden acceder directamente a la página web alojada en Nginx.
+
+Incidencia: Conflicto en el Puerto 80
+Inicialmente, Nginx no funcionaba debido a un conflicto con el puerto 80, ya que había un servicio Apache ejecutándose y bloqueando el puerto. Para resolver esto, detuvimos y deshabilitamos Apache con los siguientes comandos:
+
+bash
+Copiar código
+sudo systemctl stop apache2
+sudo systemctl disable apache2
+Después de detener Apache, reiniciamos Nginx y verificamos que el servicio funcionara correctamente:
+
+bash
+Copiar código
+sudo systemctl restart nginx
+
+> [!WARNING]
+> Falta ordenar y poner bonita la info
 
 
 
