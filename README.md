@@ -248,18 +248,24 @@ USUARIOS (Colección)
     └── ...
 ```
 
+> 📎 [**Ver _anexo 7_ para configuración de la base de datos**](#anexo-7-configuración-base-de-datos)
+> 
+> 🚩 [Ver informe de errores.](#errores-con-la-base-de-datos-firebase)
+
 ## Configuración de Nginx
-Para nuestro proyecto, el uso del servicio Nginx no es estrictamente necesario, pero realizaremos una instalación sencilla para demostrar cómo se llevaría a cabo la configuración de dicho servicio.
-Gracias a que previamente hemos creado una regla en el router para permitir el acceso a la web desde los ordenadores del aula, nos será más fácil comprobar que la configuración se está realizando correctamente.
+NGINX es un servidor web open source de alta performance que ofrece el contenido estático de un sitio web de forma rápida y fácil de configurar.
+
+Para nuestro proyecto, el uso del servicio Nginx no es estrictamente necesario, pero realizaremos una instalación sencilla para demostrar cómo se llevaría a cabo su configuración. 
+Como ya hemos creado una regla en el router que permite el acceso a la web desde los ordenadores del aula, nos resultará más fácil comprobar que la configuración de Nginx se realiza correctamente.
 
 Primero, configuramos el archivo ```gtx.com.conf``` en el directorio de configuración de Nginx, ubicado en ```/etc/nginx/sites-available/```.
 
-Dentro de ```gtx.com.conf```, especificamos que el servidor escuche en el puerto 80. 
-También definimos el nombre del servidor como gtx.com. Configuramos rutas específicas para almacenar los logs de errores y de acceso, permitiendo así un mejor seguimiento de las solicitudes HTTP atendidas por Nginx. 
-Indicamos el directorio raíz donde se almacenarán los archivos de la página web, y definimos el archivo de inicio (index.html, ya que no utilizamos index.php en este proyecto).
-No incluimos index.php en la configuración ya que nuestra base de datos es NoSQL y no requerimos PHP para nuestro sitio web.
+Dentro de ```gtx.com.conf```, especificamos que el servidor escuche en el puerto 80 y definimos el nombre del servidor como *gtx.com*. 
+Además, configuramos rutas específicas para almacenar los logs de errores y de acceso, facilitando así un mejor seguimiento de las solicitudes HTTP atendidas por Nginx. 
+Indicamos también el directorio raíz donde se almacenarán los archivos de la página web y definimos el archivo de inicio (index.html, ya que no usamos index.php en este proyecto). 
+No incluimos *index.php* porque nuestra base de datos es *NoSQL*, y no requerimos PHP en el sitio web.
 
-Para habilitar el sitio, creamos un enlace simbólico desde sites-available a sites-enabled.
+Para habilitar el sitio, creamos un enlace simbólico desde *sites-available* a *sites-enabled*.
 
 ```
 # copiamos el archivo default preinstalado en un nuevo archivo llamado gtx.com.conf
@@ -270,40 +276,23 @@ sudo ln -s /etc/nginx/sites-available/gtx.com.conf /etc/nginx/sites-enabled/
 ````
 
 ### Crear el Directorio del Sitio Web
-Creamos un nuevo directorio dentro de /var/www/ para almacenar todos los archivos de la página web:
+Creamos un nuevo directorio dentro de ```/var/www/``` para almacenar todos los archivos de la página web y luego clonamos el repositorio de la web desde Git en este directorio, permitiendo así que podamos visualizar la página web desde los equipos del aula al acceder a la IP pública del router (100.77.20.77) en el puerto 80.
 
-bash
-Copiar código
+```
+# creación del direcctorio
 sudo mkdir -p /var/www/gtx.com
-Luego, clonamos el repositorio de la web desde Git dentro de este directorio para poder visualizar nuestra página web desde los equipos del aula al acceder a la IP pública del router (100.77.20.77) en el puerto 80:
 
-bash
-Copiar código
+# clonación de repositiorio de la web en el nuevo directorio
 git clone <URL_DEL_REPOSITORIO> /var/www/gtx.com
+```
 
 ### Configuración DNS en Pi-hole
-Para facilitar el acceso a la página web en la red interna de Proxmox, añadimos un registro DNS en Pi-hole para que gestorgtx.com resuelva a la IP interna del servidor Nginx (10.20.30.20). Esta configuración se realizó desde la interfaz gráfica de Pi-hole.
-
+Para facilitar el acceso a la página web en la red interna de Proxmox, añadimos un registro DNS en Pi-hole para que gestorgtx.com resuelva a la IP interna del servidor Nginx (10.20.30.20). Esta configuración se realizó desde la interfaz gráfica de Pi-hole. 
 Ahora, al buscar gestorgtx.com en la red interna de Proxmox, los dispositivos obtienen la dirección interna y pueden acceder directamente a la página web alojada en Nginx.
 
-Incidencia: Conflicto en el Puerto 80
-Inicialmente, Nginx no funcionaba debido a un conflicto con el puerto 80, ya que había un servicio Apache ejecutándose y bloqueando el puerto. Para resolver esto, detuvimos y deshabilitamos Apache con los siguientes comandos:
-
-bash
-Copiar código
-sudo systemctl stop apache2
-sudo systemctl disable apache2
-Después de detener Apache, reiniciamos Nginx y verificamos que el servicio funcionara correctamente:
-
-bash
-Copiar código
-sudo systemctl restart nginx
-
-> [!WARNING]
-> Falta ordenar y poner bonita la info
-
-
-
+> 📎 [**Ver _anexo 8_ para configuración de Nginx**](#anexo-8-configuración-nginx)
+> 
+> 🚩 [Ver informe de errores.](#errores-con-nginx)
 
 <hr>
 
@@ -348,17 +337,30 @@ sudo systemctl restart nginx
 ![configuración de archivo pi-hole](assets_bf/resolvconf.png)
 ### Archivo de automatización de arranque persistente
 ![configuración de archivo pi-hole arranque](assets_bf/crontab.png)
+## Anexo 7 (configuración Base de Datos)
+falta introducir imagenes
+## Anexo 8 (configuración Nginx)
+falta introducir imagenes
 
 <hr>
+
+<details>
+  <summary>🚩 Informe de errores</summary>
 
 # 🚩 Informe de errores
 En este apartado se encuantran todas las dificultades y errores que han ido surgiendo a medida que progresava el proyecto.
 
+<details>
+  <summary>1️⃣ Errores con el router</summary>
+
 ## Errores con el router
 A la hora de configurar el router, tuvimos sobre todo problemas con errores tipográficos. Esto sucedió tanto en la configuración de Netplan como en la configuración de las reglas de IPtables.
-
 Además, tuvimos varios problemas al intentar guardar las reglas de IPtables, ya que, al reiniciar el router, algunas reglas desaparecían. Esto ocurría porque las reglas no se guardaban de modo persistente.
+</details>
 
+<details>
+  <summary>2️⃣ Errores Pi-hole DNS Server</summary>
+  
 ## Errores Pi-hole DNS Server
 En la version de **Proxmox 8.2.2**, el archivo ```/etc/resolv.conf``` se sobrescribe automáticamente dos veces al reiniciar el contenedor debido a:
 
@@ -373,7 +375,7 @@ Esto provoca que:
   El DNS **siempre** se establece en 8.8.8.8, ignorando configuraciones internas.
   Entre muchas otras conseqüencias...
   
-:white_check_mark:**SOLUCIÓN**
+✅**SOLUCIÓN**
 
 **Paso 1:** *Detener el servicio systemd-resolved*
 
@@ -385,10 +387,52 @@ systemctl stop systemd-resolved
 **Paso 2:** *Configurar DNS en cada arranque. utilizando ```crontab```*
 
 Modificar el archivo crontab, ya que este archivo ejecuta instrucciones de manera persistente.
+
 ```
 #Localizacion del archivo /tmp/crontab.RwAtVi/crontab
 crontab -e
 @reboot echo "nameserver 127.0.0.1" > /etc/resolv.conf #Añadir esta linea, dentro del archivo
 ```
+
 Esta línea asegura que el archivo ```/etc/resolv.conf``` apunte al servidor DNS local (127.0.0.1) en cada reinicio, evitando sobrescrituras por parte de Proxmox o systemd-resolved.
 Con estos pasos, se asegura que el contenedor de Pi-hole utilice su propio servidor DNS de manera persistente, permitiendo un filtrado efectivo del tráfico DNS y manteniendo la configuración deseada entre reinicios.
+</details>
+
+<details>
+  <summary>3️⃣ Errores con la base de datos FireBase</summary>
+
+## Errores con la base de datos FireBase
+
+> problemas a la hora de desplegar la web por carpeta public erronea
+> 
+> problema con obtención de datos de la web, hay que modificar una regla en firebase database
+>
+> como no hemos acabado la configuración, esta parte está por acabar
+</details>
+
+<details>
+  <summary>4️⃣ Errores con Nginx</summary>
+
+## Errores con Nginx
+Inicialmente, Nginx no funcionaba debido a un conflicto con el puerto 80, ya que había un servicio Apache2 ejecutándose y bloqueando el puerto. 
+
+✅**SOLUCIÓN**
+
+**Paso 1:** *Detener el servicio Apache2*
+
+Detuvimos y deshabilitamos Apache2 con los siguientes comandos:
+
+```
+sudo systemctl stop apache2
+sudo systemctl disable apache2
+```
+
+**Paso 2:** *Reiniciar el sercicio Nginx*
+Después de detener Apache2, reiniciamos Nginx y verificamos que el servicio funcionara correctamente.
+
+```
+sudo systemctl restart nginx
+sudo systemctl status nginx
+```
+</details>
+</details>
