@@ -12,7 +12,7 @@ Nuestro objetivo es crear una aplicación web que gestione usuarios y contraseñ
 
 ## 📝  Organización y roles del equipo
 <details>
-  <summary>Organización</summary>
+  <summary>Organización 🔽</summary>
   Al ser un grupo que en el primer año del grado ya trabajamos juntos en varios proyectos, la organización ha sido muy fácil.
   
   Hemos decidido que todos haremos de todo, pero cada uno tendrá un rol de “líder” en cada apartado en el que hemos distribuido el proyecto, este líder será el encargado únicamente de marcar el tempo y de comunicar al resto del grupo cómo vamos en relación con los objetivos y fechas acordados al inicio.
@@ -23,7 +23,7 @@ Nuestro objetivo es crear una aplicación web que gestione usuarios y contraseñ
 </details>
 
 <details>
-  <summary>Roles</summary>  
+  <summary>Roles 🔽</summary>  
   <li>Xavi - Front-end y VMs</li>
   <li>Gerard - Back-end cifrado y presentaciones(PP, Genially…), escritos(GitHub)</li>
   <li>Tim - Back-end BBDD y gestores de tareas</li>
@@ -34,36 +34,36 @@ Nuestro objetivo es crear una aplicación web que gestione usuarios y contraseñ
 
 ## 💻  Tecnologías a utilizar (lenguajes, framework, sistemas, software...)
 <details>
-  <summary>Front-end</summary>  
+  <summary>Front-end 🔽</summary>  
   <li>HTML</li>
   <li>CSS con ayuda de Bootstrap.</li>
   <li>Colores que usaremos en el front-end: #234C17 y #B5FFA6</li>
 </details>
 
 <details>
-  <summary>Back-end</summary>
+  <summary>Back-end 🔽</summary>
   <li>Python</li>
   <li>Java Script</li>
   <li>PHP (lo intentaremos)</li>
 </details>
 
 <details>
-  <summary>Base de Datos</summary>
+  <summary>Base de Datos 🔽</summary>
   Google Firebase.
 </details>
 
 <details>
-  <summary>Cifrado</summary>
+  <summary>Cifrado 🔽</summary>
   Según vayamos avanzando con el proyecto elegiremos una de las 3 opciones: AES-256, bcrypt/Argon2, PBKDF2.
 </details>
 
 <details>
-  <summary>Seguridad</summary>
+  <summary>Seguridad 🔽</summary>
   TLS/SSL.
 </details>
 
 <details>
-  <summary>Software</summary>
+  <summary>Software 🔽</summary>
   <li>Visual Studio</li>
   <li>Google Firebase</li>
   <li>GitHub</li>
@@ -476,7 +476,7 @@ Además, tuvimos varios problemas al intentar guardar las reglas de IPtables, ya
 ## Errores Pi-hole DNS Server
 <details>
   <summary></summary>
-En la version de **Proxmox 8.2.2**, el archivo ```/etc/resolv.conf``` se sobrescribe automáticamente dos veces al reiniciar el contenedor debido a:
+En la version de **Proxmox 8.2.2**, el archivo ```/etc/resolv.conf```` se sobrescribe automáticamente dos veces al reiniciar el contenedor debido a:
 
 **1a vez:** *Servicio systemd-resolved:* Modifica el archivo de configuración DNS, de manera automática.
 
