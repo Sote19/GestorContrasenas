@@ -90,13 +90,17 @@
 
 ## Arquitectura del sistema
 <details>
-  <summary></summary>
-Usaremos la arquitectura cliente-servidor de tres capas, la haremos en capas para así poder trabajar cada capa por separado y hacerlo de manera más sencilla y efectiva, para poder cumplir con los plazos de entrega.
-- Las tres capas se dividirán:
-    - Cliente: Esta parte interactuará con el usuario, es decir, la mayoría del front-end estará en esta capa.
-    - Servidor: Manejará la parte lógica y la base de datos y se encargará del procesado de solicitudes. También se gestionará el cifrado y las contraseñas
-    - BBDD: Aquí se almacenarán los datos persistentes, como las contraseñas cifradas y las cuentas de usuario.
-<br>
+  <summary>Explicación 🔽</summary>
+  Usaremos la arquitectura cliente-servidor de tres capas, la haremos en capas para así poder trabajar cada capa por separado y hacerlo de manera más sencilla y efectiva, para poder cumplir con los plazos de entrega.
+  
+  Las tres capas se dividirán:
+  - Cliente: Esta parte interactuará con el usuario, es decir, la mayoría del front-end estará en esta capa.
+  - Servidor: Manejará la parte lógica y la base de datos y se encargará del procesado de solicitudes. También se gestionará el cifrado y las contraseñas
+  - BBDD: Aquí se almacenarán los datos persistentes, como las contraseñas cifradas y las cuentas de usuario.
+</details>
+
+<details>
+  <summary>Tabla de arquitectura de los sistestemas 🔽</summary>
 
   | Máquina       | S.O                  | Almacenamiento / Memoria| Servicio     | 
   |---------------|----------------------|-------------------------|--------------|
@@ -109,64 +113,91 @@ Usaremos la arquitectura cliente-servidor de tres capas, la haremos en capas par
 </details>
 
 # Estilo web
+Para garantizar una experiencia de usuario intuitiva y coherente, hemos trabajado en un diseño visual lo más simple posible, aplicando principios de accesibilidad y claridad. Nos hemos centrado en lograr una estética y una estructura que se mantengan alineadas con el objetivo del proyecto y las necesidades del usuario final.
+
 ## MockUp
 <details>
-  <summary></summary>
-Como se muestra en el mockup, nuestra web será sencilla. Cuando entremos a la web por primera vez, nos encontraremos con un panel sencillo que nos dará dos opciones, "Iniciar sesión" y "Registrarse".<br>
-Cada opción nos mandará a la página correspondiente, cuyo diseño será parecido al ya visto, con la diferencia que los títulos referenciarán dónde nos encontramos.
+  <summary>Explicación 🔽</summary>
+  Como se muestra en el mockup, nuestra web será sencilla. Cuando entremos a la web por primera vez, nos encontraremos con un panel sencillo que nos dará dos opciones, "Iniciar sesión" y "Registrarse".<br>
+  Cada opción nos mandará a la página correspondiente, cuyo diseño será parecido al ya visto, con la diferencia que los títulos referenciarán dónde nos encontramos.
+  
+  En la página de registrarse nos saldrá un pequeño "cuestionario" que nos solicitará correo electrónico, contraseña para entrar y nombre de usuario. Además, habrá un botón que permitirá ir a la página de iniciar sesión si ya tienes una cuenta registrada.
+  
+  En la página de iniciar sesión nos mostrará los espacios correspondientes para introducir el usuario y la contraseña previamente registrada en la web. También estará disponible la opción de "¿Has olvidado tu contraseña?", "¿No tienes cuenta? Regístrate ya", la casilla para activar si quieres recordar el dispositivo y un ojo que mostrará la contraseña, ya que cuando se escribe no se muestra.
+  
+  Una vez dentro, nos mostrará una ventana que pedirá registrar la llave maestra. Una vez configurada, el diseño de la web será simple. Se mostrarán las aplicaciones que hemos guardado en el gestor, con un botón que agregará una aplicación en la parte superior.
+  
+  A la hora de registrar una aplicación, se pedirá la URL del sitio web de la aplicación, el usuario y si se quiere generar una contraseña o introducir una personal. También habrá un espacio para poner comentarios. Una vez configurado, se usará un botón con "Guardar" para finalizar la acción de agregar una aplicación.  
+  
+  Una vez tengamos algunas aplicaciones registradas, seleccionando alguna de ellas accederemos a una ventana donde se mostrará la información previamente introducida para la aplicación correspondiente y dos botones: "Editar" y "Eliminar", además de una cruz en la parte superior por si queremos salir de la ventana, regresando a la vista general de la web.
+</details>
 
-En la página de registrarse nos saldrá un pequeño "cuestionario" que nos solicitará correo electrónico, contraseña para entrar y nombre de usuario. Además, habrá un botón que permitirá ir a la página de iniciar sesión si ya tienes una cuenta registrada.
-
-En la página de iniciar sesión nos mostrará los espacios correspondientes para introducir el usuario y la contraseña previamente registrada en la web. También estará disponible la opción de "¿Has olvidado tu contraseña?", "¿No tienes cuenta? Regístrate ya", la casilla para activar si quieres recordar el dispositivo y un ojo que mostrará la contraseña, ya que cuando se escribe no se muestra.
-
-Una vez dentro, nos mostrará una ventana que pedirá registrar la llave maestra. Una vez configurada, el diseño de la web será simple. Se mostrarán las aplicaciones que hemos guardado en el gestor, con un botón que agregará una aplicación en la parte superior.  
-A la hora de registrar una aplicación, se pedirá la URL del sitio web de la aplicación, el usuario y si se quiere generar una contraseña o introducir una personal. También habrá un espacio para poner comentarios. Una vez configurado, se usará un botón con "Guardar" para finalizar la acción de agregar una aplicación.  
-
-Una vez tengamos algunas aplicaciones registradas, seleccionando alguna de ellas accederemos a una ventana donde se mostrará la información previamente introducida para la aplicación correspondiente y dos botones: "Editar" y "Eliminar", además de una cruz en la parte superior por si queremos salir de la ventana, regresando a la vista general de la web.
-
+<details>
+  <summary>Imagen del Mockup 🔽</summary>
+  
 ![MockUp](assets_bf/mockup.png)
-
 </details>
 
 ## Árbol Web
 <details>
-  <summary></summary>
-Como se puede ver en la imagen del árbol web, hemos optado por crear una página sencilla e intuitiva para el usuario. Para mejorar la experiencia, hemos diseñado la navegación de forma que el usuario necesite hacer el menor número de clics posible para acceder a todas las funcionalidades de nuestra web.
-
-![ArbolWeb](assets_bf/arbolweb.png)
-
+  <summary>Explicación 🔽</summary>
+  Como se puede ver en la imagen del árbol web, hemos optado por crear una página sencilla e intuitiva para el usuario. Para mejorar la experiencia, hemos diseñado la navegación de forma que el usuario necesite hacer el menor número de clics posible para acceder a todas las funcionalidades de nuestra web.
 </details>
 
-## Colores
-Hemos optado por una paleta de colores en tonos verdes, que van desde un verde oscuro (#234C17) a un verde más claro (#B5FFA6). Estos colores están pensados para transmitir una sensación de seguridad, estabilidad y confianza, características fundamentales en un gestor de contraseñas. El verde también está asociado con zonas seguras y aprobadas, lo que refuerza la idea de que los usuarios estarán en un entorno protegido para almacenar su información sensible. Además, los colores blanco (#ffffff) y negro (#000000) se usan como base para asegurar legibilidad y simplicidad, sin distraer la atención de la funcionalidad principal de la plataforma.
+<details>
+  <summary>Imagen del árbol web 🔽</summary>
+  
+![ArbolWeb](assets_bf/arbolweb.png)
+</details>
 
+## Gama cromática
+<details>
+  <summary>Explicación 🔽</summary>
+  Hemos optado por una paleta de colores en tonos verdes, que van desde un verde oscuro (#234C17) a un verde más claro (#B5FFA6). Estos colores están pensados para transmitir una sensación de seguridad, estabilidad y confianza, características fundamentales en un gestor de contraseñas. 
+  El verde también está asociado con zonas seguras y aprobadas, lo que refuerza la idea de que los usuarios estarán en un entorno protegido para almacenar su información sensible. Además, los colores blanco (#ffffff) y negro (#000000) se usan como base para asegurar legibilidad y simplicidad, sin distraer la atención de la funcionalidad principal de la plataforma.
+</details>
+
+<details>
+  <summary>Imagen de la gama cromática 🔽</summary>
+  
 ![Colores](assets_bf/colores_principales.png)
+</details>
 
 ## Logotipo
 <details>
-  <summary></summary>
-El logotipo elegido es un escudo verde con una cerradura en el centro, lo que simboliza la protección de las contraseñas, que actúan como llaves para acceder a las diferentes cuentas de los usuarios. El escudo representa seguridad, confiabilidad y defensa, lo que refuerza el objetivo del gestor de contraseñas: proporcionar un entorno seguro para almacenar y gestionar de manera centralizada los datos de autenticación. 
-El detalle del circuito en el fondo del escudo agrega un toque tecnológico, conectando el concepto de ciberseguridad con el propósito del proyecto.
+  <summary>Explicación 🔽</summary>
+  El logotipo elegido es un escudo verde con una cerradura en el centro, lo que simboliza la protección de las contraseñas, que actúan como llaves para acceder a las diferentes cuentas de los usuarios. El escudo representa seguridad, confiabilidad y defensa, lo que refuerza el objetivo del gestor de contraseñas: proporcionar un entorno seguro para almacenar y gestionar de manera centralizada los datos de autenticación. 
+  El detalle del circuito en el fondo del escudo agrega un toque tecnológico, conectando el concepto de ciberseguridad con el propósito del proyecto.
+</details>
 
+<details>
+  <summary>Imagen del logotipo 🔽</summary>
+  
 ![Logo](assets_bf/logo.svg)
-
 </details>
 
 # PROXMOX
+Proxmox Virtual Environment, o Proxmox VE, entorno de virtualización de servidores de código abierto. Es una distribución de GNU/Linux basada en Debian, con una versión modificada del Kernel Ubuntu LTS​ y permite el despliegue y la gestión de máquinas virtuales y contenedores.
+
 Para la creación de nuestro proyecto, vamos a usar Proxmox. Utilizaremos uno de los ordenadores disponibles en el aula para montar nuestro equipo PROXMOX, con el que trabajaremos para crear todos los servicios que necesitamos.
 
 ## Entorno ProxMox
 <details>
-  <summary></summary>
-Dentro de Proxmox, configuraremos una red NAT para que todas las máquinas virtuales que creemos tengan conexión entre ellas.
-Como elementos principales, tendremos dos Ubuntu Servers. Uno de ellos hará de router virtual, proporcionando DHCP. El otro será un equipo cliente. 
-Una vez tengamos estas dos máquinas configuradas correctamente, procederemos a crear e integrar una máquina que funcionará como base de datos y otra que proporcione servicio DNS.
-
-Para crear la red NAT con la que se comunicarán las máquinas dentro de Proxmox, añadiremos un "Linux Bridge" y lo configuraremos para crear la red "interna", a la que llamaremos vmbr1. Por defecto, la red externa (en nuestro caso la del aula) se llama vmbr0.
-El proceso que seguimos fue el siguiente: primero, instalamos y configuramos la máquina router. Al añadir la máquina, le asignamos la nueva interfaz de red que creamos anteriormente en el apartado de hardware. Una vez configurado el router, duplicamos la máquina para crear el equipo cliente, y modificamos el netplan para que tenga su propia dirección IP dentro de la red interna. En los anexos dejamos el primer borrador de la arquitectura de red que hicimos.
-
-> 📎 [**Ver _anexo 1_ para configuración de entorno PROXMOX**](#anexo-1-configuración-de-entorno-proxmox)
+  <summary>Explicación 🔽</summary>
+  Dentro de Proxmox, configuraremos una red NAT para que todas las máquinas virtuales que creemos tengan conexión entre ellas.
+  Como elementos principales, tendremos dos Ubuntu Servers. Uno de ellos hará de router virtual, proporcionando DHCP. El otro será un equipo cliente. 
+  Una vez tengamos estas dos máquinas configuradas correctamente, procederemos a crear e integrar una máquina que funcionará como base de datos y otra que proporcione servicio DNS.
+  
+  Para crear la red NAT con la que se comunicarán las máquinas dentro de Proxmox, añadiremos un "Linux Bridge" y lo configuraremos para crear la red "interna", a la que llamaremos vmbr1. Por defecto, la red externa (en nuestro caso la del aula) se llama vmbr0.
+  
+  El proceso que seguimos fue el siguiente: primero, instalamos y configuramos la máquina router. Al añadir la máquina, le asignamos la nueva interfaz de red que creamos anteriormente en el apartado de hardware. Una vez configurado el router, duplicamos la máquina para crear el equipo cliente, y modificamos el netplan para que tenga su propia dirección IP dentro de la red interna. En los anexos dejamos el primer borrador de la arquitectura de red que hicimos.
+  
+  ## Configuración de QEMU
+  Instalaremos tanto en la máquina cliente como en la máquina router el paquete qemu-guest-agent. Gracias a esto, podremos administrar las máquinas virtuales de una manera más fácil.
+  Una vez instalado en las máquinas, debemos configurar las máquinas virtuales en las opciones que nos ofrece Proxmox.
 </details>
+
+> 📎 [**Ver _anexo 1_ para entorno ProxMox**](#anexo-1-entorno-proxmox)
 
 ## Arquitectura de Red
 <details>
@@ -274,15 +305,6 @@ Tras verificar el correcto funcionamiento de la red, haremos un ping desde el ro
 > 📎 [**Ver _anexo 4_ para verificación de configuración**](#anexo-4-verificación-de-configuración)
 </details>
 
-## Configuración de QEMU
-<details>
-  <summary></summary>
-Instalaremos tanto en la máquina cliente como en la máquina router el paquete qemu-guest-agent. Gracias a esto, podremos administrar las máquinas virtuales de una manera más fácil.
-Una vez instalado en las máquinas, debemos configurar las máquinas virtuales en las opciones que nos ofrece Proxmox.
-
-> 📎 [**Ver _anexo 5_ para configuración QEMU Proxmox**](#anexo-5-configuración-qemu-proxmox)
-</details>
-
 ## Configuración de Servidor DNS
 <details>
   <summary></summary>
@@ -298,7 +320,7 @@ Una vez hecho esto trabajaremos todo el servidor DNS dentro del archivo ```/etc/
 Pondremos todas las lineas de ese archivo, comentadas.
 Añadiremos la linea "nameserver 127.0.0.1" para que el mismo contenedor de pi-hole sea su propio servidor DNS.
 
-> 📎 [**Ver _anexo 6_ para configuración Pi-hole**](#anexo-6-configuración-pi-hole)
+> 📎 [**Ver _anexo 5_ para configuración Pi-hole**](#anexo-5-configuración-pi-hole)
 > 
 > 🚩 [Ver informe de errores.](#errores-pi-hole-dns-server)
 </details>
@@ -339,7 +361,7 @@ USUARIOS (Colección)
     └── ...
 ```
 
-> 📎 [**Ver _anexo 7_ para configuración de la base de datos**](#anexo-7-configuración-base-de-datos)
+> 📎 [**Ver _anexo 6_ para configuración de la base de datos**](#anexo-6-configuración-base-de-datos)
 > 
 > 🚩 [Ver informe de errores.](#errores-con-la-base-de-datos-firebase)
 </details>
@@ -384,7 +406,7 @@ git clone <URL_DEL_REPOSITORIO> /var/www/gtx.com
 Para facilitar el acceso a la página web en la red interna de Proxmox, añadimos un registro DNS en Pi-hole para que gestorgtx.com resuelva a la IP interna del servidor Nginx (10.20.30.20). Esta configuración se realizó desde la interfaz gráfica de Pi-hole. 
 Ahora, al buscar gestorgtx.com en la red interna de Proxmox, los dispositivos obtienen la dirección interna y pueden acceder directamente a la página web alojada en Nginx.
 
-> 📎 [**Ver _anexo 8_ para configuración de Nginx**](#anexo-8-configuración-nginx)
+> 📎 [**Ver _anexo 7_ para configuración de Nginx**](#anexo-7-configuración-nginx)
 > 
 > 🚩 [Ver informe de errores.](#errores-con-nginx)
 </details>
@@ -392,7 +414,7 @@ Ahora, al buscar gestorgtx.com en la red interna de Proxmox, los dispositivos ob
 <hr>
 
 # 📎 Anexos
-## Anexo 1 (configuración de entorno PROXMOX)
+## Anexo 1 (entorno ProxMox)
 <details>
   <summary></summary>
   
@@ -402,6 +424,8 @@ Ahora, al buscar gestorgtx.com en la red interna de Proxmox, los dispositivos ob
 ![interfaz red router](assets_bf/interfaz_red_router.png)
 ### Borrador de arquitectura de red inicial
 ![diagrama de red](assets_bf/diagrama_red.png)
+### Panel de configuración para activar QEMU
+![configuración de proxmox qemu](assets_bf/qemuproxmox.png)
 </details>
 
 ## Anexo 2 (configuración del Router)
@@ -444,15 +468,7 @@ Ahora, al buscar gestorgtx.com en la red interna de Proxmox, los dispositivos ob
 ![verificación final cliente](assets_bf/configuracion_cliente_dhcp.png)
 </details>
 
-## Anexo 5 (configuración QEMU Proxmox)
-<details>
-  <summary></summary>
-  
-### Panel de configuración en Proxmox para activar QEMU
-![configuración de proxmox qemu](assets_bf/qemuproxmox.png)
-</details>
-
-## Anexo 6 (configuración Pi-hole)
+## Anexo 5 (configuración Pi-hole)
 <details>
   <summary></summary>
   
@@ -462,13 +478,13 @@ Ahora, al buscar gestorgtx.com en la red interna de Proxmox, los dispositivos ob
 ![configuración de archivo pi-hole arranque](assets_bf/crontab.png)
 </details>
 
-## Anexo 7 (configuración Base de Datos)
+## Anexo 6 (configuración Base de Datos)
 <details>
   <summary></summary>
 falta introducir imagenes
 </details>
 
-## Anexo 8 (configuración Nginx)
+## Anexo 7 (configuración Nginx)
 <details>
   <summary></summary>
 falta introducir imagenes
