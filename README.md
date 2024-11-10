@@ -1,14 +1,20 @@
 # ASIX2_Gestor de Contraseñas_GTX <br> Trabajo realizado por Gerard Soteras, Tim Kalugin y Xavi Conde
 
 ## 💡  Explicación de la idea del proyecto
-En este proyecto nos vamos a centrar en crear una aplicación web que funcione como un gestor de contraseñas. La idea es que esta web permita crear un usuario y que pueda añadir sus aplicaciones, webs, usuarios y contraseñas de forma fácil e intuitiva, pero siempre con seguridad. Nos vamos a enfocar principalmente en el back-end, pero también intentaremos que el front-end esté bien diseñado para que sea accesible para cualquier usuario.
-Nuestro gestor podrá almacenar todas las contraseñas de forma cifrada, y estarán gestionadas por una contraseña maestra (masterkey).
-
-La seguridad que vamos a implementar como desarrolladores incluye: contraseñas cifradas, una base de datos segura, y una masterkey con un cifrado más robusto.
-Para los usuarios, la seguridad se basará en dos cosas: su contraseña de usuario y la masterkey. Así, los usuarios podrán gestionar todas sus cuentas y contraseñas de manera centralizada, segura y sencilla.
+<details>
+  <summary>Explicación 🔽</summary>
+  En este proyecto nos vamos a centrar en crear una aplicación web que funcione como un gestor de contraseñas. La idea es que esta web permita crear un usuario y que pueda añadir sus aplicaciones, webs, usuarios y contraseñas de forma fácil e intuitiva, pero siempre con seguridad. Nos vamos a enfocar principalmente en el back-end, pero también intentaremos que el front-end esté bien diseñado para que sea accesible para cualquier usuario.
+  Nuestro gestor podrá almacenar todas las contraseñas de forma cifrada, y estarán gestionadas por una contraseña maestra (masterkey).
+  
+  La seguridad que vamos a implementar como desarrolladores incluye: contraseñas cifradas, una base de datos segura, y una masterkey con un cifrado más robusto.
+  Para los usuarios, la seguridad se basará en dos cosas: su contraseña de usuario y la masterkey. Así, los usuarios podrán gestionar todas sus cuentas y contraseñas de manera centralizada, segura y sencilla.
+</details>
 
 ## 🎯  Objetivo que se persigue
-Nuestro objetivo es crear una aplicación web que gestione usuarios y contraseñas de manera cifrada. Además, tendremos una BBDD segura protegida por una única contraseña maestra que será enlazada a la app. Queremos facilitar la vida a los usuarios para que gasten el tiempo mínimo en buscar, añadir o manejar sus datos personales de autenticación.
+<details>
+  <summary>Explicación 🔽</summary>
+  Nuestro objetivo es crear una aplicación web que gestione usuarios y contraseñas de manera cifrada. Además, tendremos una BBDD segura protegida por una única contraseña maestra que será enlazada a la app. Queremos facilitar la vida a los usuarios para que gasten el tiempo mínimo en buscar, añadir o manejar sus datos personales de autenticación.
+</details>
 
 ## 📝  Organización y roles del equipo
 <details>
@@ -24,9 +30,10 @@ Nuestro objetivo es crear una aplicación web que gestione usuarios y contraseñ
 
 <details>
   <summary>Roles 🔽</summary>  
-  <li>Xavi - Front-end y VMs</li>
-  <li>Gerard - Back-end cifrado y presentaciones(PP, Genially…), escritos(GitHub)</li>
-  <li>Tim - Back-end BBDD y gestores de tareas</li>
+  
+  - Xavi - Front-end y VMs
+  - Gerard - Back-end cifrado y presentaciones(PP, Genially…), escritos(GitHub)
+  - Tim - Back-end BBDD y gestores de tareas
 </details>
 
 > [!IMPORTANT]
@@ -34,42 +41,48 @@ Nuestro objetivo es crear una aplicación web que gestione usuarios y contraseñ
 
 ## 💻  Tecnologías a utilizar (lenguajes, framework, sistemas, software...)
 <details>
-  <summary>Front-end 🔽</summary>  
-  <li>HTML</li>
-  <li>CSS con ayuda de Bootstrap.</li>
-  <li>Colores que usaremos en el front-end: #234C17 y #B5FFA6</li>
+  <summary>Front-end 🔽</summary>
+
+  - HTML
+  - CSS con ayuda de Bootstrap
+  - Colores que usaremos en el front-end: #234C17 y #B5FFA6
 </details>
 
 <details>
   <summary>Back-end 🔽</summary>
-  <li>Python</li>
-  <li>Java Script</li>
-  <li>PHP (lo intentaremos)</li>
+  
+  - Python
+  - Java Script
+  - PHP (lo intentaremos)
 </details>
 
 <details>
   <summary>Base de Datos 🔽</summary>
-  Google Firebase.
+  
+  - Google Firebase
 </details>
 
 <details>
   <summary>Cifrado 🔽</summary>
-  Según vayamos avanzando con el proyecto elegiremos una de las 3 opciones: AES-256, bcrypt/Argon2, PBKDF2.
+  
+  - Según vayamos avanzando con el proyecto elegiremos una de las 3 opciones: AES-256, bcrypt/Argon2, PBKDF2.
 </details>
 
 <details>
   <summary>Seguridad 🔽</summary>
-  TLS/SSL.
+  
+  - TLS/SSL
 </details>
 
 <details>
   <summary>Software 🔽</summary>
-  <li>Visual Studio</li>
-  <li>Google Firebase</li>
-  <li>GitHub</li>
-  <li>Bootstrap</li>
-  <li>Node.JS</li>
-  <li>Cloudflare</li>
+  
+  - Visual Studio
+  - Google Firebase
+  - GitHub
+  - Bootstrap
+  - Node.JS
+  - Cloudflare
 </details>
 
 >  [!NOTE]
