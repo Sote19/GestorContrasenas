@@ -101,7 +101,7 @@
 
 <details>
   <summary>Tabla de arquitectura de los sistestemas 🔽</summary>
-
+  
   | Máquina       | S.O                  | Almacenamiento / Memoria| Servicio     | 
   |---------------|----------------------|-------------------------|--------------|
   | **Proxmox**   |Proxmox-VE 8.2        | 93Gb / 8Gb              |  Hypervisor  |
@@ -111,6 +111,8 @@
   | **Pi-Hole**   | -                    | -                       |      DNS     |
   | **NGinx**     | -                    | -                       |      Web     |
 </details>
+
+<hr>
 
 # Estilo web
 Para garantizar una experiencia de usuario intuitiva y coherente, hemos trabajado en un diseño visual lo más simple posible, aplicando principios de accesibilidad y claridad. Nos hemos centrado en lograr una estética y una estructura que se mantengan alineadas con el objetivo del proyecto y las necesidades del usuario final.
@@ -166,7 +168,9 @@ Para garantizar una experiencia de usuario intuitiva y coherente, hemos trabajad
 ## Logotipo
 <details>
   <summary>Explicación 🔽</summary>
-  El logotipo elegido es un escudo verde con una cerradura en el centro, lo que simboliza la protección de las contraseñas, que actúan como llaves para acceder a las diferentes cuentas de los usuarios. El escudo representa seguridad, confiabilidad y defensa, lo que refuerza el objetivo del gestor de contraseñas: proporcionar un entorno seguro para almacenar y gestionar de manera centralizada los datos de autenticación. 
+  El logotipo elegido es un escudo verde con una cerradura en el centro, lo que simboliza la protección de las contraseñas, que actúan como llaves para acceder a las diferentes cuentas de los usuarios. 
+  
+  El escudo representa seguridad, confiabilidad y defensa, lo que refuerza el objetivo del gestor de contraseñas: proporcionar un entorno seguro para almacenar y gestionar de manera centralizada los datos de autenticación. 
   El detalle del circuito en el fondo del escudo agrega un toque tecnológico, conectando el concepto de ciberseguridad con el propósito del proyecto.
 </details>
 
@@ -175,6 +179,8 @@ Para garantizar una experiencia de usuario intuitiva y coherente, hemos trabajad
   
 ![Logo](assets_bf/logo.svg)
 </details>
+
+<hr>
 
 # PROXMOX
 Proxmox Virtual Environment, o Proxmox VE, entorno de virtualización de servidores de código abierto. Es una distribución de GNU/Linux basada en Debian, con una versión modificada del Kernel Ubuntu LTS​ y permite el despliegue y la gestión de máquinas virtuales y contenedores.
@@ -192,7 +198,7 @@ Para la creación de nuestro proyecto, vamos a usar Proxmox. Utilizaremos uno de
   
   El proceso que seguimos fue el siguiente: primero, instalamos y configuramos la máquina router. Al añadir la máquina, le asignamos la nueva interfaz de red que creamos anteriormente en el apartado de hardware. Una vez configurado el router, duplicamos la máquina para crear el equipo cliente, y modificamos el netplan para que tenga su propia dirección IP dentro de la red interna. En los anexos dejamos el primer borrador de la arquitectura de red que hicimos.
   
-  ## Configuración de QEMU
+  ### Configuración de QEMU
   Instalaremos tanto en la máquina cliente como en la máquina router el paquete qemu-guest-agent. Gracias a esto, podremos administrar las máquinas virtuales de una manera más fácil.
   Una vez instalado en las máquinas, debemos configurar las máquinas virtuales en las opciones que nos ofrece Proxmox.
 </details>
@@ -201,49 +207,49 @@ Para la creación de nuestro proyecto, vamos a usar Proxmox. Utilizaremos uno de
 
 ## Arquitectura de Red
 <details>
-  <summary></summary>
-Para nuestro proyecto, hemos configurado una red local utilizando Proxmox, en la cual hemos desplegado todos los servicios esenciales para nuestro gestor de contraseñas. En la imagen, se puede observar cómo hemos dividido el "Entorno Aula" y el "Entorno Proxmox".
+  <summary>Explicación 🔽</summary>
+  Para nuestro proyecto, hemos configurado una red local utilizando Proxmox, en la cual hemos desplegado todos los servicios esenciales para nuestro gestor de contraseñas. En la imagen, se puede observar cómo hemos dividido el "Entorno Aula" y el "Entorno Proxmox".
+  En el Entorno Aula (con la red 100.77.20.0/24), contamos con acceso a internet y dispositivos físicos que se comunican con el router, mientras que en el Entorno Proxmox (red 10.20.30.0/24), hemos creado una red privada donde residen los servidores y servicios internos, proporcionando un entorno controlado para nuestro sistema.
+  
+  Cada dispositivo en Proxmox cumple un rol específico:
+  - Router: conecta ambas redes, actúa como gateway y distribuye direcciones IP mediante DHCP en la red de Proxmox.
+  - Pi-hole (10.20.30.2): configurado como servidor DNS, filtra y redirige las solicitudes DNS dentro de la red interna.
+  - Cliente Nginx (10.20.30.20): ofrece el servicio web (Nginx) accesible desde la red del aula mediante una regla en IPTables.
+  - Firebase: proporciona los servicios de base de datos y almacenamiento necesarios para el funcionamiento del gestor de contraseñas.
+  
+  En la imagen, los dispositivos que ofrecen servicios se encuentran subrayados en verde, mientras que aquellos que consumen servicios están subrayados en rojo.
+  También se ha indicado si las IPs son estáticas para facilitar la configuración y el acceso a cada servicio. De esta forma, el diseño asegura que cada dispositivo esté claramente identificado y cumpla su función en la red interna de Proxmox.
+</details>
 
-En el Entorno Aula (con la red 100.77.20.0/24), contamos con acceso a internet y dispositivos físicos que se comunican con el router, mientras que en el Entorno Proxmox (red 10.20.30.0/24), hemos creado una red privada donde residen los servidores y servicios internos, proporcionando un entorno controlado para nuestro sistema.
-
-Cada dispositivo en Proxmox cumple un rol específico:
-
-- Router: conecta ambas redes, actúa como gateway y distribuye direcciones IP mediante DHCP en la red de Proxmox.
-- Pi-hole (10.20.30.2): configurado como servidor DNS, filtra y redirige las solicitudes DNS dentro de la red interna.
-- Cliente Nginx (10.20.30.20): ofrece el servicio web (Nginx) accesible desde la red del aula mediante una regla en IPTables.
-- Firebase: proporciona los servicios de base de datos y almacenamiento necesarios para el funcionamiento del gestor de contraseñas.
-En la imagen, los dispositivos que ofrecen servicios se encuentran subrayados en verde, mientras que aquellos que consumen servicios están subrayados en rojo.
-También se ha indicado si las IPs son estáticas para facilitar la configuración y el acceso a cada servicio. De esta forma, el diseño asegura que cada dispositivo esté claramente identificado y cumpla su función en la red interna de Proxmox.
-
-### Arquitectura de red final
-
-<div align="center">
-
+<details>
+  <summary>Imagen de arquitectura de red final 🔽</summary>
+  
   ![diagrama de red](assets_bf/diagrama_red_final.png)
+</details>
 
-  <br>
-
-| Máquinas         | IP                                         | IP Gateway                          | Red                           |
-|------------------|--------------------------------------------|-------------------------------------|-------------------------------|
-| Proxmox          | 100.77.20.113                              | 100.77.20.1                         | 100.77.20.0/24                |
-| VM Ubuntu Router | 100.77.20.77 (externa)<br>10.20.30.1 (interna) | 100.77.20.1 (externa)<br>10.20.30.1 (interna) | vmbr0 (100.77.20.0/24)<br>vmbr1 (10.20.30.0/24) |
-| VM Ubuntu Cliente| DHCP                                       | 10.20.30.1                          | vmbr1 (10.20.30.0/24)         |
-| Nginx            | DHCP (fija por MAC a la IP 10.20.30.20)    | 10.20.30.1                          | vmbr1 (10.20.30.0/24)         | 
-| Pihole           | 10.20.30.5                                 | 10.20.30.1                          | vmbr1 (10.20.30.0/24)         |
-| FireBase         | 10.20.30.6                                 | 10.20.30.1                          | vmbr1 (10.20.30.0/24)         |
-</div>
+<details>
+  <summary>Tabla de arquitectura de red final 🔽</summary>
+  
+  | Máquinas         | IP                                         | IP Gateway                          | Red                           |
+  |------------------|--------------------------------------------|-------------------------------------|-------------------------------|
+  | Proxmox          | 100.77.20.113                              | 100.77.20.1                         | 100.77.20.0/24                |
+  | VM Ubuntu Router | 100.77.20.77 (externa)<br>10.20.30.1 (interna) | 100.77.20.1 (externa)<br>10.20.30.1 (interna) | vmbr0 (100.77.20.0/24)<br>vmbr1 (10.20.30.0/24) |
+  | VM Ubuntu Cliente| DHCP                                       | 10.20.30.1                          | vmbr1 (10.20.30.0/24)         |
+  | Nginx            | DHCP (fija por MAC a la IP 10.20.30.20)    | 10.20.30.1                          | vmbr1 (10.20.30.0/24)         | 
+  | Pihole           | 10.20.30.5                                 | 10.20.30.1                          | vmbr1 (10.20.30.0/24)         |
+  | FireBase         | 10.20.30.6                                 | 10.20.30.1                          | vmbr1 (10.20.30.0/24)         |
 </details>
 
 ## Configuración de ROUTER
 <details>
-  <summary></summary>
-Primero configuramos la red del router. Para ello cambiaremos el netplan ajustando las IP según la red interna previamente creada o la externa.Con ens18 identificaremos la red exterior y con ens19 la red interna.
-Además, hemos implementado el servicio de DHCP en el router para que todos los dispositivos que estén dentro de la red virtual puedan obtener una IP sin necesidad de asignarla manualmente.
-
-### Configuración de DHCP
-Para configurar el servicio DHCP, primero lo instalaremos en el router con el comando correspondiente. Luego crearemos una copia de seguridad del archivo de configuración para conservar la configuración original. Procederemos a editar el archivo de configuración y, en nuestro caso, hemos asignado el rango de IPs de *10.20.30.20* a *10.20.30.50*.
-
-También configuraremos la IP *10.20.30.20* para que siempre se asigne a la máquina que contiene el servicio de Nginx. Esto nos permitirá abrir el puerto 80 con IPTables y dirigirlo hacia esta dirección IP, logrando que podamos acceder a nuestra página de Nginx desde los ordenadores del aula. Además, modificaremos el archivo ```isc-dhcp-server``` para indicar al router que funcione como servidor DHCP en la interfaz ens19.
+  <summary>Explicación 🔽</summary>
+  Primero configuramos la red del router. Para ello cambiaremos el netplan ajustando las IP según la red interna previamente creada o la externa. Con ens18 identificaremos la red exterior y con ens19 la red interna.
+  Además, hemos implementado el servicio de DHCP en el router para que todos los dispositivos que estén dentro de la red virtual puedan obtener una IP sin necesidad de asignarla manualmente.
+  
+  ### Configuración de DHCP
+  Para configurar el servicio DHCP, primero lo instalaremos en el router con el comando correspondiente. Luego crearemos una copia de seguridad del archivo de configuración para conservar la configuración original. Procederemos a editar el archivo de configuración y, en nuestro caso, hemos asignado el rango de IPs de *10.20.30.20* a *10.20.30.50*.
+  
+  También configuraremos la IP *10.20.30.20* para que siempre se asigne a la máquina que contiene el servicio de Nginx. Esto nos permitirá abrir el puerto 80 con IPTables y dirigirlo hacia esta dirección IP, logrando que podamos acceder a nuestra página de Nginx desde los ordenadores del aula. Además, modificaremos el archivo ```isc-dhcp-server``` para indicar al router que funcione como servidor DHCP en la interfaz ens19.
 
 ```
 # comandos usados
@@ -253,15 +259,14 @@ sudo cp /etc/dhcp/dhcpd.conf /etc/dhcp/dhcpd.conf.BKP   # creación de la copia 
 sudo nano /etc/dhcp/dhcpd.conf                          # modificación del archivo de configuración
 sudo nano /etc/default/isc-dhcp-server                  # modificación del archivo de asiganción de interfaz
 ```
-
-### Configuración de IPTables
-Para permitir que el cliente tenga acceso a la red exterior, debemos instalar y configurar IPTables en el router para habilitar el redireccionamiento del tráfico. Para ello, modificaremos el archivo ```/etc/sysctl.conf```. Dentro de este archivo, descomentaremos una línea que permitirá reenviar el tráfico entre las diferentes interfaces de red hacia el router que tenemos en Proxmox.
-
-También añadiremos una regla para permitir el tránsito por el puerto 80 y, de este modo, poder acceder al servicio de Nginx desde un ordenador del aula, que está fuera de la red interna de Proxmox.
-
-En el archivo de configuración, verificaremos si hay alguna regla habilitada en IPTables y añadiremos una nueva para realizar el enmascaramiento NAT en el tráfico saliente de la interfaz de red ens18. Configuraremos una regla que permita que el tráfico de la red interna fluya hacia la red externa. Por último, añadiremos una regla adicional para que las solicitudes desde la red interna puedan regresar, logrando así una comunicación bidireccional.
-
-Una vez finalizadas las configuraciones de IPTables, guardaremos dichas reglas con el comando adecuado. Para que las reglas de IPTables se mantengan después de reiniciar el sistema, instalaremos el paquete *iptables-persistent*.
+  
+  ### Configuración de IPTables
+  Para permitir que el cliente tenga acceso a la red exterior, debemos instalar y configurar IPTables en el router para habilitar el redireccionamiento del tráfico. Para ello, modificaremos el archivo ```/etc/sysctl.conf```. Dentro de este archivo, descomentaremos una línea que permitirá reenviar el tráfico entre las diferentes interfaces de red hacia el router que tenemos en Proxmox.
+  
+  También añadiremos una regla para permitir el tránsito por el puerto 80 y, de este modo, poder acceder al servicio de Nginx desde un ordenador del aula, que está fuera de la red interna de Proxmox.
+  En el archivo de configuración, verificaremos si hay alguna regla habilitada en IPTables y añadiremos una nueva para realizar el enmascaramiento NAT en el tráfico saliente de la interfaz de red ens18. Configuraremos una regla que permita que el tráfico de la red interna fluya hacia la red externa. Por último, añadiremos una regla adicional para que las solicitudes desde la red interna puedan regresar, logrando así una comunicación bidireccional.
+  
+  Una vez finalizadas las configuraciones de IPTables, guardaremos dichas reglas con el comando adecuado. Para que las reglas de IPTables se mantengan después de reiniciar el sistema, instalaremos el paquete *iptables-persistent*.
 
 ```
 # comandos usados para la configuración principal de IPtables
@@ -273,67 +278,60 @@ sudo iptables -A FORWARD -i ens19 -o ens18 -m state --state ESTABLISHED,RELATED 
 sudo iptables-save                                                                         # guardar reglas de IPtables
 ```
 
-Para permitir que los ordenadores del aula puedan conectarse a nuestro servicio de Nginx en el puerto 80 (IP externa: 100.77.20.77:80), hemos añadido una nueva regla en IPTables para redirigir el tráfico al servidor Nginx especificando su dirección IP.
+  Para permitir que los ordenadores del aula puedan conectarse a nuestro servicio de Nginx en el puerto 80 (IP externa: 100.77.20.77:80), hemos añadido una nueva regla en IPTables para redirigir el tráfico al servidor Nginx especificando su dirección IP.
 
 ```
 # comando usado para añadir regla de reenvio de puerto 80
 
 sudo iptables -t nat -A PREROUTING -i ens18 -p tcp --dport 80 -j DNAT --to-destination 10.20.30.20:80
 ```
-
+</details>
 
 > 📎 [**Ver _anexo 2_ para configuración del Router**](#anexo-2-configuración-del-router)
 >
 > 🚩 [Ver informe de errores.](#errores-con-el-router)
-</details>
 
 ## Configuración de CLIENTE
 <details>
-  <summary></summary>
-Configuramos la red del router cambiando el netplan para usar la interfaz ens19 con una IP dentro de la red. Como aún no hemos configurado ningún servicio DHCP, asignaremos la IP estática 10.20.30.5.
-Una vez tengamos el servicio DHCP configurado, modificaremos nuevamente el netplan para conseguir que la interfaz obtenga una IP dinámica.
+  <summary>Explicación 🔽</summary>
+  Configuramos la red del router cambiando el netplan para usar la interfaz ens19 con una IP dentro de la red. Como aún no hemos configurado ningún servicio DHCP, asignaremos la IP estática 10.20.30.5.
+  Una vez tengamos el servicio DHCP configurado, modificaremos nuevamente el netplan para conseguir que la interfaz obtenga una IP dinámica.
+  
+  ### Comprobación de conexión entre máquinas
+  Una vez configurado el netplan tanto en el router como en el cliente, realizamos un ping entre ambas máquinas para comprobar que hay conexión dentro de la red NAT que hemos creado.
+  Tras verificar el correcto funcionamiento de la red, haremos un ping desde el router y el cliente hacia la red exterior, como por ejemplo a "google.com". Si obtenemos conexión, podremos concluir que tanto el router como el cliente están bien configurados.
+</details>
 
 > 📎[**Ver _anexo 3_ para configuración del Cliente**](#anexo-3-configuración-del-cliente)
-</details>
-
-## Comprobación de conexión entre máquinas
-<details>
-  <summary></summary>
-Una vez configurado el netplan tanto en el router como en el cliente, realizamos un ping entre ambas máquinas para comprobar que hay conexión dentro de la red NAT que hemos creado.
-Tras verificar el correcto funcionamiento de la red, haremos un ping desde el router y el cliente hacia la red exterior, como por ejemplo a "google.com". Si obtenemos conexión, podremos concluir que tanto el router como el cliente están bien configurados.
-
-> 📎 [**Ver _anexo 4_ para verificación de configuración**](#anexo-4-verificación-de-configuración)
-</details>
 
 ## Configuración de Servidor DNS
 <details>
-  <summary></summary>
-Para crear un servidor DNS dentro de nuestra red interna, hemos decidido usar la herramient pi-hole y ejecutarla dentro de un contenedor ya que nunca habiamos usado pihole ni contendores y asi hemos podido hacer una primera toma de contacto con ambos.
-Despues de crear el contenedor de proxmox con el hardware especificado en la tabla "Arquitectura del sistema" usamos el comando que te indican en la pagina oficial de pi-hole
+  <summary>Explicación 🔽</summary>
+  
+  Para crear un servidor DNS dentro de nuestra red interna, hemos decidido usar la herramient pi-hole y ejecutarla dentro de un contenedor ya que nunca habiamos usado pihole ni contendores y asi hemos podido hacer una primera toma de contacto con ambos.
+  Despues de crear el contenedor de proxmox con el hardware especificado en la tabla "Arquitectura del sistema" usamos el comando que te indican en la pagina oficial de pi-hole.
+  
 ```
 git clone --depth 1 https://github.com/pi-hole/pi-hole.git Pi-hole
 cd "Pi-hole/automated install/"
 sudo bash basic-install.sh
 ```
-Lo tenemos que hacer con "git clone" ya que en el propio contenedor el comando "curl" no lo reconoce. 
-Una vez hecho esto trabajaremos todo el servidor DNS dentro del archivo ```/etc/resolv.conf```.
-Pondremos todas las lineas de ese archivo, comentadas.
-Añadiremos la linea "nameserver 127.0.0.1" para que el mismo contenedor de pi-hole sea su propio servidor DNS.
+  Lo tenemos que hacer con "git clone" ya que en el propio contenedor el comando "curl" no lo reconoce. 
+  Una vez hecho esto trabajaremos todo el servidor DNS dentro del archivo ```/etc/resolv.conf```.
+  Pondremos todas las lineas de ese archivo, comentadas.
+  Añadiremos la linea "nameserver 127.0.0.1" para que el mismo contenedor de pi-hole sea su propio servidor DNS.
+</details>
 
-> 📎 [**Ver _anexo 5_ para configuración Pi-hole**](#anexo-5-configuración-pi-hole)
+> 📎 [**Ver _anexo 4_ para configuración Pi-hole**](#anexo-4-configuración-pi-hole)
 > 
 > 🚩 [Ver informe de errores.](#errores-pi-hole-dns-server)
-</details>
 
 ## Configuración de Base de Datos
 <details>
-  <summary></summary>
-Para nuestro proyecto, crearemos una máquina que alojará nuestra base de datos. En lugar de usar una base de datos relacional como MySQL, optaremos por una base de datos no relacional gracias a Firebase.
+  <summary>Explicación 🔽</summary>
+  Para nuestro proyecto, crearemos una máquina que alojará nuestra base de datos. En lugar de usar una base de datos relacional como MySQL, optaremos por una base de datos no relacional gracias a Firebase.
 
-> [!WARNING]
-> Falta añadir info
-
-Los datos obtenidos de los usuarios se almacenará de la siguiente manera:
+  Los datos obtenidos de los usuarios se almacenará de la siguiente manera:
 
 ```
 APPS (Colección)
@@ -360,28 +358,31 @@ USUARIOS (Colección)
 └── user_id_2
     └── ...
 ```
+</details>
 
-> 📎 [**Ver _anexo 6_ para configuración de la base de datos**](#anexo-6-configuración-base-de-datos)
+> 📎 [**Ver _anexo 5_ para configuración de la base de datos**](#anexo-5-configuración-base-de-datos)
 > 
 > 🚩 [Ver informe de errores.](#errores-con-la-base-de-datos-firebase)
-</details>
+
+> [!WARNING]
+> Falta añadir info
 
 ## Configuración de Nginx
 <details>
-  <summary></summary>
-NGINX es un servidor web open source de alta performance que ofrece el contenido estático de un sitio web de forma rápida y fácil de configurar.
-
-Para nuestro proyecto, el uso del servicio Nginx no es estrictamente necesario, pero realizaremos una instalación sencilla para demostrar cómo se llevaría a cabo su configuración. 
-Como ya hemos creado una regla en el router que permite el acceso a la web desde los ordenadores del aula, nos resultará más fácil comprobar que la configuración de Nginx se realiza correctamente.
-
-Primero, configuramos el archivo ```gtx.com.conf``` en el directorio de configuración de Nginx, ubicado en ```/etc/nginx/sites-available/```.
-
-Dentro de ```gtx.com.conf```, especificamos que el servidor escuche en el puerto 80 y definimos el nombre del servidor como *gtx.com*. 
-Además, configuramos rutas específicas para almacenar los logs de errores y de acceso, facilitando así un mejor seguimiento de las solicitudes HTTP atendidas por Nginx. 
-Indicamos también el directorio raíz donde se almacenarán los archivos de la página web y definimos el archivo de inicio (index.html, ya que no usamos index.php en este proyecto). 
-No incluimos *index.php* porque nuestra base de datos es *NoSQL*, y no requerimos PHP en el sitio web.
-
-Para habilitar el sitio, creamos un enlace simbólico desde *sites-available* a *sites-enabled*.
+  <summary>Explicación 🔽</summary>
+  NGINX es un servidor web open source de alta performance que ofrece el contenido estático de un sitio web de forma rápida y fácil de configurar.
+  
+  Para nuestro proyecto, el uso del servicio Nginx no es estrictamente necesario, pero realizaremos una instalación sencilla para demostrar cómo se llevaría a cabo su configuración. 
+  Como ya hemos creado una regla en el router que permite el acceso a la web desde los ordenadores del aula, nos resultará más fácil comprobar que la configuración de Nginx se realiza correctamente.
+  
+  Primero, configuramos el archivo ```gtx.com.conf``` en el directorio de configuración de Nginx, ubicado en ```/etc/nginx/sites-available/```.
+  Dentro de ```gtx.com.conf```, especificamos que el servidor escuche en el puerto 80 y definimos el nombre del servidor como *gtx.com*. 
+  
+  Además, configuramos rutas específicas para almacenar los logs de errores y de acceso, facilitando así un mejor seguimiento de las solicitudes HTTP atendidas por Nginx. 
+  Indicamos también el directorio raíz donde se almacenarán los archivos de la página web y definimos el archivo de inicio (index.html, ya que no usamos index.php en este proyecto). 
+  No incluimos *index.php* porque nuestra base de datos es *NoSQL*, y no requerimos PHP en el sitio web.
+  
+  Para habilitar el sitio, creamos un enlace simbólico desde *sites-available* a *sites-enabled*.
 
 ```
 # copiamos el archivo default preinstalado en un nuevo archivo llamado gtx.com.conf
@@ -391,8 +392,8 @@ sudo cp /etc/nginx/sites-available/default /etc/nginx/sites-available/gtx.com.co
 sudo ln -s /etc/nginx/sites-available/gtx.com.conf /etc/nginx/sites-enabled/
 ````
 
-### Crear el Directorio del Sitio Web
-Creamos un nuevo directorio dentro de ```/var/www/``` para almacenar todos los archivos de la página web y luego clonamos el repositorio de la web desde Git en este directorio, permitiendo así que podamos visualizar la página web desde los equipos del aula al acceder a la IP pública del router (100.77.20.77) en el puerto 80.
+  ### Crear el Directorio del Sitio Web
+  Creamos un nuevo directorio dentro de ```/var/www/``` para almacenar todos los archivos de la página web y luego clonamos el repositorio de la web desde Git en este directorio, permitiendo así que podamos visualizar la página web desde los equipos del aula al acceder a la IP pública del router (100.77.20.77) en el puerto 80.
 
 ```
 # creación del direcctorio
@@ -402,92 +403,88 @@ sudo mkdir -p /var/www/gtx.com
 git clone <URL_DEL_REPOSITORIO> /var/www/gtx.com
 ```
 
-### Configuración DNS en Pi-hole
-Para facilitar el acceso a la página web en la red interna de Proxmox, añadimos un registro DNS en Pi-hole para que gestorgtx.com resuelva a la IP interna del servidor Nginx (10.20.30.20). Esta configuración se realizó desde la interfaz gráfica de Pi-hole. 
-Ahora, al buscar gestorgtx.com en la red interna de Proxmox, los dispositivos obtienen la dirección interna y pueden acceder directamente a la página web alojada en Nginx.
+  ### Configuración DNS en Pi-hole
+  Para facilitar el acceso a la página web en la red interna de Proxmox, añadimos un registro DNS en Pi-hole para que gestorgtx.com resuelva a la IP interna del servidor Nginx (10.20.30.20). Esta configuración se realizó desde la interfaz gráfica de Pi-hole. 
+  Ahora, al buscar gestorgtx.com en la red interna de Proxmox, los dispositivos obtienen la dirección interna y pueden acceder directamente a la página web alojada en Nginx.
+</details>
 
-> 📎 [**Ver _anexo 7_ para configuración de Nginx**](#anexo-7-configuración-nginx)
+> 📎 [**Ver _anexo 6_ para configuración de Nginx**](#anexo-6-configuración-nginx)
 > 
 > 🚩 [Ver informe de errores.](#errores-con-nginx)
-</details>
 
 <hr>
 
 # 📎 Anexos
 ## Anexo 1 (entorno ProxMox)
 <details>
-  <summary></summary>
+  <summary>Ver anexo 🔽</summary>
   
-### Adaptador puente
-![adaptador puente](assets_bf/adaptador_puente_prox.png)
-### Interfaz de red para el router
-![interfaz red router](assets_bf/interfaz_red_router.png)
-### Borrador de arquitectura de red inicial
-![diagrama de red](assets_bf/diagrama_red.png)
-### Panel de configuración para activar QEMU
-![configuración de proxmox qemu](assets_bf/qemuproxmox.png)
+  ### Adaptador puente
+  ![adaptador puente](assets_bf/adaptador_puente_prox.png)
+  ### Interfaz de red para el router
+  ![interfaz red router](assets_bf/interfaz_red_router.png)
+  ### Borrador de arquitectura de red inicial
+  ![diagrama de red](assets_bf/diagrama_red.png)
+  ### Panel de configuración para activar QEMU
+  ![configuración de proxmox qemu](assets_bf/qemuproxmox.png)
 </details>
 
 ## Anexo 2 (configuración del Router)
 <details>
-  <summary></summary>
+  <summary>Ver anexo 🔽</summary>
   
-### Netplan del router
-![netplan de router](assets_bf/netplan_router.png)
-### Archivo sysctl
-![sysctl](assets_bf/sysctl.png)
-### Archivo de configuración DHCP en el router
-![configuracion dhcp](assets_bf/configuracion_dhcp.png)
-### Archivo de configuración DHCP-ISC en el router
-![configuracion isc](assets_bf/router_isc_dhcp.png)
-### Configuración IPtables
-![configuracion iptables](assets_bf/iptables.png)
-### Instalación IPtablesPersistent
-![menu iptablespersistent](assets_bf/iptablespersistent.png)
+  ### Netplan del router
+  ![netplan de router](assets_bf/netplan_router.png)
+  ### Archivo sysctl
+  ![sysctl](assets_bf/sysctl.png)
+  ### Archivo de configuración DHCP en el router
+  ![configuracion dhcp](assets_bf/configuracion_dhcp.png)
+  ### Archivo de configuración DHCP-ISC en el router
+  [configuracion isc](assets_bf/router_isc_dhcp.png)
+  ### Configuración IPtables
+  ![configuracion iptables](assets_bf/iptables.png)
+  ### Instalación IPtablesPersistent
+  ![menu iptablespersistent](assets_bf/iptablespersistent.png)
 </details>
 
 ## Anexo 3 (configuración del Cliente)
 <details>
-  <summary></summary>
+  <summary>Ver anexo 🔽</summary>
   
-### Netplan inicial del cliente con IP estática
-![netplan de cliente](assets_bf/netplan_cliente.png)
-### Netplan final del cliente con IP dinámica
-![netplan de cliente con dhcp](assets_bf/netplan_cliente_dhcp.png)
-</details>
-
-## Anexo 4 (verificación de configuración)
-<details>
-  <summary></summary>
+  ### Netplan inicial del cliente con IP estática
+  ![netplan de cliente](assets_bf/netplan_cliente.png)
+  ### Netplan final del cliente con IP dinámica
+  ![netplan de cliente con dhcp](assets_bf/netplan_cliente_dhcp.png)
   
-### Conexión entre máquinas
-![ping maquinas](assets_bf/pingmaquinas.png)
-### Conexión hacia red exterior con IP estática
-![ping a google](assets_bf/pinggoogle.png)
-### Conexión hacia red exterior con IP dinámica + comprovación de conexión hacia la red exterior.
-![verificación final cliente](assets_bf/configuracion_cliente_dhcp.png)
+  ## Comprobación de conexión entre máquinas
+  ### Conexión entre máquinas
+  ![ping maquinas](assets_bf/pingmaquinas.png)
+  ### Conexión hacia red exterior con IP estática
+  ![ping a google](assets_bf/pinggoogle.png)
+  ### Conexión hacia red exterior con IP dinámica + comprovación de conexión hacia la red exterior.
+  ![verificación final cliente](assets_bf/configuracion_cliente_dhcp.png)
 </details>
 
-## Anexo 5 (configuración Pi-hole)
+## Anexo 4 (configuración Pi-hole)
 <details>
-  <summary></summary>
+  <summary>Ver anexo 🔽</summary>
   
-### Archivo de resolución DNS
-![configuración de archivo pi-hole](assets_bf/resolvconf.png)
-### Archivo de automatización de arranque persistente
-![configuración de archivo pi-hole arranque](assets_bf/crontab.png)
+  ### Archivo de resolución DNS
+  ![configuración de archivo pi-hole](assets_bf/resolvconf.png)
+  ### Archivo de automatización de arranque persistente
+  ![configuración de archivo pi-hole arranque](assets_bf/crontab.png)
 </details>
 
-## Anexo 6 (configuración Base de Datos)
+## Anexo 5 (configuración Base de Datos)
 <details>
-  <summary></summary>
-falta introducir imagenes
+  <summary>Ver anexo 🔽</summary>
+  falta introducir imagenes
 </details>
 
-## Anexo 7 (configuración Nginx)
+## Anexo 6 (configuración Nginx)
 <details>
-  <summary></summary>
-falta introducir imagenes
+  <summary>Ver anexo 🔽</summary>
+  falta introducir imagenes
 </details>
 
 <hr>
@@ -497,39 +494,40 @@ En este apartado se encuantran todas las dificultades y errores que han ido surg
 
 ## Errores con el router
 <details>
-  <summary></summary>
+  <summary>Ver informe 🔽</summary>
 A la hora de configurar el router, tuvimos sobre todo problemas con errores tipográficos. Esto sucedió tanto en la configuración de Netplan como en la configuración de las reglas de IPtables.
 Además, tuvimos varios problemas al intentar guardar las reglas de IPtables, ya que, al reiniciar el router, algunas reglas desaparecían. Esto ocurría porque las reglas no se guardaban de modo persistente.
 </details>
   
 ## Errores Pi-hole DNS Server
 <details>
-  <summary></summary>
-En la version de **Proxmox 8.2.2**, el archivo ```/etc/resolv.conf```` se sobrescribe automáticamente dos veces al reiniciar el contenedor debido a:
-
-**1a vez:** *Servicio systemd-resolved:* Modifica el archivo de configuración DNS, de manera automática.
-
-**2a vez:** *Proxmox:* Sobrescribe el archivo durante el inicio del contenedor.
-
-Esto provoca que:
-  **No** podemos modificar manualmente el archivo /etc/resolv.conf.
-  **No** se pueden ejecutar scripts que cambien el archivo en el arranque del contenedor.
-  **No** se puede filtrar el tráfico DNS adecuadamente.
-  El DNS **siempre** se establece en 8.8.8.8, ignorando configuraciones internas.
-  Entre muchas otras conseqüencias...
+  <summary>Ver informe 🔽</summary>
   
-✅**SOLUCIÓN**
+  En la version de **Proxmox 8.2.2**, el archivo ```/etc/resolv.conf``` se sobrescribe automáticamente dos veces al reiniciar el contenedor debido a:
 
-**Paso 1:** *Detener el servicio systemd-resolved*
+  **1a vez:** *Servicio systemd-resolved:* Modifica el archivo de configuración DNS, de manera automática.
 
-Detenemos el servicio para evitar que sobrescriba el archivo DNS.
+  **2a vez:** *Proxmox:* Sobrescribe el archivo durante el inicio del contenedor.
+
+  Esto provoca que:
+    **No** podemos modificar manualmente el archivo /etc/resolv.conf.
+    **No** se pueden ejecutar scripts que cambien el archivo en el arranque del contenedor.
+    **No** se puede filtrar el tráfico DNS adecuadamente.
+    El DNS **siempre** se establece en 8.8.8.8, ignorando configuraciones internas.
+    Entre muchas otras conseqüencias...
+    
+  ✅**SOLUCIÓN**
+  **Paso 1:** *Detener el servicio systemd-resolved*
+  Detenemos el servicio para evitar que sobrescriba el archivo DNS.
+  
 ```
 systemctl disable systemd-resolved
 systemctl stop systemd-resolved
 ```
-**Paso 2:** *Configurar DNS en cada arranque. utilizando ```crontab```*
 
-Modificar el archivo crontab, ya que este archivo ejecuta instrucciones de manera persistente.
+  **Paso 2:** *Configurar DNS en cada arranque. utilizando ```crontab```*
+
+  Modificar el archivo crontab, ya que este archivo ejecuta instrucciones de manera persistente.
 
 ```
 #Localizacion del archivo /tmp/crontab.RwAtVi/crontab
@@ -537,13 +535,13 @@ crontab -e
 @reboot echo "nameserver 127.0.0.1" > /etc/resolv.conf #Añadir esta linea, dentro del archivo
 ```
 
-Esta línea asegura que el archivo ```/etc/resolv.conf``` apunte al servidor DNS local (127.0.0.1) en cada reinicio, evitando sobrescrituras por parte de Proxmox o systemd-resolved.
-Con estos pasos, se asegura que el contenedor de Pi-hole utilice su propio servidor DNS de manera persistente, permitiendo un filtrado efectivo del tráfico DNS y manteniendo la configuración deseada entre reinicios.
+  Esta línea asegura que el archivo ```/etc/resolv.conf``` apunte al servidor DNS local (127.0.0.1) en cada reinicio, evitando sobrescrituras por parte de Proxmox o systemd-resolved.
+  Con estos pasos, se asegura que el contenedor de Pi-hole utilice su propio servidor DNS de manera persistente, permitiendo un filtrado efectivo del tráfico DNS y manteniendo la configuración deseada entre reinicios.
 </details>
 
 ## Errores con la base de datos FireBase
 <details>
-  <summary></summary>
+  <summary>Ver informe 🔽</summary>
 
 > problemas a la hora de desplegar la web por carpeta public erronea
 > 
@@ -554,22 +552,22 @@ Con estos pasos, se asegura que el contenedor de Pi-hole utilice su propio servi
 
 ## Errores con Nginx
 <details>
-  <summary></summary>
-Inicialmente, Nginx no funcionaba debido a un conflicto con el puerto 80, ya que había un servicio Apache2 ejecutándose y bloqueando el puerto. 
+  <summary>Ver informe 🔽</summary>
+  Inicialmente, Nginx no funcionaba debido a un conflicto con el puerto 80, ya que había un servicio Apache2 ejecutándose y bloqueando el puerto. 
 
-✅**SOLUCIÓN**
+  ✅**SOLUCIÓN**
 
-**Paso 1:** *Detener el servicio Apache2*
+  **Paso 1:** *Detener el servicio Apache2*
 
-Detuvimos y deshabilitamos Apache2 con los siguientes comandos:
+  Detuvimos y deshabilitamos Apache2 con los siguientes comandos:
 
 ```
 sudo systemctl stop apache2
 sudo systemctl disable apache2
 ```
 
-**Paso 2:** *Reiniciar el sercicio Nginx*
-Después de detener Apache2, reiniciamos Nginx y verificamos que el servicio funcionara correctamente.
+  **Paso 2:** *Reiniciar el sercicio Nginx*
+  Después de detener Apache2, reiniciamos Nginx y verificamos que el servicio funcionara correctamente.
 
 ```
 sudo systemctl restart nginx
