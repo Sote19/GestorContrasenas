@@ -501,8 +501,12 @@ git clone <URL_DEL_REPOSITORIO> /var/www/gtx.com
   <summary>Ver anexo 🔽</summary>
   
   ### Archivo de resolución DNS
+  La única línea no comentada, que debe existir en el archivo ```/etc/resolv.conf```, debe ser la siguiente, para que el servidor se haga de DNS al mismo usando 127.0.0.1.
+  
   ![configuración de archivo pi-hole](assets_bf/resolvconf.png)
   ### Archivo de automatización de arranque persistente
+  El archivo anterior, se actualiza automáticamente por culpa de la [configuración predeterminada](#errores-pi-hole-dns-server) del *contenedor* y del mismo *proxmox*, haciendo asi que la unica manera de solucionarlo sea modificando directamente el archivo ```/tmp/crontab.7mqIpj/crontab```.
+  
   ![configuración de archivo pi-hole arranque](assets_bf/crontab.png)
 </details>
 
