@@ -420,12 +420,16 @@ git clone <URL_DEL_REPOSITORIO> /var/www/gtx.com
   <summary>Ver anexo 🔽</summary>
   
   ### Adaptador puente
+  Asignamos al router que use un adaptador puente para que pueda comunicar el interior de la red, con el exterior. Esto lo hacemos configurando el vmbr0 con la red externa y añadiendo un nuevo adaptador vmbr 1 con la ip de la red interna.
   ![adaptador puente](assets_bf/adaptador_puente_prox.png)
   ### Interfaz de red para el router
+  Aquí podemos ver que una vez realizadas las acciones de la imagen anterior, el router ya nos reconocerá como hardware, las dos interfaces de red.
   ![interfaz red router](assets_bf/interfaz_red_router.png)
   ### Borrador de arquitectura de red inicial
+  Esta es la arquitectura de red que usamos inicialmente para guiarnos durante la configuración de todo nuestro entorno, la usamos como base y una vez creada y configurada, le fuimos añadiendo servicios y equipos para mejorar la seguridad y el funcionamiento.
   ![diagrama de red](assets_bf/diagrama_red.png)
   ### Panel de configuración para activar QEMU
+  Activamos y configuramos la función QEMU, para que nos sea mucho más fácil trabajar con las IP's existentes sin necesidad de acceder a la máquina.
   ![configuración de proxmox qemu](assets_bf/qemuproxmox.png)
 </details>
 
@@ -434,16 +438,23 @@ git clone <URL_DEL_REPOSITORIO> /var/www/gtx.com
   <summary>Ver anexo 🔽</summary>
   
   ### Netplan del router
-  ![netplan de router](assets_bf/netplan_router.png)
+  Esta configuración es extremadamente importante para que el router garantice la total comunicación entre la red interna y la externa, en la primera parte vemos la configuración para la red 100.77.20.0/24 (externa) y en la segunda parte 10.20.30.0/24 (interna).
+  [netplan de router](assets_bf/netplan_router.png)
   ### Archivo sysctl
+  Configuramos el router para que pueda hacer de gateway y pueda enrutar el tráfico de red para garantizar la comunicación en las redes presentes en el archivo "netplan".
   ![sysctl](assets_bf/sysctl.png)
   ### Archivo de configuración DHCP en el router
+  Añadimos y modificamos las lineas necesarias en para que el router haga de DHCP en la red 10.20.30.0/24. Para garantizar la seguridad y la redundancia de IP's dentro de esta red, ademas configuramos una linea para que empiece a asignar IP's a partir de la 10.20.30.20, para poder añadir contenedores, equipos y servidores sin que afecten a la asignacion de IP's.
   ![configuracion dhcp](assets_bf/configuracion_dhcp.png)
   ### Archivo de configuración DHCP-ISC en el router
+  Con estas líneas le pedimos al router que asigne direcciones IP solo en la interfaz ens19 para IPv4, usando las rutas de configuración y PID predeterminadas. No está configurado para IPv6.
   [configuracion isc](assets_bf/router_isc_dhcp.png)
   ### Configuración IPtables
+  PREROUTING: Redirige el tráfico entrante en el puerto 80 (HTTP) de la interfaz ens18 hacia la IP interna 10.20.30.20:80.
+  POSTROUTING: Aplica MASQUERADE en la interfaz ens18, permitiendo que las direcciones IP privadas salgan a Internet usando la IP pública de la interfaz.
   ![configuracion iptables](assets_bf/iptables.png)
   ### Instalación IPtablesPersistent
+  Permitimos que las IPTables sean persistentes. Para que no se borren ni se sobreescriban.
   ![menu iptablespersistent](assets_bf/iptablespersistent.png)
 </details>
 
