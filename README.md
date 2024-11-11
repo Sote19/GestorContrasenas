@@ -83,6 +83,8 @@
   - Bootstrap
   - Node.JS
   - Cloudflare
+  - Pi-hole
+  - Nginx
 </details>
 
 >  [!NOTE]
