@@ -473,16 +473,26 @@ git clone <URL_DEL_REPOSITORIO> /var/www/gtx.com
   <summary>Ver anexo 🔽</summary>
   
   ### Netplan inicial del cliente con IP estática
+  Usaremos esta configuración si queremos configurar el cliente antes del DHCP del router, para poder trabajar siempre con la misma IP sin que busque un DHCP.
+  
   ![netplan de cliente](assets_bf/netplan_cliente.png)
   ### Netplan final del cliente con IP dinámica
+  Una vez tengamos el DCHP del router bien configurado, dejaremos el netplan del cliente con estas escasas líneas, para que la IP siempre sea asignada por el servidor de DHCP en este caso, el router.
+  
   ![netplan de cliente con dhcp](assets_bf/netplan_cliente_dhcp.png)
   
   ## Comprobación de conexión entre máquinas
   ### Conexión entre máquinas
+  Realizamos un ping entre el router y la máquina cliente, para asegurarnos de que todas las configuraciones están funcionando sin problema.
+  
   ![ping maquinas](assets_bf/pingmaquinas.png)
   ### Conexión hacia red exterior con IP estática
+  Y hacemos un ping hasta una IP que exista en la red interna, para ver si el router enruta correctamente los paquetes y comunica ambas redes.
+  
   ![ping a google](assets_bf/pinggoogle.png)
   ### Conexión hacia red exterior con IP dinámica + comprovación de conexión hacia la red exterior.
+  Aquí mostramos que todo funciona correctamente, viendo que la IP es asignada por el router y que sale el tráfico al exterior.
+  
   ![verificación final cliente](assets_bf/configuracion_cliente_dhcp.png)
 </details>
 
