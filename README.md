@@ -513,7 +513,10 @@ git clone <URL_DEL_REPOSITORIO> /var/www/gtx.com
 ## Anexo 5 (configuración Base de Datos)
 <details>
   <summary>Ver anexo 🔽</summary>
-  falta introducir imagenes
+
+  ### Archivo JS para comunicar web-firebase
+  Asignamos nuestras claves y la información necesaria en este script de JS, que te facilita el mismo Firebase. Para generar una conexión entre la página web y el servicio de firestore database.
+  ![Firebase connexión](assets_bf/conex_firebase.png)
 </details>
 
 ## Anexo 6 (configuración Nginx)
