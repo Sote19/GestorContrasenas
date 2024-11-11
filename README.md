@@ -443,7 +443,7 @@ git clone <URL_DEL_REPOSITORIO> /var/www/gtx.com
   
   ### Netplan del router
   Esta configuración es extremadamente importante para que el router garantice la total comunicación entre la red interna y la externa, en la primera parte vemos la configuración para la red 100.77.20.0/24 (externa) y en la segunda parte 10.20.30.0/24 (interna).
-  [netplan de router](assets_bf/netplan_router.png)
+  ![netplan de router](assets_bf/netplan_router.png)
   
   ### Archivo sysctl
   Configuramos el router para que pueda hacer de gateway y pueda enrutar el tráfico de red para garantizar la comunicación en las redes presentes en el archivo "netplan".
@@ -455,7 +455,7 @@ git clone <URL_DEL_REPOSITORIO> /var/www/gtx.com
   
   ### Archivo de configuración DHCP-ISC en el router
   Con estas líneas le pedimos al router que asigne direcciones IP solo en la interfaz ens19 para IPv4, usando las rutas de configuración y PID predeterminadas. No está configurado para IPv6.
-  [configuracion isc](assets_bf/router_isc_dhcp.png)
+  ![configuracion isc](assets_bf/router_isc_dhcp.png)
   
   ### Configuración IPtables
   PREROUTING: Redirige el tráfico entrante en el puerto 80 (HTTP) de la interfaz ens18 hacia la IP interna 10.20.30.20:80.
