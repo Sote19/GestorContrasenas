@@ -19,30 +19,30 @@ registro.addEventListener("submit", (e) => {
     } else {
         alert("Por favor, completa todos los campos.");
     }
-});
 
+    // Función para registrar al usuario
+    async function registrarUsuario(email, password, nombre) {
+        try {
+            // Crear un nuevo usuario con el correo electrónico y la contraseña
+            const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+            const user = userCredential.user;
 
-// Función para registrar al usuario
-async function registrarUsuario(email, password, nombre) {
-    try {
-        // Crear un nuevo usuario con el correo electrónico y la contraseña
-        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-        const user = userCredential.user;
+            // Guardar el nombre y correo del usuario en Firestore
+            await setDoc(doc(db, "USUARIOS", user.uid), {
+                nombre: nombre,
+                email: email
+            });
 
-        // Guardar el nombre y correo del usuario en Firestore
-        await setDoc(doc(db, "USUARIOS", user.uid), {
-            nombre: nombre,
-            email: email
-        });
+            // Alerta de éxito
+            alert("¡Registro exitoso!");
 
-        // Alerta de éxito
-        alert("¡Registro exitoso!");
-
-        // Redirigir a la página de bienvenida (cambia la URL según corresponda)
-        window.location.href = "gestorgtx.web.app/index.html"; // Cambia esto si tienes otra página de bienvenida
-    } catch (error) {
-        // Manejo de errores
-        console.error("Error al registrar el usuario:", error);
-        alert("Error al registrar el usuario: " + error.message);
+            // Redirigir a la página de bienvenida (cambia la URL según corresponda)
+            window.location.href = "index.html"; // Cambia esto si tienes otra página de bienvenida
+        } catch (error) {
+            // Manejo de errores
+            console.error("Error al registrar el usuario:", error);
+            alert("Error al registrar el usuario: " + error.message);
+        }
     }
-}
+
+});
