@@ -1,3 +1,6 @@
+import { auth } from './firebase.js';  // Asegúrate de que `auth` esté exportado en firebase.js
+import { signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-auth.js";
+
 // Manejador para mostrar/ocultar la contraseña
 document.getElementById('toggle-password').addEventListener('click', function () {
     var passwordInput = document.getElementById('password');
@@ -14,12 +17,30 @@ document.getElementById('toggle-password').addEventListener('click', function ()
     }
 });
 
-// Validación del formulario
-$(".my-login-validation").submit(function(event) {
-    var form = $(this);
-    if (form[0].checkValidity() === false) {
-        event.preventDefault();
-        event.stopPropagation();
+
+
+// Selecciona el formulario
+const loginForm = document.querySelector("form.my-login-validation");
+
+loginForm.addEventListener("submit", async (event) => {
+    event.preventDefault(); // Evita la recarga de la página al enviar el formulario
+
+    // Obtiene los valores de los campos de email y contraseña
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+
+    try {
+        // Intenta iniciar sesión con el email y contraseña proporcionados
+        const userCredential = await signInWithEmailAndPassword(auth, email, password);
+        const user = userCredential.user;
+
+        console.log("Inicio de sesión exitoso:", user);
+
+        // Redirige al usuario a la página de inicio si el inicio de sesión es exitoso
+        window.location.href = "inicio1.html"; // Cambia la URL a la página de inicio de tu aplicación
+    } catch (error) {
+        // Muestra un mensaje de error si hay un problema al iniciar sesión
+        console.error("Error en el inicio de sesión:", error);
+        alert("Error en el inicio de sesión: " + error.message);
     }
-    form.addClass('was-validated');
 });
