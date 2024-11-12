@@ -2,6 +2,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-app.js";
 import { getFirestore } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-firestore.js";
 import { getAuth } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-auth.js";
+import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-analytics.js";
 // https://firebase.google.com/docs/web/setup#available-libraries
 
 
@@ -20,7 +21,7 @@ const firebaseConfig = {
 // Inicializar Firebase y servicios
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
-const analytics = getAnalytics(app);
 const auth = getAuth(app);
+const analytics = getAnalytics(app);
 
-export {firebaseConfig, db, auth, analytics}
+export { firebaseConfig, db, auth, analytics };
