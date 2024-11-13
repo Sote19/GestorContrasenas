@@ -396,6 +396,7 @@ Firebase tiene la opción de modificar un elemento al que llama **reglas**, esta
 ´´´ REGLA ´´´
 Destacar, que una vez que toda la conexión este en funcionamiento, esta regla será modificada para garantizar la seguridad de la propia base de datos
 </details>
+
 ## Configuración de Nginx
 <details>
   <summary>Explicación 🔽</summary>
