@@ -1,4 +1,4 @@
-# ASIX2_Gestor de Contraseñas_GTX <br> Trabajo realizado por Gerard Soteras, Tim Kalugin y Xavi Conde
+ # ASIX2_Gestor de Contraseñas_GTX <br> Trabajo realizado por Gerard Soteras, Tim Kalugin y Xavi Conde
 
 ## 💡  Explicación de la idea del proyecto
 <details>
@@ -331,8 +331,9 @@ sudo bash basic-install.sh
 ## Configuración de Base de Datos
 <details>
   <summary>Explicación 🔽</summary>
-  Para nuestro proyecto, crearemos una máquina que alojará nuestra base de datos. En lugar de usar una base de datos relacional como MySQL, optaremos por una base de datos no relacional gracias a Firebase.
+  Para nuestro proyecto, crearemos una máquina que alojará nuestra base de datos. En lugar de usar una base de datos relacional como MySQL, optaremos por una base de datos no relacional gracias a Firebase. Ya que es un tipo de base de datos que hasta ahora no hemos visto y además en un entorno totalmente nuevo para nuestro desarrollo. Además, es un sistema que trabaja en tiempo real y almacena los datos en la nube, esto encaja a la perfección para nuestro proyecto.
 
+  Después de una investigación sobre el funcionamiento de las BD NO relacionales, nuestra primera propuesta para la Base de Datos es la que mostraremos a continuación, pero no descartamos cambios futuros.
   Los datos obtenidos de los usuarios se almacenará de la siguiente manera:
 
 ```
@@ -360,6 +361,19 @@ USUARIOS (Colección)
 └── user_id_2
     └── ...
 ```
+
+Para un mejor manejo de los datos abriremos el puerto 2220, para poder hacer la conexión *ssh máquina física* - *máquina firebase*.
+La instalación paso a paso nos la facilita el propio firebse, en la siguiente guía: https://firebase.google.com/docs/database/web/start?hl=es-419
+Instalamos firebase en la máquina virtual con ```sudo npm install -g firebase-tools``` y nos logeamos usando ```firebase login```, para empezara trabajar dentro de nuestro Firebase.
+> [!WARNING]
+> Imagen de CLI Firebase  con sesion iniciada
+
+
+
+A partir de aqui tenemos la opción de trabajar por comandos o en su interfaz gráfica que encontramos en la web. Nosotros hemos decidio crear la BD de manera gráfica.
+Y este seria su esquema final:
+> [!WARNING]
+> Esquema
 </details>
 
 > 📎 [**Ver _anexo 5_ para configuración de la base de datos**](#anexo-5-configuración-base-de-datos)
@@ -367,8 +381,21 @@ USUARIOS (Colección)
 > 🚩 [Ver informe de errores.](#errores-con-la-base-de-datos-firebase)
 
 > [!WARNING]
-> Falta añadir info
+> Falta añadir info y REGLAS DE SEGURIDAD
 
+## Configuración del hosting
+<details>
+  <summary>Explicación 🔽</summary>
+Hemos decidido hostear la página web en Firebase, ya que al tener la BD alojada en esa misma plataforma, evitaremos problemas futuros de vinculación o compatibilidad.
+La principal información que tenemos para iniciar el hosteo de la página web, es crear un archivo ```.js```, para añadir un script con las credenciales de nuestro Firebase.
+Aunque nosotros hemos tenido que aplicar algunos cambios a este, para garantizar el correcto funcionamiento del hosting:
+> [!WARNING]
+> Imagen del script
+
+Firebase tiene la opción de modificar un elemento al que llama **reglas**, estas nos permiten controlar el acceso a la base de datos y el almacenamiento. Para que no nos devuelva un error de conexión *archivos de la página web* *firebase hosting*, hemos tenido que modificar las reglas y permitir que los usuarios puedan modificar la base de datos, y asi quedaria la regla.
+´´´ REGLA ´´´
+Destacar, que una vez que toda la conexión este en funcionamiento, esta regla será modificada para garantizar la seguridad de la propia base de datos
+</details>
 ## Configuración de Nginx
 <details>
   <summary>Explicación 🔽</summary>
@@ -615,3 +642,6 @@ sudo systemctl restart nginx
 sudo systemctl status nginx
 ```
 </details>
+
+## Errores con Firebase Hosting
+Al hacer el deploy completo con el comando ```firebase deploy```, nos daba un error y no nos permitía finalizar el hosteo, investigando encontramos que era un error común y que la solución es especificar que solo haremos el deploy del hosteo, para evitar que otros elementos del propio Firebase, nos provoquen un error, esto lo haremos con ```firebase deploy --only hosting```.
