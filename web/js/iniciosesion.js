@@ -34,13 +34,17 @@ loginForm.addEventListener("submit", async (event) => {
         const userCredential = await signInWithEmailAndPassword(auth, email, password);
         const user = userCredential.user;
 
+
         console.log("Inicio de sesión exitoso:", user);
+
+         // Guardamos el usuario en localStorage
+         localStorage.setItem('user', JSON.stringify(user)); // Guardamos el usuario como un string
 
         // Redirige al usuario a la página de inicio si el inicio de sesión es exitoso
         window.location.href = "llavero.html"; // Cambia la URL a la página de inicio de tu aplicación
     } catch (error) {
         // Muestra un mensaje de error si hay un problema al iniciar sesión
-        console.error("Error en el inicio de sesión:", error);
-        alert("Error en el inicio de sesión: " + error.message);
+        console.error("Error en el inicio de sesión:");
+        alert("Error en el inicio de sesión: ");
     }
 });

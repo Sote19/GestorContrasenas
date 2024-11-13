@@ -1,6 +1,4 @@
-
 // formulario para añadir app
-
 document.addEventListener("DOMContentLoaded", () => {
     const togglePassword = document.querySelector("#togglePassword");
     const passwordInput = document.querySelector("#password");

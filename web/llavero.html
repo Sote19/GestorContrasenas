@@ -9,6 +9,21 @@
     <link rel="stylesheet" href="css/inicio1.css">
 </head>
 <body>
+    <script type="module">
+        import { getAuth, onAuthStateChanged } from "./js/firebase.js";
+
+        const auth = getAuth();
+
+        // Verifica si el usuario está autenticado antes de cargar la página
+        onAuthStateChanged(auth, (user) => {
+            if (!user) {
+                // Si no hay usuario autenticado, redirige a la página de inicio de sesión
+                window.location.href = "iniciosesion.html";
+            }
+        });
+    </script>
+
+
     <!-- Header -->
     <header class="bg-light py-3 mb-4 border-bottom shadow-sm">
         <div class="container">
@@ -16,6 +31,7 @@
                 <!-- Botón de perfil (icono) -->
                 <button class="btn btn-outline-dark rounded-circle d-flex justify-content-center align-items-center icono" style="width: 40px; height: 40px;">
                     <i class="bi bi-person"></i>
+                    <span id="user-name">Cargando...</span>
                 </button>
 
                 <!-- Menú de Navegación para pantallas grandes y botón hamburguesa para pantallas pequeñas -->
@@ -44,7 +60,7 @@
                 </nav>
 
                 <!-- Botón Cerrar Sesión -->
-                <button class="btn btn-danger">Cerrar Sesión</button>
+                <button class="btn btn-danger" id="logout-button">Cerrar Sesión</button>
             </div>
         </div>
     </header>
@@ -65,28 +81,7 @@
     </main>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        // Función para cargar las apps desde localStorage
-        function loadApps() {
-            const apps = JSON.parse(localStorage.getItem("apps")) || [];
-            const appList = document.getElementById("appList");
-
-            apps.forEach(app => {
-                const appButton = document.createElement("div");
-                appButton.className = "col-md-6";
-                appButton.innerHTML = `
-                    <button class="btn btn-outline-secondary w-100 py-3 app-btn shadow-sm app">
-                        <i class="bi bi-box"></i> ${app.appName} (Usuario: ${app.user})
-                    </button>
-                `;
-                appList.appendChild(appButton);
-            });
-        }
-
-        // Al cargar la página, cargar las apps
-        document.addEventListener("DOMContentLoaded", loadApps);
-    </script>
-    <script type="module" src="js/firebase.js"></script>
     <script type="module" src="js/app.js"></script>
+    <script type="module" src="js/llavero.js"></script>
 </body>
 </html>
