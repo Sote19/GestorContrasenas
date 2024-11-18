@@ -405,7 +405,7 @@ Destacar, que una vez que toda la conexión este en funcionamiento, esta regla s
 </details>
 
 <details>
-<summary> Script Vinculador </summary>
+<summary> Script Vinculador 🔽</summary>
  
 ![Script](assets_bf/script_js.png)
 </details>
