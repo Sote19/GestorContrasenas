@@ -373,13 +373,13 @@ Y este seria su esquema final:
 </details>
 
 <details>
-<summary>Imagen script Firebase 🔽</summary>
-![Init](assets_bf/firebase_init.png)
+ <summary>Imagen script Firebase 🔽</summary>
+ ![Init](assets_bf/firebase_init.png)
 </details>
 
 <details>
-<summary>Imagen estructura base de datos 🔽</summary>
-![Database](assets_bf/firebase_database.png)
+ <summary>Imagen estructura base de datos 🔽</summary>
+ ![Database](assets_bf/firebase_database.png)
 </details>
 
 
