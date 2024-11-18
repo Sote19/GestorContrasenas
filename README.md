@@ -367,16 +367,21 @@ La instalación paso a paso nos la facilita el propio firebse, en la siguiente g
 Para un mejor manejo de los datos abriremos el puerto 2220, para poder hacer la conexión *ssh máquina física* - *máquina firebase*.
 Instalamos firebase en la máquina virtual con ```sudo npm install -g firebase-tools``` y nos logeamos usando ```firebase login```, para empezara trabajar dentro de nuestro Firebase.
 
-<summary>Imagen script Firebase 🔽</summary>
-![Init](assets_bf/firebase_init.png)
 
 A partir de aqui tenemos la opción de trabajar por comandos o en su interfaz gráfica que encontramos en la web. Nosotros hemos decidio crear la BD de manera gráfica.
 Y este seria su esquema final:
+</details>
 
+<details>
+<summary>Imagen script Firebase 🔽</summary>
+![Init](assets_bf/firebase_init.png)
+</details>
+
+<details>
 <summary>Imagen estructura base de datos 🔽</summary>
 ![Database](assets_bf/firebase_database.png)
-
 </details>
+
 
 > 📎 [**Ver _anexo 5_ para configuración de la base de datos**](#anexo-5-configuración-base-de-datos)
 > 
