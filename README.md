@@ -373,7 +373,7 @@ Y este seria su esquema final:
 </details>
 
 <details>
- <summary>Imagen script Firebase 🔽</summary>
+ <summary>Imagen init Firebase 🔽</summary>
  
  ![Init](assets_bf/firebase_init.png)
 </details>
@@ -398,9 +398,12 @@ Y este seria su esquema final:
 Hemos decidido hostear la página web en Firebase, ya que al tener la BD alojada en esa misma plataforma, evitaremos problemas futuros de vinculación o compatibilidad.
 La principal información que tenemos para iniciar el hosteo de la página web, es crear un archivo ```.js```, para añadir un script con las credenciales de nuestro Firebase.
 Aunque nosotros hemos tenido que aplicar algunos cambios a este, para garantizar el correcto funcionamiento del hosting:
+
+<details>
+<summary> Script Vinculador </summary>
  
 ![Script](assets_bf/script_js.png)
-
+</details>
 Firebase tiene la opción de modificar un elemento al que llama **reglas**, estas nos permiten controlar el acceso a la base de datos y el almacenamiento. Para que no nos devuelva un error de conexión *archivos de la página web* *firebase hosting*, hemos tenido que modificar las reglas y permitir que los usuarios puedan modificar la base de datos, y asi quedaria la regla.
 ´´´ REGLA ´´´
 Destacar, que una vez que toda la conexión este en funcionamiento, esta regla será modificada para garantizar la seguridad de la propia base de datos
