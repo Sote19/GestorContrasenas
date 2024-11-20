@@ -395,6 +395,7 @@ Y este seria su esquema final:
 ## Configuración del hosting
 <details>
   <summary>Explicación 🔽</summary>
+ 
 Hemos decidido hostear la página web en Firebase, ya que al tener la BD alojada en esa misma plataforma, evitaremos problemas futuros de vinculación o compatibilidad.
 La principal información que tenemos para iniciar el hosteo de la página web, es crear un archivo ```.js```, para añadir un script con las credenciales de nuestro Firebase.
 Aunque nosotros hemos tenido que aplicar algunos cambios a este, para garantizar el correcto funcionamiento del hosting:
@@ -472,18 +473,21 @@ git clone <URL_DEL_REPOSITORIO> /var/www/gtx.com
  En nuestro caso lo estamos haciendo en un contenedor de nginx.
  
  ![Script](assets_bf/añadirtunel.png)
-Una vez creado el apartado que nos sale en verde en esta captura, nos saldra en gris. Para que la conexion se establezca correctamente debemos añadir los scripts del annexo, en la máquina que hostea la página web que lo veremos en el siguiente apartado.
+Una vez creado el apartado que nos sale en verde en esta captura, nos saldra en gris. Para que la conexion se establezca correctamente debemos añadir las lineas de comando del annexo, en la máquina que hostea la página web que lo veremos en el siguiente apartado.
 
  ### Nginx configuración
-<details>
- <summary> Creación del Túnel 🔽</summary>
  
+ Una vez hemos conseguido que la página web se muestre al público con el protocolo ```https```, vamos a conseguir que este protocolo trabaje tambien en la red virtual de proxmox.
+ Esto lo haremos con la bibilioteca OpenSSL, que nos permite crear certificados de protocolos seguros en páginas webs dentro de nuestra red interna. 
+
+ Para trabajar comodamente, nosotros hemos crado un directorio ```mkdir /etc/nginx/ssl```, este lo usaremos para guardar el certificado y su clave privada.
+ Seguido de esto modificaremos el archivo ```/etc/nginx/nginx.conf``` y añadiremos un script dentro del apartado ```http``` que veremos en el anexo. Este script lo que hara sera gestionar el certificado, la clave, la escucha... Para garantizarnos una correcta conexión por el puerto :443 para garantizarnos el ```https``` de manera interna.
+ De esta manera conseguiremos un cifrado de extremo a extremo en la página web, tanto de manera privada como pública.
+
+> 📎 [**Ver _anexo 7_ para configuración de CloudFare**](#anexo-7-configuración-cloudflare)
+> 
+> 🚩 [Ver informe de errores.](#errores-con-cloudflare)
  
- 
-</details>
-   
-</details>
-<hr>
 
 # 📎 Anexos
 ## Anexo 1 (entorno ProxMox)
@@ -597,6 +601,24 @@ Una vez creado el apartado que nos sale en verde en esta captura, nos saldra en 
   falta introducir imagenes
 </details>
 
+## Anexo 7 (configuración CloudFlare)
+<details>
+  <summary>Ver anexo 🔽</summary>
+
+  ### Comandos de configuración Cloudflare
+  Si no tenemos cloudfare instalado:
+  ```
+  curl -L --output cloudflared.deb https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64.deb
+  sudo dpkg -i cloudflared.deb
+  sudo cloudflared service install eyJhIjoiYjdhYTllNjc0YjQwNDdhNDhlYTFhYjEyOWE5ZDVjZTUiLCJ0IjoiZDljZmNiOWQtYTBlZS00NWMwLTkwOTAtY2U5MTEzNTM2MWI2IiwicyI6Ik1XTTBZek5rTW1FdFlqWmpaUzAwTW1NMkxUaGpZbVV0WmpnMlpXTm1OVGxsWXpVMCJ9
+  ```
+  Si tenemos cloudfare instalado:
+  ```
+  sudo cloudflared service install eyJhIjoiYjdhYTllNjc0YjQwNDdhNDhlYTFhYjEyOWE5ZDVjZTUiLCJ0IjoiMjFkZDI1NmUtMDU1OC00YzZiLWIwYzktODUwNzQ3MzdhMDlhIiwicyI6Ik9XRmtORFEyWmpFdE5UUTFOaTAwTURrM0xUa3dZamd0TmpFeVpXTmpOV0ptWW1JMiJ9
+  ```
+  ![Firebase connexión](assets_bf/conex_firebase.png)
+</details>
+
 <hr>
 
 # 🚩 Informe de errores
@@ -687,3 +709,11 @@ sudo systemctl status nginx
 
 ## Errores con Firebase Hosting
 Al hacer el deploy completo con el comando ```firebase deploy```, nos daba un error y no nos permitía finalizar el hosteo, investigando encontramos que era un error común y que la solución es especificar que solo haremos el deploy del hosteo, para evitar que otros elementos del propio Firebase, nos provoquen un error, esto lo haremos con ```firebase deploy --only hosting```.
+
+## Errores con configuración de Cloudflare
+<details>
+  <summary>Ver informe 🔽</summary>
+  Firebase no dejaba la sincronización con cloudflare
+  Teniamos las carpetas creadas como root, y nginx usa el usuario www-data
+  
+</details>
