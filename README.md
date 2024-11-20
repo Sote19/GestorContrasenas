@@ -455,6 +455,21 @@ git clone <URL_DEL_REPOSITORIO> /var/www/gtx.com
 > 
 > 🚩 [Ver informe de errores.](#errores-con-nginx)
 
+## CoudFlare
+<details>
+  <summary>Explicación 🔽</summary>
+  Parar mejorar la seguridad de nuestra página web, hemos decidido aventurarnos a usar Cloudflare y a la modificacion de los DNS, tanto los internos como los públicos.
+  Gracias a Alina, docente de nuestro centro, que nos proporciono un dominio para trabajar sobre el pudimos explorar esta opción sin necesidad de gastar dinero.
+  Aprovechamos la opcion de crear tuneles que nos proporciona el mismo Cloudflare, para crear un tunel que evadiera todos los routers que existen hasta llegar a nuestra red Nat, asi conseguimos mantener la seguridad de la red al no ser necesario abrir puertos extras.
+
+  Eso lo conseguimos añadiendo un túnel a la cuenta de cloudfare que nos facilito la docente *imagen1*, y moficiando los parámetros como el protocolo web utilizado y la IP del contenedor que aloja el servicio que hostea la pagina web *imagen2*. Una vez hecho esto la connexión ya estara hecha.
+<details>
+ <summary> Creación del Túnel 🔽</summary>
+ ![Script](assets_bf/añadirtunel.png)
+ ![Script](assets_bf/editartunel.png)
+</details>
+   
+</details>
 <hr>
 
 # 📎 Anexos
