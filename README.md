@@ -465,6 +465,7 @@ git clone <URL_DEL_REPOSITORIO> /var/www/gtx.com
   Eso lo conseguimos añadiendo un túnel a la cuenta de cloudfare que nos facilito la docente *imagen1*, y moficiando los parámetros como el protocolo web utilizado y la IP del contenedor que aloja el servicio que hostea la pagina web *imagen2*. Una vez hecho esto la connexión ya estara hecha.
 <details>
  <summary> Creación del Túnel 🔽</summary>
+ 
  ![Script](assets_bf/añadirtunel.png)
  ![Script](assets_bf/editartunel.png)
 </details>
