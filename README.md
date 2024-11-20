@@ -616,7 +616,6 @@ Una vez creado el apartado que nos sale en verde en esta captura, nos saldra en 
   ```
   sudo cloudflared service install eyJhIjoiYjdhYTllNjc0YjQwNDdhNDhlYTFhYjEyOWE5ZDVjZTUiLCJ0IjoiMjFkZDI1NmUtMDU1OC00YzZiLWIwYzktODUwNzQ3MzdhMDlhIiwicyI6Ik9XRmtORFEyWmpFdE5UUTFOaTAwTURrM0xUa3dZamd0TmpFeVpXTmpOV0ptWW1JMiJ9
   ```
-  ![Firebase connexión](assets_bf/conex_firebase.png)
 </details>
 
 <hr>
