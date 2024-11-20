@@ -459,7 +459,9 @@ git clone <URL_DEL_REPOSITORIO> /var/www/gtx.com
 <details>
   <summary>Explicación 🔽</summary>
   Cloudflare es una empresa que ofrece servicios muy potentes se seguridad y optimización de páginas webs. Se beneficia de su CDN que acelera la carga de las páginas, mientras que su tecnología de protección contra ataques DDoS y amenazas cibernéticas asegura la     estabilidad y seguridad de los sitios. Además, optimiza el tráfico web para mejorar la experiencia del usuario y reducir la carga en los servidores.
- Nosotros hemos querido aventurarnos a trabajar nuestros DNS, tanto los internos como los públicos, en Cloudflare para conocer su funcionamiento y aprovecharnos de su potencial. Gracias a Alina, docente de nuestro centro, que nos proporciono un dominio para trabajar sobre el pudimos explorar esta opción sin necesidad de gastar dinero.
+ Nosotros hemos querido aventurarnos a trabajar nuestros DNS, tanto los internos como los públicos, en Cloudflare para conocer su funcionamiento y aprovecharnos de su potencial. 
+ Gracias a Alina, docente de nuestro centro, que nos proporciono un dominio para trabajar sobre el pudimos explorar esta opción sin necesidad de gastar dinero.
+ 
  ### CloudFlare configuración
  Como la configuración de los DNS internos de Cloudfare con la página que le ha proporcionado el DNS a nuestra docente, ya estaban cambiados y hay un manual en internet que indica de manera facil y rapida cómo hacerlo vamos a ir directamente a la creación y configuración del tunel.
  Aprovechamos la opcion de crear tuneles, para crear un tunel que evadiera todos los routers que existen hasta llegar a nuestra red Nat, asi conseguimos mantener la seguridad de la red al no ser necesario abrir puertos extras en ningúna máquina ni router.
