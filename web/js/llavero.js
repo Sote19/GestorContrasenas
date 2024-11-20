@@ -1,6 +1,7 @@
 import { auth } from './firebase.js';
 import { signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-auth.js";
 
+
 window.onload = function() {
   // Monitoreamos el estado de autenticación del usuario
   onAuthStateChanged(auth, (user) => {

@@ -50,7 +50,7 @@ loginForm.addEventListener("submit", async (event) => {
         window.location.href = "llavero.html"; // Cambia la URL a la página de inicio de tu aplicación
     } catch (error) {
         // Muestra un mensaje de error si hay un problema al iniciar sesión
-        console.error("Error en el inicio de sesión:");
-        alert("Error en el inicio de sesión: ");
+        console.error("Error en el inicio de sesión");
+        alert("Error en el inicio de sesión ");
     }
 });
