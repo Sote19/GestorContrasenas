@@ -468,6 +468,7 @@ git clone <URL_DEL_REPOSITORIO> /var/www/gtx.com
  
  ![Script](assets_bf/editartunel.png)
  En nuestro caso lo estamos haciendo en un contenedor de nginx.
+ 
  ![Script](assets_bf/añadirtunel.png)
 Una vez creado el apartado que nos sale en verde en esta captura, nos saldra en gris. Para que la conexion se establezca correctamente debemos añadir los scripts del annexo, en la máquina que hostea la página web que lo veremos en el siguiente apartado.
 
