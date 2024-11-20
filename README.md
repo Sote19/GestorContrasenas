@@ -616,6 +616,9 @@ Una vez creado el apartado que nos sale en verde en esta captura, nos saldra en 
   ```
   sudo cloudflared service install eyJhIjoiYjdhYTllNjc0YjQwNDdhNDhlYTFhYjEyOWE5ZDVjZTUiLCJ0IjoiMjFkZDI1NmUtMDU1OC00YzZiLWIwYzktODUwNzQ3MzdhMDlhIiwicyI6Ik9XRmtORFEyWmpFdE5UUTFOaTAwTURrM0xUa3dZamd0TmpFeVpXTmpOV0ptWW1JMiJ9
   ```
+
+ Dentro de ```/etc/nginx/nginx.conf``` debemos añadir las siguientes lineas, dentro del apartado de ```http```:
+ ![ScriptNginx](assets_bf/scriptnginx.png)
 </details>
 
 <hr>
@@ -712,7 +715,16 @@ Al hacer el deploy completo con el comando ```firebase deploy```, nos daba un er
 ## Errores con configuración de Cloudflare
 <details>
   <summary>Ver informe 🔽</summary>
-  Firebase no dejaba la sincronización con cloudflare
-  Teniamos las carpetas creadas como root, y nginx usa el usuario www-data
-  
+  Antes de saber que Alina nos cediria un subdominio, nuestra pagina estaba alojada en Firebase Hosting, esto nos creo muchos problemas ya que Firebase no permitia la sincronización con Cloudflare. Asi que tubimos que configurar Nginx de manera correcta para alojar nuestra página web.
+ 
+  Cuando entrabamos en la página web nos saltaba el siguiente error.
+  ```
+ [error] 2278#2278: *5 "/etc/nginx/sites-available/gtx.com.conf/index.html" is not found (20: Not a directory), client: 10.20.30.23, server: 10.20.30.20, request: "GET / HTTP/1.1", host: "10.20.30.20"
+  ```
+ Esto pasaba porque las carpetas que alojan los archivos de la página web fueron creadas con el usuario ```root``` y nginx trabaja con el usuario ```www-data```, una vez cambiados los permisos y ownersde las carpetas de la página web
+ ```
+ chmod -R 775 /var/www/gtx.com
+ chown -R www-data:www-data /var/www/gtx.com
+ ```
+Una vez cambiado esto, nginx deberia poder acceder a estos archivos y mostrarlos sin problema.
 </details>
