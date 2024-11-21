@@ -9,59 +9,44 @@
     <link rel="stylesheet" href="css/llavero.css">
     <link rel="icon" href="img/logo.ico" type="image/x-icon">
 </head>
+
 <body>
-    <script type="module">
-        import { getAuth, onAuthStateChanged } from "./js/firebase.js";
-
-        const auth = getAuth();
-
-        // Verifica si el usuario está autenticado antes de cargar la página
-        onAuthStateChanged(auth, (user) => {
-            if (!user) {
-                // Si no hay usuario autenticado, redirige a la página de inicio de sesión
-                window.location.href = "iniciosesion.html";
-            }
-        });
-    </script>
-
-
-    <!-- Header -->
+    <!-- -----------------HEADER-------------------- -->
     <header class="bg-light py-3 mb-4 border-bottom shadow-sm">
         <div class="container">
             <div class="d-flex justify-content-between align-items-center">
 
-                <!-- Botón de perfil (icono) -->
+                <!-- -------------USUARIO----------------- -->
                 <button class="btn btn-outline-dark d-flex align-items-center justify-content-center" id="profile-button" style="width: 124.7px; height: 40px;">
                     <img src="/img/logo.svg" alt="Logo" style="width: 30px; height: 30px;" class="me-2">
                     <span id="user-name">Cargando...</span>
-                </button>        
+                </button>      
 
+                <!-- ------------BOTÓN MIS APPS------------- -->
                 <nav class="navbar navbar-light bg-light">
                     <div class="container-fluid justify-content-center">
-                        <!-- Botón fijo para "Mis APP's" -->
                         <a href="llavero.html" class="btn btn-outline-secondary botonesmenu">Mis APP's</a>
                     </div>
                 </nav>
 
-                <!-- Botón Cerrar Sesión -->
+                <!-- ------------CERRAR SESIÓN------------- -->
                 <button class="btn btn-danger" id="logout-button">Cerrar Sesión</button>
+
             </div>
         </div>
     </header>
 
-    <!-- Main Content -->
+    <!-- ------------CONTENIDO------------- -->
     <main class="container">
-        <!-- Botón Añadir APP -->
+        <!-- ------------BOTÓN AÑADIR APPS------------- -->
         <div class="text-center mb-5">
             <button onclick="location.href='nuevapp.html'" class="btn btn-primary btn-lg px-5 py-3 shadow-sm anadirapp" id="addAppBtn">
                 <i class="bi bi-plus-circle me-2"></i>Añadir APP
             </button>
         </div>
 
-        <!-- Lista de Apps -->
-        <div class="row g-3 justify-content-center" id="appList">
-            <!-- Aquí se agregarán las apps dinámicamente -->
-        </div>
+        <!-- ------------LISTA DE APPS------------- -->
+        <div class="row g-3 justify-content-center" id="appList"></div>
     </main>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
