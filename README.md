@@ -640,6 +640,7 @@ openssl genrsa -out server.key 2048                #generamos la clave "server" 
 openssl req -new -key server.key -out server.csr   #generamos el certificado "server" lo podemos cambiar por el nombre que nosotros queremos
  ```
 Después de esto, tendremos que rellenar un formulario como el siguiente
+
 ![FormularioSSL](assets_bf/formulariossl.png)
 Una vez rellenado ya tendremos todo configurado y nuestra pagina web corriendo en ```https```
 </details>
@@ -733,7 +734,10 @@ sudo systemctl status nginx
 </details>
 
 ## Errores con Firebase Hosting
+<details>
+  <summary>Ver informe 🔽</summary>
 Al hacer el deploy completo con el comando ```firebase deploy```, nos daba un error y no nos permitía finalizar el hosteo, investigando encontramos que era un error común y que la solución es especificar que solo haremos el deploy del hosteo, para evitar que otros elementos del propio Firebase, nos provoquen un error, esto lo haremos con ```firebase deploy --only hosting```.
+</details>
 
 ## Errores con configuración de Cloudflare
 <details>
