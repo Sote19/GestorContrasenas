@@ -460,29 +460,31 @@ git clone <URL_DEL_REPOSITORIO> /var/www/gtx.com
 <details>
   <summary>Explicación 🔽</summary>
   Cloudflare es una empresa que ofrece servicios muy potentes se seguridad y optimización de páginas webs. Se beneficia de su CDN que acelera la carga de las páginas, mientras que su tecnología de protección contra ataques DDoS y amenazas cibernéticas asegura la     estabilidad y seguridad de los sitios. Además, optimiza el tráfico web para mejorar la experiencia del usuario y reducir la carga en los servidores.
- Nosotros hemos querido aventurarnos a trabajar nuestros DNS, tanto los internos como los públicos, en Cloudflare para conocer su funcionamiento y aprovecharnos de su potencial. 
+ 
+ Nosotros hemos querido aventurarnos a trabajar nuestros DNS públicos en Cloudflare para conocer su funcionamiento y aprovecharnos de su potencial. I los DNS internos con certificado ```https``` los hemos conseguido con OpenSSL.
  Gracias a Alina, docente de nuestro centro, que nos proporciono un dominio para trabajar sobre el pudimos explorar esta opción sin necesidad de gastar dinero.
  
  ### CloudFlare configuración
- Como la configuración de los DNS internos de Cloudfare con la página que le ha proporcionado el DNS a nuestra docente, ya estaban cambiados y hay un manual en internet que indica de manera facil y rapida cómo hacerlo vamos a ir directamente a la creación y configuración del tunel.
- Aprovechamos la opcion de crear tuneles, para crear un tunel que evadiera todos los routers que existen hasta llegar a nuestra red Nat, asi conseguimos mantener la seguridad de la red al no ser necesario abrir puertos extras en ningúna máquina ni router.
- Para la configuración de estos debemos acceder al apartado CloudFlare > Zero Trust > Networks > Tunnels > Add a Tunel.
- Para la configuración del túnel veremos una pantalla como la de la imagen de debajo, en ella debemos poner el subdominio que queremos usar de manera pública, además del servicio por el cual queremos que se vea la página web, y seguido debemos indicar la IP de la máquina que hostea la página web.
+ Como la configuración de los DNS internos de Cloudfare con el dominio de Alina ya estaban cambiados y hay un manual en internet que indica de manera sencilla y rápida cómo hacerlo, vamos a ir directamente a la creación y configuración del tunel.
+ Aprovechamos la opcion de crear tuneles, para crear un tunel que evadiera todos los routers que existen hasta llegar a nuestro equipo que esta hosteando la pagina web (Funcionamiento parecido a una VPN), asi conseguimos mantener la seguridad de la red al no ser necesario abrir puertos extras en ningúna máquina ni en el router.
+ Para la configuración de estos tuneles debemos acceder al apartado CloudFlare > Zero Trust > Networks > Tunnels > Add a Tunel.
+ Para la configuración del túnel veremos una pantalla como la de la imagen de abajo, en ella debemos poner el subdominio que queremos usar de manera pública, además del servicio por el cual queremos que se vea la página web, y seguido debemos indicar la IP de la máquina que hostea la página web.
  
  ![Script](assets_bf/editartunel.png)
  En nuestro caso lo estamos haciendo en un contenedor de nginx.
  
  ![Script](assets_bf/añadirtunel.png)
-Una vez creado el apartado que nos sale en verde en esta captura, nos saldra en gris. Para que la conexion se establezca correctamente debemos añadir las lineas de comando del annexo, en la máquina que hostea la página web que lo veremos en el siguiente apartado.
+Una vez creado el tunel, el recuardo que nos sale en verde en esta captura, nos saldra en gris. Para que la conexion se establezca correctamente debemos añadir las lineas de comando del annexo, en la máquina que hostea la página web. (Lo veremos en el siguiente apartado)
 
  ### Nginx configuración
  
  Una vez hemos conseguido que la página web se muestre al público con el protocolo ```https```, vamos a conseguir que este protocolo trabaje tambien en la red virtual de proxmox.
- Esto lo haremos con la bibilioteca OpenSSL, que nos permite crear certificados de protocolos seguros en páginas webs dentro de nuestra red interna. 
+ Esto lo haremos con la bibilioteca OpenSSL, que nos permite crear certificados de protocolos seguros en páginas webs dentro de nuestra red interna, cabe destacar que los certificados que se generan con OpenSSL solo tienen validez en redes internas y con una duración limitada, ya que existe el certificado pero no existe ningun sello que lo válide para salir a la red pública como ```https```. 
 
  Para trabajar comodamente, nosotros hemos crado un directorio ```mkdir /etc/nginx/ssl```, este lo usaremos para guardar el certificado y su clave privada.
- Seguido de esto modificaremos el archivo ```/etc/nginx/nginx.conf``` y añadiremos un script dentro del apartado ```http``` que veremos en el anexo. Este script lo que hara sera gestionar el certificado, la clave, la escucha... Para garantizarnos una correcta conexión por el puerto :443 para garantizarnos el ```https``` de manera interna.
+ Seguido de esto modificaremos el archivo de configuración principal ```/etc/nginx/nginx.conf``` y añadiremos un script (facilitado por cloudflare) dentro del apartado ```http``` que veremos en el anexo. Este script lo que hara es gestionar el certificado, la clave, la escucha... Para garantizarnos una correcta conexión por el puerto :443 para garantizarnos el ```https``` de manera interna.
  De esta manera conseguiremos un cifrado de extremo a extremo en la página web, tanto de manera privada como pública.
+</details>
 
 > 📎 [**Ver _anexo 7_ para configuración de CloudFare**](#anexo-7-configuración-cloudflare)
 > 
@@ -619,6 +621,27 @@ Una vez creado el apartado que nos sale en verde en esta captura, nos saldra en 
 
  Dentro de ```/etc/nginx/nginx.conf``` debemos añadir las siguientes lineas, dentro del apartado de ```http```:
  ![ScriptNginx](assets_bf/scriptnginx.png)
+ 
+ <hr>
+
+ OpenSSL
+ OpenSSL es una biblioteca de criptografía que ofrece una aplicación de código abierto del protocolo TLS, esto nos permite gestionar certificados ```https``` y crear claves públicas para poder utilizar estos certificados.
+ En nuestro caso la aplicación de este ha sido dentro de la máquina nginx ya que es la que nos esta hosteando la página web en la que queremos aplicar el protocolo TLS.
+ Despues de haber creado el directorio ```/etc/nginx/ssl```, trabajaremos dentro de este. 
+ Empezamos con la instalación:
+ ```bash
+ sudo apt update && sudo apt upgrade #actualizamos los paquetes
+ sudo apt install openssl #instalamos la biblioteca
+ openssl version #confirmamos que la instalacion se ha realizado correctamente 
+ ```
+ Vamos a generar el certificado y la clave:
+ ```bash
+openssl genrsa -out server.key 2048                #generamos la clave "server" lo podemos cambiar por el nombre que nosotros queremos
+openssl req -new -key server.key -out server.csr   #generamos el certificado "server" lo podemos cambiar por el nombre que nosotros queremos
+ ```
+Después de esto, tendremos que rellenar un formulario como el siguiente
+![FormularioSSL](assets_bf/formulariossl.png)
+Una vez rellenado ya tendremos todo configurado y nuestra pagina web corriendo en ```https```
 </details>
 
 <hr>
