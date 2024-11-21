@@ -621,10 +621,9 @@ Una vez creado el tunel, el recuardo que nos sale en verde en esta captura, nos 
 
  Dentro de ```/etc/nginx/nginx.conf``` debemos añadir las siguientes lineas, dentro del apartado de ```http```:
  ![ScriptNginx](assets_bf/scriptnginx.png)
- 
- <hr>
 
- OpenSSL
+ ### OpenSSL
+ 
  OpenSSL es una biblioteca de criptografía que ofrece una aplicación de código abierto del protocolo TLS, esto nos permite gestionar certificados ```https``` y crear claves públicas para poder utilizar estos certificados.
  En nuestro caso la aplicación de este ha sido dentro de la máquina nginx ya que es la que nos esta hosteando la página web en la que queremos aplicar el protocolo TLS.
  Despues de haber creado el directorio ```/etc/nginx/ssl```, trabajaremos dentro de este. 
@@ -642,6 +641,7 @@ openssl req -new -key server.key -out server.csr   #generamos el certificado "se
 Después de esto, tendremos que rellenar un formulario como el siguiente
 
 ![FormularioSSL](assets_bf/formulariossl.png)
+
 Una vez rellenado ya tendremos todo configurado y nuestra pagina web corriendo en ```https```
 </details>
 
@@ -756,3 +756,5 @@ Al hacer el deploy completo con el comando ```firebase deploy```, nos daba un er
  ```
 Una vez cambiado esto, nginx deberia poder acceder a estos archivos y mostrarlos sin problema.
 </details>
+
+
