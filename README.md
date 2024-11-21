@@ -459,36 +459,36 @@ git clone <URL_DEL_REPOSITORIO> /var/www/gtx.com
 ## CloudFlare
 <details>
   <summary>Explicación 🔽</summary>
-  Cloudflare es una empresa que ofrece servicios muy potentes se seguridad y optimización de páginas webs. Se beneficia de su CDN que acelera la carga de las páginas, mientras que su tecnología de protección contra ataques DDoS y amenazas cibernéticas asegura la     estabilidad y seguridad de los sitios. Además, optimiza el tráfico web para mejorar la experiencia del usuario y reducir la carga en los servidores.
+  Cloudflare es una empresa que ofrece servicios muy potentes de seguridad y optimización de páginas webs. Se beneficia de su CDN que acelera la carga de las páginas, mientras que su tecnología de protección contra ataques DDoS y amenazas cibernéticas asegura la estabilidad y seguridad de los sitios. Además, optimiza el tráfico web para mejorar la experiencia del usuario y reducir la carga en los servidores.
  
  Nosotros hemos querido aventurarnos a trabajar nuestros DNS públicos en Cloudflare para conocer su funcionamiento y aprovecharnos de su potencial. I los DNS internos con certificado ```https``` los hemos conseguido con OpenSSL.
- Gracias a Alina, docente de nuestro centro, que nos proporciono un dominio para trabajar sobre el pudimos explorar esta opción sin necesidad de gastar dinero.
+Gracias a Alina, docente de nuestro centro, que nos proporcionó un dominio para trabajar sobre él pudimos explorar esta opción sin necesidad de gastar dinero.
  
  ### CloudFlare configuración
- Como la configuración de los DNS internos de Cloudfare con el dominio de Alina ya estaban cambiados y hay un manual en internet que indica de manera sencilla y rápida cómo hacerlo, vamos a ir directamente a la creación y configuración del tunel.
- Aprovechamos la opcion de crear tuneles, para crear un tunel que evadiera todos los routers que existen hasta llegar a nuestro equipo que esta hosteando la pagina web (Funcionamiento parecido a una VPN), asi conseguimos mantener la seguridad de la red al no ser necesario abrir puertos extras en ningúna máquina ni en el router.
- Para la configuración de estos tuneles debemos acceder al apartado CloudFlare > Zero Trust > Networks > Tunnels > Add a Tunel.
+ Como la configuración de los DNS internos de Cloudflare con el dominio de Alina ya estaban cambiados y hay un manual en internet que indica de manera sencilla y rápida cómo hacerlo, vamos a ir directamente a la creación y configuración del túnel.
+ Aprovechamos la opción de crear túneles, para crear un túnel que evadiera todos los routers que existen hasta llegar a nuestro equipo que esta hosteando la página web (Funcionamiento parecido a una VPN), así conseguimos mantener la seguridad de la red al no ser necesario abrir puertos extras en ninguna máquina ni en el router.
+ Para la configuración de estos túneles debemos acceder al apartado CloudFlare > Zero Trust > Networks > Tunnels > Add a Tunel.
  Para la configuración del túnel veremos una pantalla como la de la imagen de abajo, en ella debemos poner el subdominio que queremos usar de manera pública, además del servicio por el cual queremos que se vea la página web, y seguido debemos indicar la IP de la máquina que hostea la página web.
  
  ![Script](assets_bf/editartunel.png)
  En nuestro caso lo estamos haciendo en un contenedor de nginx.
  
  ![Script](assets_bf/añadirtunel.png)
-Una vez creado el tunel, el recuardo que nos sale en verde en esta captura, nos saldra en gris. Para que la conexion se establezca correctamente debemos añadir las lineas de comando del annexo, en la máquina que hostea la página web. (Lo veremos en el siguiente apartado)
+Una vez creado el túnel, el recuadro que nos sale en verde en esta captura, nos saldrá en gris. Para que la conexión se establezca correctamente debemos añadir las líneas de comando del anexo, en la máquina que hostea la página web. (Lo veremos en el siguiente apartado)
 
  ### Nginx configuración
  
- Una vez hemos conseguido que la página web se muestre al público con el protocolo ```https```, vamos a conseguir que este protocolo trabaje tambien en la red virtual de proxmox.
- Esto lo haremos con la bibilioteca OpenSSL, que nos permite crear certificados de protocolos seguros en páginas webs dentro de nuestra red interna, cabe destacar que los certificados que se generan con OpenSSL solo tienen validez en redes internas y con una duración limitada, ya que existe el certificado pero no existe ningun sello que lo válide para salir a la red pública como ```https```. 
+ Una vez hemos conseguido que la página web se muestre al público con el protocolo ```https```, vamos a conseguir que este protocolo trabaje también en la red virtual de proxmox.
+ Esto lo haremos con la biblioteca OpenSSL, que nos permite crear certificados de protocolos seguros en páginas webs dentro de nuestra red interna, cabe destacar que los certificados que se generan con OpenSSL solo tienen validez en redes internas y con una duración limitada, ya que existe el certificado, pero no existe ningún sello que lo valide para salir a la red pública como ```https```.
 
- Para trabajar comodamente, nosotros hemos crado un directorio ```mkdir /etc/nginx/ssl```, este lo usaremos para guardar el certificado y su clave privada.
- Seguido de esto modificaremos el archivo de configuración principal ```/etc/nginx/nginx.conf``` y añadiremos un script (facilitado por cloudflare) dentro del apartado ```http``` que veremos en el anexo. Este script lo que hara es gestionar el certificado, la clave, la escucha... Para garantizarnos una correcta conexión por el puerto :443 para garantizarnos el ```https``` de manera interna.
+ Para trabajar cómodamente, nosotros hemos creado un directorio ```mkdir /etc/nginx/ssl```, este lo usaremos para guardar el certificado y su clave privada.
+ Seguido de esto modificaremos el archivo de configuración principal ```/etc/nginx/nginx.conf``` y añadiremos un script (facilitado por Cloudflare) dentro del apartado ```http``` que veremos en el anexo. Este script lo que hará es gestionar el certificado, la clave, la escucha... Para garantizarnos una correcta conexión por el puerto:443 para garantizarnos el ```https``` de manera interna.
  De esta manera conseguiremos un cifrado de extremo a extremo en la página web, tanto de manera privada como pública.
 </details>
 
 > 📎 [**Ver _anexo 7_ para configuración de CloudFare**](#anexo-7-configuración-cloudflare)
 > 
-> 🚩 [Ver informe de errores.](#errores-con-cloudflare)
+> 🚩 [Ver informe de errores.](#errores-con-configuración-de-cloudfare)
  
 
 # 📎 Anexos
@@ -608,25 +608,25 @@ Una vez creado el tunel, el recuardo que nos sale en verde en esta captura, nos 
   <summary>Ver anexo 🔽</summary>
 
   ### Comandos de configuración Cloudflare
-  Si no tenemos cloudfare instalado:
+  Si no tenemos Cloudflare instalado:
   ```
   curl -L --output cloudflared.deb https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64.deb
   sudo dpkg -i cloudflared.deb
   sudo cloudflared service install eyJhIjoiYjdhYTllNjc0YjQwNDdhNDhlYTFhYjEyOWE5ZDVjZTUiLCJ0IjoiZDljZmNiOWQtYTBlZS00NWMwLTkwOTAtY2U5MTEzNTM2MWI2IiwicyI6Ik1XTTBZek5rTW1FdFlqWmpaUzAwTW1NMkxUaGpZbVV0WmpnMlpXTm1OVGxsWXpVMCJ9
   ```
-  Si tenemos cloudfare instalado:
+  Si tenemos Cloudflare instalado:
   ```
   sudo cloudflared service install eyJhIjoiYjdhYTllNjc0YjQwNDdhNDhlYTFhYjEyOWE5ZDVjZTUiLCJ0IjoiMjFkZDI1NmUtMDU1OC00YzZiLWIwYzktODUwNzQ3MzdhMDlhIiwicyI6Ik9XRmtORFEyWmpFdE5UUTFOaTAwTURrM0xUa3dZamd0TmpFeVpXTmpOV0ptWW1JMiJ9
   ```
 
- Dentro de ```/etc/nginx/nginx.conf``` debemos añadir las siguientes lineas, dentro del apartado de ```http```:
+ Dentro de ```/etc/nginx/nginx.conf``` debemos añadir las siguientes líneas, dentro del apartado de ```http```:
  ![ScriptNginx](assets_bf/scriptnginx.png)
 
  ### OpenSSL
  
  OpenSSL es una biblioteca de criptografía que ofrece una aplicación de código abierto del protocolo TLS, esto nos permite gestionar certificados ```https``` y crear claves públicas para poder utilizar estos certificados.
- En nuestro caso la aplicación de este ha sido dentro de la máquina nginx ya que es la que nos esta hosteando la página web en la que queremos aplicar el protocolo TLS.
- Despues de haber creado el directorio ```/etc/nginx/ssl```, trabajaremos dentro de este. 
+ En nuestro caso la aplicación de este ha sido dentro de la máquina nginx, ya que es la que nos está hosteando la página web en la que queremos aplicar el protocolo TLS
+ Después de haber creado el directorio ```/etc/nginx/ssl```, trabajaremos dentro de este. 
  Empezamos con la instalación:
  ```bash
  sudo apt update && sudo apt upgrade #actualizamos los paquetes
@@ -637,12 +637,13 @@ Una vez creado el tunel, el recuardo que nos sale en verde en esta captura, nos 
  ```bash
 openssl genrsa -out server.key 2048                #generamos la clave "server" lo podemos cambiar por el nombre que nosotros queremos
 openssl req -new -key server.key -out server.csr   #generamos el certificado "server" lo podemos cambiar por el nombre que nosotros queremos
+openssl x509 -req -days 365 -in server.csr -signkey server.key -out server.crt  #Para autofirmar el certificado, con una validez de 365 dias
  ```
 Después de esto, tendremos que rellenar un formulario como el siguiente
 
 ![FormularioSSL](assets_bf/formulariossl.png)
 
-Una vez rellenado ya tendremos todo configurado y nuestra pagina web corriendo en ```https```
+Una vez rellenado ya tendremos todo configurado y nuestra página web corriendo en ```https```
 </details>
 
 <hr>
@@ -745,16 +746,18 @@ Al hacer el deploy completo con el comando ```firebase deploy```, nos daba un er
   <summary>Ver informe 🔽</summary>
   Antes de saber que Alina nos cediria un subdominio, nuestra pagina estaba alojada en Firebase Hosting, esto nos creo muchos problemas ya que Firebase no permitia la sincronización con Cloudflare. Asi que tubimos que configurar Nginx de manera correcta para alojar nuestra página web.
  
+ <hr>
+ 
   Cuando entrabamos en la página web nos saltaba el siguiente error.
   ```
  [error] 2278#2278: *5 "/etc/nginx/sites-available/gtx.com.conf/index.html" is not found (20: Not a directory), client: 10.20.30.23, server: 10.20.30.20, request: "GET / HTTP/1.1", host: "10.20.30.20"
   ```
- Esto pasaba porque las carpetas que alojan los archivos de la página web fueron creadas con el usuario ```root``` y nginx trabaja con el usuario ```www-data```, una vez cambiados los permisos y ownersde las carpetas de la página web
+ Esto pasaba porque las carpetas que alojan los archivos de la página web fueron creadas con el usuario ```root``` y nginx trabaja con el usuario ```www-data```, una vez cambiados los permisos y owners de las carpetas de la página web.
  ```
  chmod -R 775 /var/www/gtx.com
  chown -R www-data:www-data /var/www/gtx.com
  ```
-Una vez cambiado esto, nginx deberia poder acceder a estos archivos y mostrarlos sin problema.
+Una vez cambiado esto, nginx debería poder acceder a estos archivos y mostrarlos sin problema.
 </details>
 
 
