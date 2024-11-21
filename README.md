@@ -736,6 +736,7 @@ sudo systemctl status nginx
 ## Errores con Firebase Hosting
 <details>
   <summary>Ver informe 🔽</summary>
+ 
 Al hacer el deploy completo con el comando ```firebase deploy```, nos daba un error y no nos permitía finalizar el hosteo, investigando encontramos que era un error común y que la solución es especificar que solo haremos el deploy del hosteo, para evitar que otros elementos del propio Firebase, nos provoquen un error, esto lo haremos con ```firebase deploy --only hosting```.
 </details>
 
