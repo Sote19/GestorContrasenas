@@ -25,7 +25,7 @@ document.querySelector("form").addEventListener("submit", async (e) => {
         if (querySnapshot.empty) {
             // Si no encuentra el correo en Firestore
             emailInput.value = "";
-            alert("El correo electrónico no está registrado en la base de datos.");
+            alert("Hemos enviado un correo con las instrucciones para restablecer tu contraseña, si no te ha llegado ningún mensaje, revisa que hayas escrito bien tu correo.");
             return;
         }
 

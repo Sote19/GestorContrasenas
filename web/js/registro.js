@@ -61,7 +61,7 @@ registro.addEventListener("submit", (e) => {
     }
 
     // Validar contraseña y confirmación
-    if (passwordInput.value.length < 6) {
+    if (passwordInput.value.length < 16) {
         passwordInput.classList.add("is-invalid");
         isValid = false;
     }
@@ -71,7 +71,7 @@ registro.addEventListener("submit", (e) => {
     }
 
     // Validar llave maestra y confirmación
-    if (masterKeyInput.value.length < 8) {
+    if (masterKeyInput.value.length < 18) {
         masterKeyInput.classList.add("is-invalid");
         isValid = false;
     }
@@ -102,11 +102,13 @@ async function registrarUsuario(email, password, nombre, masterKey) {
         // Configurar el displayName del usuario en Firebase Authentication
         await updateProfile(user, { displayName: nombre });
 
+        const { hash: masterKeyHash, salt } = await hashPassword(masterKey);
         // Guardar el nombre, correo y llave maestra cifrada del usuario en Firestore
         await setDoc(doc(db, "USUARIOS", user.uid), {
             nombre: nombre,
             email: email,
-            masterKey: btoa(masterKey) // Cifrar la llave maestra con Base64
+            masterKey: masterKeyHash, // Llave cifrada
+            salt: salt 
         });
 
         // Alerta de éxito
@@ -119,4 +121,48 @@ async function registrarUsuario(email, password, nombre, masterKey) {
         console.error("Error al registrar el usuario");
         alert("Error al registrar el usuario");
     }
+}
+
+// --------------------FUNCIÓN PARA CIFRAR LA LLAVE MAESTRA--------------------------------
+async function hashPassword(password) {
+    const encoder = new TextEncoder();
+    const salt = crypto.getRandomValues(new Uint8Array(16)); // Genera un salt aleatorio
+
+    // Importa la clave de la contraseña
+    const passwordKey = await crypto.subtle.importKey(
+        "raw",
+        encoder.encode(password),
+        { name: "PBKDF2" },
+        false,
+        ["deriveKey"]
+    );
+
+    // Deriva la clave usando PBKDF2
+    const key = await crypto.subtle.deriveKey(
+        {
+            name: "PBKDF2",
+            salt: salt,
+            iterations: 100000,
+            hash: "SHA-256"
+        },
+        passwordKey,
+        { name: "AES-GCM", length: 256 },
+        true,
+        ["encrypt"]
+    );
+
+    // Exporta la clave derivada en formato raw
+    const hashBuffer = await crypto.subtle.exportKey("raw", key);
+
+    return {
+        hash: bufferToHex(hashBuffer),
+        salt: bufferToHex(salt)
+    };
+}
+
+// Convierte un ArrayBuffer a una cadena hexadecimal
+function bufferToHex(buffer) {
+    return [...new Uint8Array(buffer)]
+        .map(b => b.toString(16).padStart(2, '0'))
+        .join('');
 }
