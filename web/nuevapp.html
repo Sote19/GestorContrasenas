@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="css/llavero.css"> <!-- Incluye tu CSS aquí -->
     <link rel="icon" href="img/logo.ico" type="image/x-icon">
 </head>
+
 <body>
     <!-- -----------------HEADER-------------------- -->
     <header class="bg-light py-3 mb-4 border-bottom shadow-sm">
@@ -54,9 +55,12 @@
 
                         <div class="mb-3">
                             <label for="password" class="form-label">Contraseña</label>
-                            <div class="input-group">
-                                <input type="password" class="form-control" id="password" placeholder="Contraseña">
-                                <button type="button" class="btn btn-outline-light" id="togglePassword">👁️</button>
+                            <div class="d-flex justify-content-between">
+                                <div class="input-group flex-grow-1 me-2">
+                                    <input type="password" class="form-control" id="password" placeholder="Contraseña">
+                                    <button type="button" class="btn btn-outline-light" id="togglePassword">👁️</button>
+                                </div>
+                                <button class="btn btn-outline-light" type="button" id="generate">Generar</button>
                             </div>
                         </div>
 

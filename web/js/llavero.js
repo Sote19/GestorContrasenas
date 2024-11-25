@@ -3,20 +3,49 @@ import { signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/
 import { collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-firestore.js";
 
 
-// ---------------------VERIFICACIÓN DE USUARIO REGISTRADO---------------------
+// ---------------------VERIFICACIÓN DE USUARIO EN LLAVERO---------------------
 window.onload = function() {
   onAuthStateChanged(auth, async (user) => {
-    if (user) {
-      // Si el usuario está autenticado, mostramos su nombre
-      document.getElementById("user-name").textContent = user.displayName || "Usuario"; // Obtiene displayName de Firebase
-      await cargarApps(user.uid);
+      if (!user) {
+          // Redirigir si no hay usuario
+          window.location.href = 'iniciosesion.html';
+      } else {
+          // Guardar UID y nombre en sessionStorage
+          const userName = user.displayName || "Usuario";
+          sessionStorage.setItem("userName", userName);
+          sessionStorage.setItem("userUid", user.uid); // Almacenar el UID del usuario
 
-    } else {
-      // Si no hay usuario autenticado, redirigimos a la página de inicio de sesión
-      window.location.href = 'iniciosesion.html';
-    }
+          // Mostrar nombre del usuario en la interfaz
+          document.getElementById("user-name").textContent = userName;
+
+          // Cargar aplicaciones
+          await cargarApps(user.uid);
+      }
   });
 };
+
+
+// ---------------------------------CARGAR APPS--------------------
+async function cargarApps(uid) {
+  try {
+    const appsCollection = collection(db, "USUARIOS", uid, "APP");
+    const querySnapshot = await getDocs(appsCollection);
+
+    const appList = document.getElementById("appList");
+    appList.innerHTML = ""; // Limpiar contenido previo
+
+    if (querySnapshot.empty) {
+      appList.innerHTML = `<p class="text-center text-muted">No tienes aplicaciones guardadas.</p>`;
+      return;
+    }
+
+    querySnapshot.forEach((doc) => {
+      const app = doc.data();
+      const appElement = crearAppElement(app);
+      appList.appendChild(appElement);
+    });
+  } catch {}
+}
 
 
 // ---------------------------------CERRAR SESIÓN--------------------
@@ -31,7 +60,32 @@ document.getElementById('logout-button').addEventListener('click', async () => {
 });
 
 
-// ---------------------------------FORMULARIO AÑADIR APP--------------------
+// ---------------------------------CREAR ELEMENTO APP--------------------
+function crearAppElement(app) {
+  const template = document.getElementById("appTemplate").content.cloneNode(true);
+
+  template.querySelector(".app-title").textContent = app.appName;
+  template.querySelector(".app-user").textContent = `Usuario: ${app.appUser}`;
+  template.querySelector(".app-comment").textContent = app.comment || "Sin comentarios";
+
+  const detailsButton = template.querySelector("button");
+  detailsButton.addEventListener("click", () => {
+    // Limpiar cualquier dato previo en sessionStorage
+    sessionStorage.clear();
+
+    // Guardamos el ID de la app seleccionada en sessionStorage
+    sessionStorage.setItem("selectedAppId", app.id);
+
+    // Redirigimos a la página de detalles de la app
+    window.location.href = "app.html";
+  });
+
+  return template;
+}
+
+
+//--------------nuevapp.html
+// ---------------------------------------------FORMULARIO AÑADIR APP------------------------------------------
 document.addEventListener("DOMContentLoaded", () => {
   const togglePassword = document.querySelector("#togglePassword");
   const passwordInput = document.querySelector("#password");
@@ -93,46 +147,18 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
+// ---------------------------------GENERAR CONTRASEÑA--------------------
+document.getElementById('generate').addEventListener('click', generatePassword);
 
-// ---------------------------------CARGAR APPS--------------------
-async function cargarApps(uid) {
-  try {
-    const appsCollection = collection(db, "USUARIOS", uid, "APP");
-    const querySnapshot = await getDocs(appsCollection);
-
-    const appList = document.getElementById("appList");
-    appList.innerHTML = ""; // Limpiar contenido previo
-
-    if (querySnapshot.empty) {
-      appList.innerHTML = `<p class="text-center text-muted">No tienes aplicaciones guardadas.</p>`;
-      return;
-    }
-
-    querySnapshot.forEach((doc) => {
-      const app = doc.data();
-      const appElement = crearAppElement(app);
-      appList.appendChild(appElement);
-    });
-  } catch {}
+function generatePassword() {
+  const length = 16; // Longitud de la contraseña
+  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+[]{}|;:,.<>?¿~';
+  let password = '';
+  
+  for (let i = 0; i < length; i++) {
+    const randomIndex = Math.floor(Math.random() * chars.length);
+    password += chars[randomIndex];
+  }
+  
+  document.getElementById('password').value = password;
 }
-
-
-// ---------------------------------CREAR ELEMENTO APP--------------------
-function crearAppElement(app) {
-  const template = document.getElementById("appTemplate").content.cloneNode(true);
-
-  // Rellenar datos
-  template.querySelector(".app-title").textContent = app.appName;
-  template.querySelector(".app-user").textContent = `Usuario: ${app.appUser}`;
-  template.querySelector(".app-comment").textContent = app.comment || "Sin comentarios";
-
-  // Añadir evento al botón "Ver detalles"
-  const detailsButton = template.querySelector("button");
-  detailsButton.addEventListener("click", () => {
-    // Redirigir a la página de detalles
-    window.location.href = "app.html";
-  });
-
-  return template;
-}
-
