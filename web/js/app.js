@@ -51,6 +51,7 @@ document.getElementById('logout-button')?.addEventListener('click', async () => 
   }
 });
 
+
 // ---------------------FUNCIONES DE CLAVE MAESTRA---------------------
 async function cargarClaveMaestra(uid) {
   // Recuperar el documento del usuario desde Firestore
@@ -238,5 +239,4 @@ document.addEventListener("DOMContentLoaded", () => {
     console.warn("El botón para alternar visibilidad de contraseña no está disponible.");
   }
 });
-
 

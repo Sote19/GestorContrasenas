@@ -81,6 +81,9 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
       try {
+          // Llamar a la función de cifrado
+          const { hash: encryptedPassword, salt } = await hashPassword(passwordValue);
+
           // Referencia a la subcolección APP del usuario autenticado
           const userAppCollection = collection(db, "USUARIOS", authenticatedUser.uid, "APP");
 
@@ -88,7 +91,8 @@ document.addEventListener("DOMContentLoaded", () => {
           await addDoc(userAppCollection, {
               appName,
               appUser: userValue,
-              appContra: passwordValue,
+              appContra: encryptedPassword, // Contraseña cifrada
+              salt: salt, // Salt para la contraseña
               comment: commentValue,
               createdAt: new Date() // Marca de tiempo
           });
@@ -120,4 +124,46 @@ function generatePassword() {
   document.getElementById('password').value = password;
 }
 
+// --------------------FUNCIÓN PARA CIFRAR LA CONTRASEÑA--------------------------------
+async function hashPassword(password) {
+    const encoder = new TextEncoder();
+    const salt = crypto.getRandomValues(new Uint8Array(16)); // Genera un salt aleatorio
 
+    // Importa la clave de la contraseña
+    const passwordKey = await crypto.subtle.importKey(
+        "raw",
+        encoder.encode(password),
+        { name: "PBKDF2" },
+        false,
+        ["deriveKey"]
+    );
+
+    // Deriva la clave usando PBKDF2
+    const key = await crypto.subtle.deriveKey(
+        {
+            name: "PBKDF2",
+            salt: salt,
+            iterations: 100000,
+            hash: "SHA-256"
+        },
+        passwordKey,
+        { name: "AES-GCM", length: 256 },
+        true,
+        ["encrypt"]
+    );
+
+    // Exporta la clave derivada en formato raw
+    const hashBuffer = await crypto.subtle.exportKey("raw", key);
+
+    return {
+        hash: bufferToHex(hashBuffer),
+        salt: bufferToHex(salt)
+    };
+}
+
+// Convierte un ArrayBuffer a una cadena hexadecimal
+function bufferToHex(buffer) {
+    return [...new Uint8Array(buffer)]
+        .map(b => b.toString(16).padStart(2, '0'))
+        .join('');
+}
