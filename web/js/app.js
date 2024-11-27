@@ -240,3 +240,43 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 });
 
+// -------------------ELIMINAR APP-------------------
+import { deleteDoc } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-firestore.js";
+
+// Obtener el botón de eliminar
+const deleteAppButton = document.getElementById("deleteAppButton");
+
+if (deleteAppButton) {
+    deleteAppButton.addEventListener("click", async () => {
+        const selectedAppId = sessionStorage.getItem("selectedAppId");
+        const userId = sessionStorage.getItem("userUid");
+
+        if (!selectedAppId || !userId) {
+            alert("No se pudo identificar la aplicación a eliminar. Inténtalo de nuevo.");
+            return;
+        }
+
+        const confirmDelete = confirm("¿Estás seguro de que deseas eliminar esta aplicación?");
+        if (!confirmDelete) {
+            return; // Cancela si el usuario no confirma
+        }
+
+        try {
+            // Referencia al documento específico
+            const appDocRef = doc(db, "USUARIOS", userId, "APP", selectedAppId);
+
+            // Eliminar el documento
+            await deleteDoc(appDocRef);
+
+            alert("¡La aplicación fue eliminada con éxito!");
+
+            // Redirigir al usuario a la lista de aplicaciones
+            window.location.href = "llavero.html";
+        } catch (error) {
+            console.error("Error al eliminar la aplicación:", error);
+            alert("Ocurrió un error al intentar eliminar la aplicación. Inténtalo de nuevo.");
+        }
+    });
+} else {
+    console.warn("El botón 'Eliminar APP' no está disponible en el DOM.");
+}
