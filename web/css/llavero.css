@@ -105,6 +105,14 @@ header .btn-outline-dark {
     --bs-gradient: none;
 }
 
+
+.footer {
+    margin: 40px 0;
+    color: #888;
+    text-align: center;
+}
+
+
 /* Estilos Responsive */
 @media (max-width: 992px) {
     .botonesmenu {

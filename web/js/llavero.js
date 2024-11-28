@@ -96,12 +96,14 @@ function crearAppElement(app) {
   }
 
   const appTitle = template.querySelector(".app-title");
+  const appUrl = template.querySelector(".app-url");
   const appUser = template.querySelector(".app-user");
   const appComment = template.querySelector(".app-comment");
 
   if (appTitle) appTitle.textContent = app.appName;
+  if (appUrl) appUrl.textContent = app.appUrl || "";
   if (appUser) appUser.textContent = `Usuario: ${app.appUser}`;
-  if (appComment) appComment.textContent = app.comment || "Sin comentarios";
+  if (appComment) appComment.textContent = app.comment || "";
 
   const detailsButton = template.querySelector("button");
   if (detailsButton) {

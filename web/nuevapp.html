@@ -43,8 +43,14 @@
             <div class="col-md-6">
                 <div class="card p-4 bg-dark">
                     <form id="appForm">
+
                         <div class="mb-3">
-                            <label for="urlApp" class="form-label">URL App</label>
+                            <label for="nombreApp" class="form-label">Nombre de la aplicación</label>
+                            <input type="text" class="form-control" id="nombreApp" placeholder="Nombre App">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="urlApp" class="form-label">URL</label>
                             <input type="text" class="form-control" id="urlApp" placeholder="URL App">
                         </div>
 
@@ -72,12 +78,14 @@
                         <div class="d-grid gap-2">
                             <button type="submit" class="btn btn-success" id="saveBtn">Guardar</button>
                         </div>
+
                     </form>
                 </div>
             </div>
         </div>
-        <div class="row g-3 justify-content-center mt-4" id="appList">
-            <!-- Aquí se agregarán las apps dinámicamente -->
+
+        <div class="footer">
+                Copyright &copy; 2024 &mdash; Gestor de contraseñas GTX 
         </div>
     </div>
 

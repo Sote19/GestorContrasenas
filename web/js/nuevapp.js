@@ -9,18 +9,13 @@ let authenticatedUser = null;
 window.onload = function() {
   onAuthStateChanged(auth, async (user) => {
     if (!user) {
-      // Redirigir si no hay usuario
       window.location.href = 'iniciosesion.html';
     } else {
-      // Guardar el usuario autenticado en la variable global
       authenticatedUser = user;
-
-      // Guardar UID y nombre en sessionStorage (opcional, si se necesita)
       const userName = user.displayName || "Usuario";
       sessionStorage.setItem("userName", userName);
-      sessionStorage.setItem("userUid", user.uid); // Almacenar el UID del usuario
+      sessionStorage.setItem("userUid", user.uid);
 
-      // Mostrar nombre del usuario en la interfaz
       const userNameElement = document.getElementById("user-name");
       if (userNameElement) {
         userNameElement.textContent = userName;
@@ -34,7 +29,7 @@ window.onload = function() {
 // ---------------------------------CERRAR SESIÓN--------------------
 document.getElementById('logout-button')?.addEventListener('click', async () => {
   try {
-    await signOut(auth); // Redirigir al usuario al índice después de cerrar sesión
+    await signOut(auth);
     window.location.href = 'index.html';
     authenticatedUser = null;
   } catch (error) {
@@ -48,63 +43,53 @@ document.addEventListener("DOMContentLoaded", () => {
   const togglePassword = document.querySelector("#togglePassword");
   const passwordInput = document.querySelector("#password");
 
-  // Toggle visibility for the password field
-  togglePassword.addEventListener("click", function () {
-      const type = passwordInput.getAttribute("type") === "password" ? "text" : "password";
-      passwordInput.setAttribute("type", type);
-      this.textContent = type === "password" ? "👁️" : "🙈";
+  togglePassword?.addEventListener("click", function () {
+    const type = passwordInput.getAttribute("type") === "password" ? "text" : "password";
+    passwordInput.setAttribute("type", type);
+    this.textContent = type === "password" ? "👁️" : "🙈";
   });
 
   const saveBtn = document.getElementById("saveBtn");
-  const urlApp = document.getElementById("urlApp");
-  const user = document.getElementById("user");
-  const comment = document.getElementById("comment");
 
-  saveBtn.addEventListener("click", async (event) => {
-      event.preventDefault(); // Evita el envío del formulario
+  saveBtn?.addEventListener("click", async (event) => {
+    event.preventDefault();
 
-      const appName = urlApp.value.trim();
-      const userValue = user.value.trim();
-      const passwordValue = passwordInput.value.trim();
-      const commentValue = comment.value.trim();
+    const appName = document.getElementById("nombreApp")?.value.trim();
+    const urlValue = document.getElementById("urlApp")?.value.trim();
+    const userValue = document.getElementById("user")?.value.trim();
+    const passwordValue = passwordInput?.value.trim();
+    const commentValue = document.getElementById("comment")?.value.trim();
 
-      // Validar que los campos no estén vacíos
-      if (!appName || !userValue || !passwordValue) {
-          alert("Por favor, completa todos los campos.");
-          return;
-      }
+    if (!appName || !userValue || !passwordValue) {
+      alert("Por favor, completa los campos obligatorios: Nombre de la aplicación, Usuario y Contraseña.");
+      return;
+    }
 
-      // Validar si el usuario está autenticado
-      if (!authenticatedUser) {
-          alert("No se pudo identificar al usuario. Por favor, inicia sesión de nuevo.");
-          return;
-      }
+    if (!authenticatedUser) {
+      alert("No se pudo identificar al usuario. Por favor, inicia sesión de nuevo.");
+      return;
+    }
 
-      try {
-          // Llamar a la función de cifrado
-          const { hash: encryptedPassword, salt } = await hashPassword(passwordValue);
+    try {
+      const encryptionKey = await getEncryptionKey();
+      const { encrypted, iv } = await encryptPassword(passwordValue, encryptionKey);
 
-          // Referencia a la subcolección APP del usuario autenticado
-          const userAppCollection = collection(db, "USUARIOS", authenticatedUser.uid, "APP");
+      const appData = {
+        appName,
+        appUrl: urlValue || null,
+        appUser: userValue,
+        appContra: encrypted,
+        iv: bufferToHex(iv),
+        comment: commentValue || null,
+      };
 
-          // Agregar un nuevo documento a la subcolección
-          await addDoc(userAppCollection, {
-              appName,
-              appUser: userValue,
-              appContra: encryptedPassword, // Contraseña cifrada
-              salt: salt, // Salt para la contraseña
-              comment: commentValue,
-              createdAt: new Date() // Marca de tiempo
-          });
-
-          alert("¡Aplicación guardada con éxito!");
-
-          // Redirigir a la página de gestor de contraseñas
-          window.location.href = "llavero.html";
-      } catch (error) {
-          console.error("Error al guardar la aplicación:", error);
-          alert("No se pudo guardar la aplicación. Inténtalo de nuevo.");
-      }
+      await addDoc(collection(db, "USUARIOS", authenticatedUser.uid, "APP"), appData);
+      alert("¡Aplicación guardada con éxito!");
+      window.location.href = "llavero.html";
+    } catch (error) {
+      console.error("Error al guardar la aplicación:", error);
+      alert("No se pudo guardar la aplicación. Inténtalo de nuevo.");
+    }
   });
 });
 
@@ -112,58 +97,71 @@ document.addEventListener("DOMContentLoaded", () => {
 document.getElementById('generate')?.addEventListener('click', generatePassword);
 
 function generatePassword() {
-  const length = 16; // Longitud de la contraseña
+  const length = 16;
   const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+[]{}|;:,.<>?¿~';
   let password = '';
-  
+
   for (let i = 0; i < length; i++) {
     const randomIndex = Math.floor(Math.random() * chars.length);
     password += chars[randomIndex];
   }
-  
+
   document.getElementById('password').value = password;
 }
 
 // --------------------FUNCIÓN PARA CIFRAR LA CONTRASEÑA--------------------------------
-async function hashPassword(password) {
-    const encoder = new TextEncoder();
-    const salt = crypto.getRandomValues(new Uint8Array(16)); // Genera un salt aleatorio
-
-    // Importa la clave de la contraseña
-    const passwordKey = await crypto.subtle.importKey(
-        "raw",
-        encoder.encode(password),
-        { name: "PBKDF2" },
-        false,
-        ["deriveKey"]
-    );
-
-    // Deriva la clave usando PBKDF2
-    const key = await crypto.subtle.deriveKey(
-        {
-            name: "PBKDF2",
-            salt: salt,
-            iterations: 100000,
-            hash: "SHA-256"
-        },
-        passwordKey,
-        { name: "AES-GCM", length: 256 },
-        true,
-        ["encrypt"]
-    );
-
-    // Exporta la clave derivada en formato raw
-    const hashBuffer = await crypto.subtle.exportKey("raw", key);
-
-    return {
-        hash: bufferToHex(hashBuffer),
-        salt: bufferToHex(salt)
-    };
+async function encryptPassword(password, encryptionKey) {
+  const encoder = new TextEncoder();
+  const iv = crypto.getRandomValues(new Uint8Array(12));  // Vector de inicialización de 12 bytes
+  const encryptedContent = await crypto.subtle.encrypt(
+    {
+      name: "AES-GCM",
+      iv: iv,
+    },
+    encryptionKey,  // Usar la clave derivada para cifrar
+    encoder.encode(password)
+  );
+  return { encrypted: bufferToHex(encryptedContent), iv };
 }
 
-// Convierte un ArrayBuffer a una cadena hexadecimal
+
+// --------------------UTILIDAD PARA CONVERTIR BUFFER A HEX--------------------------------
 function bufferToHex(buffer) {
-    return [...new Uint8Array(buffer)]
-        .map(b => b.toString(16).padStart(2, '0'))
-        .join('');
+  return Array.from(new Uint8Array(buffer))
+    .map((b) => b.toString(16).padStart(2, '0'))
+    .join('');
+}
+
+// --------------------FUNCIÓN PARA OBTENER CLAVE DE CIFRADO--------------------------------
+async function getEncryptionKey() {
+  const masterKey = sessionStorage.getItem("userMasterKey");
+  if (!masterKey) {
+    throw new Error("No se encontró la llave maestra.");
+  }
+
+  // Convertir la llave maestra a bytes
+  const encoder = new TextEncoder();
+  const keyMaterial = encoder.encode(masterKey);
+
+  // Derivar la clave usando PBKDF2
+  const derivedKey = await crypto.subtle.importKey(
+    "raw", 
+    keyMaterial,
+    { name: "PBKDF2" },
+    false, 
+    ["deriveKey"]
+  );
+
+  return crypto.subtle.deriveKey(
+    {
+      name: "PBKDF2",
+      salt: new TextEncoder().encode("fixed-salt"),  // Usar un salt constante
+      iterations: 100000,
+      hash: "SHA-256"
+    },
+    derivedKey,
+    { name: "AES-GCM", length: 256 },  // Derivar una clave AES de 256 bits
+    false, 
+    ["encrypt", "decrypt"]
+  );
 }
