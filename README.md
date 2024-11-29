@@ -90,7 +90,7 @@
 >  [!NOTE]
 >  El software puede aumentarse conforme vayamos avanzando con el proyecto y adquiriendo nuevos conocimientos.</p>
 
-## Arquitectura del sistema
+## 🔨  Arquitectura del sistema
 <details>
   <summary>Explicación 🔽</summary>
   Usaremos la arquitectura cliente-servidor de tres capas, la haremos en capas para así poder trabajar cada capa por separado y hacerlo de manera más sencilla y efectiva, para poder cumplir con los plazos de entrega.
@@ -119,7 +119,7 @@
 # Estilo web
 Para garantizar una experiencia de usuario intuitiva y coherente, hemos trabajado en un diseño visual lo más simple posible, aplicando principios de accesibilidad y claridad. Nos hemos centrado en lograr una estética y una estructura que se mantengan alineadas con el objetivo del proyecto y las necesidades del usuario final.
 
-## MockUp
+## 🧩  MockUp
 <details>
   <summary>Explicación 🔽</summary>
   Como se muestra en el mockup, nuestra web será sencilla. Cuando entremos a la web por primera vez, nos encontraremos con un panel sencillo que nos dará dos opciones, "Iniciar sesión" y "Registrarse".<br>
@@ -142,7 +142,7 @@ Para garantizar una experiencia de usuario intuitiva y coherente, hemos trabajad
 ![MockUp](assets_bf/mockup.png)
 </details>
 
-## Árbol Web
+## 🌲  Árbol Web
 <details>
   <summary>Explicación 🔽</summary>
   Como se puede ver en la imagen del árbol web, hemos optado por crear una página sencilla e intuitiva para el usuario. Para mejorar la experiencia, hemos diseñado la navegación de forma que el usuario necesite hacer el menor número de clics posible para acceder a todas las funcionalidades de nuestra web.
@@ -154,7 +154,7 @@ Para garantizar una experiencia de usuario intuitiva y coherente, hemos trabajad
 ![ArbolWeb](assets_bf/arbolweb.png)
 </details>
 
-## Gama cromática
+## 🎨  Gama cromática
 <details>
   <summary>Explicación 🔽</summary>
   Hemos optado por una paleta de colores en tonos verdes, que van desde un verde oscuro (#234C17) a un verde más claro (#B5FFA6). Estos colores están pensados para transmitir una sensación de seguridad, estabilidad y confianza, características fundamentales en un gestor de contraseñas. 
@@ -167,7 +167,7 @@ Para garantizar una experiencia de usuario intuitiva y coherente, hemos trabajad
 ![Colores](assets_bf/colores_principales.png)
 </details>
 
-## Logotipo
+## 🛡️  Logotipo
 <details>
   <summary>Explicación 🔽</summary>
   El logotipo elegido es un escudo verde con una cerradura en el centro, lo que simboliza la protección de las contraseñas, que actúan como llaves para acceder a las diferentes cuentas de los usuarios. 
@@ -189,7 +189,7 @@ Proxmox Virtual Environment, o Proxmox VE, entorno de virtualización de servido
 
 Para la creación de nuestro proyecto, vamos a usar Proxmox. Utilizaremos uno de los ordenadores disponibles en el aula para montar nuestro equipo PROXMOX, con el que trabajaremos para crear todos los servicios que necesitamos.
 
-## Entorno ProxMox
+## 🟠  Entorno ProxMox
 <details>
   <summary>Explicación 🔽</summary>
   Dentro de Proxmox, configuraremos una red NAT para que todas las máquinas virtuales que creemos tengan conexión entre ellas.
@@ -207,7 +207,7 @@ Para la creación de nuestro proyecto, vamos a usar Proxmox. Utilizaremos uno de
 
 > 📎 [**Ver _anexo 1_ para entorno ProxMox**](#anexo-1-entorno-proxmox)
 
-## Arquitectura de Red
+## 🕸️  Arquitectura de Red
 <details>
   <summary>Explicación 🔽</summary>
   Para nuestro proyecto, hemos configurado una red local utilizando Proxmox, en la cual hemos desplegado todos los servicios esenciales para nuestro gestor de contraseñas. En la imagen, se puede observar cómo hemos dividido el "Entorno Aula" y el "Entorno Proxmox".
@@ -242,7 +242,7 @@ Para la creación de nuestro proyecto, vamos a usar Proxmox. Utilizaremos uno de
   | FireBase         | 10.20.30.6                                 | 10.20.30.1                          | vmbr1 (10.20.30.0/24)         |
 </details>
 
-## Configuración de ROUTER
+## 🛠️  Configuración de ROUTER
 <details>
   <summary>Explicación 🔽</summary>
   Primero configuramos la red del router. Para ello cambiaremos el netplan ajustando las IP según la red interna previamente creada o la externa. Con ens18 identificaremos la red exterior y con ens19 la red interna.
@@ -293,7 +293,7 @@ sudo iptables -t nat -A PREROUTING -i ens18 -p tcp --dport 80 -j DNAT --to-desti
 >
 > 🚩 [Ver informe de errores.](#errores-con-el-router)
 
-## Configuración de CLIENTE
+## 🛠️  Configuración de CLIENTE
 <details>
   <summary>Explicación 🔽</summary>
   Configuramos la red del router cambiando el netplan para usar la interfaz ens19 con una IP dentro de la red. Como aún no hemos configurado ningún servicio DHCP, asignaremos la IP estática 10.20.30.5.
@@ -306,7 +306,7 @@ sudo iptables -t nat -A PREROUTING -i ens18 -p tcp --dport 80 -j DNAT --to-desti
 
 > 📎[**Ver _anexo 3_ para configuración del Cliente**](#anexo-3-configuración-del-cliente)
 
-## Configuración de Servidor DNS
+## 🛠️  Configuración de Servidor DNS
 <details>
   <summary>Explicación 🔽</summary>
   
@@ -328,7 +328,7 @@ sudo bash basic-install.sh
 > 
 > 🚩 [Ver informe de errores.](#errores-pi-hole-dns-server)
 
-## Configuración de Base de Datos
+## 🛠️  Configuración de Base de Datos
 <details>
   <summary>Explicación 🔽</summary>
   Para nuestro proyecto, crearemos una máquina que alojará nuestra base de datos. En lugar de usar una base de datos relacional como MySQL, optaremos por una base de datos no relacional gracias a Firebase. Ya que es un tipo de base de datos que hasta ahora no hemos visto y además en un entorno totalmente nuevo para nuestro desarrollo. Además, es un sistema que trabaja en tiempo real y almacena los datos en la nube, esto encaja a la perfección para nuestro proyecto.
@@ -392,7 +392,7 @@ Y este seria su esquema final:
 > [!WARNING]
 > Falta añadir info y REGLAS DE SEGURIDAD
 
-## Configuración del hosting
+## 🛠️  Configuración del hosting
 <details>
   <summary>Explicación 🔽</summary>
  
@@ -411,7 +411,7 @@ Destacar, que una vez que toda la conexión este en funcionamiento, esta regla s
 ![Script](assets_bf/script_js.png)
 </details>
 
-## Configuración de Nginx
+## 🛠️  Configuración de Nginx
 <details>
   <summary>Explicación 🔽</summary>
   NGINX es un servidor web open source de alta performance que ofrece el contenido estático de un sitio web de forma rápida y fácil de configurar.
@@ -456,7 +456,7 @@ git clone <URL_DEL_REPOSITORIO> /var/www/gtx.com
 > 
 > 🚩 [Ver informe de errores.](#errores-con-nginx)
 
-## CloudFlare
+## 🛠️  CloudFlare
 <details>
   <summary>Explicación 🔽</summary>
   Cloudflare es una empresa que ofrece servicios muy potentes de seguridad y optimización de páginas webs. Se beneficia de su CDN que acelera la carga de las páginas, mientras que su tecnología de protección contra ataques DDoS y amenazas cibernéticas asegura la estabilidad y seguridad de los sitios. Además, optimiza el tráfico web para mejorar la experiencia del usuario y reducir la carga en los servidores.
