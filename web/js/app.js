@@ -1,6 +1,7 @@
-import { doc, getDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-firestore.js";
+import { doc, getDoc, deleteDoc, updateDoc } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-firestore.js";
 import { auth, db } from "./firebase.js";
 import { signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-auth.js";
+
 
 // Variable global para almacenar el usuario autenticado
 let authenticatedUser = null;
@@ -297,7 +298,7 @@ function habilitarEdicion() {
   }
 }
 
-// Función para guardar los cambios
+// -------------------GUARDAR CAMBIOS-------------------
 async function guardarCambios() {
   const selectedAppId = sessionStorage.getItem("selectedAppId");
 
@@ -315,12 +316,17 @@ async function guardarCambios() {
 
   // Validar que los campos obligatorios no estén vacíos
   if (!appName || !appUser || !appPassword) {
-    alert("Por favor, completa los campos obligatorios: Nombre de la aplicación, Usuario y Contraseña.");
+    alert("Por favor, completa los campos obligatorios: Nombre APP, Usuario y Contraseña.");
     return;
   }
 
   try {
-    const encryptionKey = await getEncryptionKey(); // Obtener la clave de encriptación
+    const masterKey = sessionStorage.getItem("userMasterKey");
+    if (!masterKey) {
+      throw new Error("No se encontró la llave maestra en la sesión.");
+    }
+
+    const encryptionKey = await getEncryptionKey(masterKey); // Obtener la clave de encriptación
     const { encrypted, iv } = await encryptPassword(appPassword, encryptionKey); // Encriptar la nueva contraseña
 
     const updatedAppData = {
@@ -337,10 +343,68 @@ async function guardarCambios() {
     await updateDoc(appDocRef, updatedAppData);
 
     alert("¡Aplicación actualizada con éxito!");
-    window.location.href = "llavero.html";  // Redirigir al llavero después de la actualización
+    window.location.href = "llavero.html"; // Redirigir al llavero después de la actualización
 
   } catch (error) {
     console.error("Error al actualizar los datos de la aplicación:", error);
     alert("No se pudo guardar los cambios. Intenta de nuevo.");
   }
 }
+
+// -------------------CIFRAR CONTRASEÑA-------------------
+async function encryptPassword(password, encryptionKey) {
+  const encoder = new TextEncoder();
+  const passwordBuffer = encoder.encode(password);
+
+  const iv = crypto.getRandomValues(new Uint8Array(12)); // Generar un IV único
+  const encryptedBuffer = await crypto.subtle.encrypt(
+    {
+      name: "AES-GCM",
+      iv: iv, // Vector de inicialización
+    },
+    encryptionKey,
+    passwordBuffer
+  );
+
+  return {
+    encrypted: bufferToHex(encryptedBuffer),
+    iv: iv,
+  };
+}
+
+// -------------------UTILIDAD PARA CONVERTIR BUFFER A HEX-------------------
+function bufferToHex(buffer) {
+  return Array.from(new Uint8Array(buffer))
+    .map((byte) => byte.toString(16).padStart(2, "0"))
+    .join("");
+}
+
+
+// ------------------------FUNCION PORTAPAPELES----------------------------
+document.addEventListener("DOMContentLoaded", () => {
+  // Función genérica para copiar contenido al portapapeles
+  function copiarAlPortapapeles(inputId) {
+    const inputElement = document.getElementById(inputId);
+    if (!inputElement) {
+      console.error(`Elemento con ID ${inputId} no encontrado.`);
+      return;
+    }
+
+    // Seleccionar el texto del input y copiarlo al portapapeles
+    inputElement.select();
+    inputElement.setSelectionRange(0, 99999); // Para dispositivos móviles
+
+    try {
+      document.execCommand("copy");
+      alert(`¡Copiado al portapapeles!`);
+    } catch (error) {
+      console.error("Error al copiar al portapapeles:", error);
+      alert("No se pudo copiar al portapapeles.");
+    }
+  }
+
+  // Eventos para los botones de copia
+  document.getElementById("copyUrl")?.addEventListener("click", () => copiarAlPortapapeles("app-URL"));
+  document.getElementById("copyUser")?.addEventListener("click", () => copiarAlPortapapeles("user"));
+  document.getElementById("copyPassword")?.addEventListener("click", () => copiarAlPortapapeles("password"));
+});
