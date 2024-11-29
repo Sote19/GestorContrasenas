@@ -35,6 +35,7 @@ window.onload = function () {
   });
 };
 
+
 // ---------------------CERRAR SESIÓN---------------------
 document.getElementById("logout-button")?.addEventListener("click", async () => {
   try {
@@ -70,7 +71,8 @@ async function cargarClaveMaestra(uid) {
   return encryptionKey;
 }
 
-// -------------------VERIFICAR Y CARGAR DATOS-------------------
+
+// -------------------VERIFICAR DATOS-------------------
 function verificarSessionData() {
   const selectedAppId = sessionStorage.getItem("selectedAppId");
   if (!selectedAppId) {
@@ -79,6 +81,8 @@ function verificarSessionData() {
   }
 }
 
+
+// -------------------CARGAR DATOS-------------------
 async function cargarDatosApp() {
   const selectedAppId = sessionStorage.getItem("selectedAppId");
 
@@ -114,10 +118,11 @@ async function cargarDatosApp() {
     appData.appContra = decryptedPassword;
     actualizarDOM(appData);
   } catch (error) {
-    console.error("Error al cargar o descifrar los datos de la aplicación:", error);
-    alert("Ocurrió un error al cargar los datos. Revisa la consola para más detalles.");
+    alert("Llave maestra incorrecta, vuelve a intentarlo.");
+    window.location.href = "llavero.html";
   }
 }
+
 
 function actualizarDOM(appData) {
   const campos = {
@@ -159,7 +164,6 @@ async function decryptPassword(encryptedPassword, ivHex, encryptionKey) {
 
 
 // --------------------UTILIDAD PARA CONVERTIR HEX A BUFFER-------------------
-// Función para convertir Hex a Uint8Array
 function hexToBuffer(hex) {
   if (!hex || typeof hex !== "string") {
     console.error("Hex inválido:", hex);
@@ -171,11 +175,9 @@ function hexToBuffer(hex) {
 
 // --------------------FUNCIÓN PARA OBTENER CLAVE DE DESCIFRADO-------------------
 async function getEncryptionKey(masterKey) {
-  // Convertir la llave maestra a bytes
   const encoder = new TextEncoder();
   const keyMaterial = encoder.encode(masterKey);
 
-  // Derivar una clave AES-GCM de 256 bits
   const derivedKey = await crypto.subtle.importKey(
     "raw",
     keyMaterial,
@@ -187,7 +189,7 @@ async function getEncryptionKey(masterKey) {
   return crypto.subtle.deriveKey(
     {
       name: "PBKDF2",
-      salt: new TextEncoder().encode("fixed-salt"), // Puedes usar un valor más complejo y constante
+      salt: new TextEncoder().encode("fixed-salt"),
       iterations: 100000,
       hash: "SHA-256"
     },
@@ -226,15 +228,13 @@ document.addEventListener("DOMContentLoaded", () => {
   const togglePasswordButton = document.querySelector("#togglePasswordVisibility");
   const passwordInput = document.querySelector("#password");
 
-  // Evento para alternar entre mostrar y ocultar la contraseña
   togglePasswordButton?.addEventListener("click", function () {
-    const type = passwordInput.getAttribute("type") === "password" ? "text" : "password"; // Alternar entre 'password' y 'text'
-    passwordInput.setAttribute("type", type);  // Cambiar tipo de input
+    const type = passwordInput.getAttribute("type") === "password" ? "text" : "password"; 
+    passwordInput.setAttribute("type", type); 
 
-    // Cambiar ícono dependiendo de la visibilidad de la contraseña
     const icon = togglePasswordButton.querySelector("i");
-    icon.classList.toggle("bi-eye");  // Cambiar el icono de ojo cerrado
-    icon.classList.toggle("bi-eye-slash");  // Cambiar el icono de ojo abierto
+    icon.classList.toggle("bi-eye");  
+    icon.classList.toggle("bi-eye-slash");
   });
 });
 
@@ -242,21 +242,18 @@ document.addEventListener("DOMContentLoaded", () => {
 // --------------------------ELIMINAR APP-----------------------------------
 async function eliminarAplicacion(appId) {
   try {
-    // Obtener el documento de la aplicación usando el ID de la aplicación
     const appDocRef = doc(db, "USUARIOS", authenticatedUser.uid, "APP", appId);
 
-    // Eliminar el documento de la base de datos
     await deleteDoc(appDocRef);
     
     alert("Aplicación eliminada con éxito.");
-    window.location.href = "llavero.html";  // Redirigir al llavero después de la eliminación
+    window.location.href = "llavero.html"; 
   } catch (error) {
     console.error("Error al eliminar la aplicación:", error);
     alert("No se pudo eliminar la aplicación. Inténtalo de nuevo.");
   }
 }
 
-// Añadir evento al botón de eliminar
 document.getElementById("deleteAppButton")?.addEventListener("click", async () => {
   const selectedAppId = sessionStorage.getItem("selectedAppId");
   
@@ -267,34 +264,30 @@ document.getElementById("deleteAppButton")?.addEventListener("click", async () =
 
   const confirmDelete = confirm("¿Estás seguro de que deseas eliminar esta aplicación?");
   if (confirmDelete) {
-    await eliminarAplicacion(selectedAppId);  // Llamar a la función para eliminar
+    await eliminarAplicacion(selectedAppId);
   }
 });
 
 
 // -------------------EDITAR-------------------
-// Función para habilitar la edición de los campos
 document.getElementById("editAppButton")?.addEventListener("click", habilitarEdicion);
 
 function habilitarEdicion() {
-  // Lista de campos a habilitar para edición
   const campos = ["app-name", "app-URL", "user", "password", "comment"];
 
   campos.forEach(id => {
     const campo = document.getElementById(id);
     if (campo) {
-      campo.readOnly = false; // Hacer que el campo sea editable
-      // Cambiar el fondo de los campos a un color suave para indicar que son editables
-      campo.style.backgroundColor = "rgba(255, 253, 200)"; // Amarillo suave
+      campo.readOnly = false; 
+      campo.style.backgroundColor = "rgba(255, 253, 200)"; 
     }
   });
 
-  // Cambiar el texto del botón a "Guardar cambios"
   const editButton = document.getElementById("editAppButton");
   if (editButton) {
     editButton.textContent = "Guardar cambios";
-    editButton.removeEventListener("click", habilitarEdicion);  // Eliminar el evento anterior
-    editButton.addEventListener("click", guardarCambios);  // Asignar el nuevo evento para guardar
+    editButton.removeEventListener("click", habilitarEdicion); 
+    editButton.addEventListener("click", guardarCambios); 
   }
 }
 
@@ -307,14 +300,12 @@ async function guardarCambios() {
     return;
   }
 
-  // Obtener los valores de los campos editados
   const appName = document.getElementById("app-name").value.trim();
   const appUrl = document.getElementById("app-URL").value.trim();
   const appUser = document.getElementById("user").value.trim();
   const appPassword = document.getElementById("password").value.trim();
   const appComment = document.getElementById("comment").value.trim();
 
-  // Validar que los campos obligatorios no estén vacíos
   if (!appName || !appUser || !appPassword) {
     alert("Por favor, completa los campos obligatorios: Nombre APP, Usuario y Contraseña.");
     return;
@@ -326,30 +317,29 @@ async function guardarCambios() {
       throw new Error("No se encontró la llave maestra en la sesión.");
     }
 
-    const encryptionKey = await getEncryptionKey(masterKey); // Obtener la clave de encriptación
-    const { encrypted, iv } = await encryptPassword(appPassword, encryptionKey); // Encriptar la nueva contraseña
+    const encryptionKey = await getEncryptionKey(masterKey); 
+    const { encrypted, iv } = await encryptPassword(appPassword, encryptionKey); 
 
     const updatedAppData = {
       appName,
-      appUrl: appUrl || null, // Permitir que URL esté vacía si no se actualiza
+      appUrl: appUrl || null, 
       appUser,
       appContra: encrypted,
       iv: bufferToHex(iv),
-      comment: appComment || null, // Permitir que los comentarios estén vacíos si no se actualizan
+      comment: appComment || null,
     };
 
-    // Actualizar el documento en Firestore
     const appDocRef = doc(db, "USUARIOS", authenticatedUser.uid, "APP", selectedAppId);
     await updateDoc(appDocRef, updatedAppData);
 
     alert("¡Aplicación actualizada con éxito!");
-    window.location.href = "llavero.html"; // Redirigir al llavero después de la actualización
-
+    window.location.href = "llavero.html";
   } catch (error) {
     console.error("Error al actualizar los datos de la aplicación:", error);
     alert("No se pudo guardar los cambios. Intenta de nuevo.");
   }
 }
+
 
 // -------------------CIFRAR CONTRASEÑA-------------------
 async function encryptPassword(password, encryptionKey) {
@@ -372,6 +362,7 @@ async function encryptPassword(password, encryptionKey) {
   };
 }
 
+
 // -------------------UTILIDAD PARA CONVERTIR BUFFER A HEX-------------------
 function bufferToHex(buffer) {
   return Array.from(new Uint8Array(buffer))
@@ -382,7 +373,6 @@ function bufferToHex(buffer) {
 
 // ------------------------FUNCION PORTAPAPELES----------------------------
 document.addEventListener("DOMContentLoaded", () => {
-  // Función genérica para copiar contenido al portapapeles
   function copiarAlPortapapeles(inputId) {
     const inputElement = document.getElementById(inputId);
     if (!inputElement) {
@@ -390,9 +380,8 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    // Seleccionar el texto del input y copiarlo al portapapeles
     inputElement.select();
-    inputElement.setSelectionRange(0, 99999); // Para dispositivos móviles
+    inputElement.setSelectionRange(0, 99999);
 
     try {
       document.execCommand("copy");
@@ -403,7 +392,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // Eventos para los botones de copia
   document.getElementById("copyUrl")?.addEventListener("click", () => copiarAlPortapapeles("app-URL"));
   document.getElementById("copyUser")?.addEventListener("click", () => copiarAlPortapapeles("user"));
   document.getElementById("copyPassword")?.addEventListener("click", () => copiarAlPortapapeles("password"));
