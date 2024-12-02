@@ -79,6 +79,9 @@ header .btn-outline-dark {
     align-items: center;
 }
 
+.hidden-text{
+    color: grey !important;
+}
 .card {
     --bs-card-bg: #b5ffa6;
 }
