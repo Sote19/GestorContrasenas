@@ -1,12 +1,14 @@
+// Importamos las dependencias necesarias.
 import { doc, getDoc, deleteDoc, updateDoc } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-firestore.js";
 import { auth, db } from "./firebase.js";
 import { signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-auth.js";
 
 
-// Variable global para almacenar el usuario autenticado
+// Variable global para almacenar el usuario autenticado.
 let authenticatedUser = null;
 
 // ---------------------VERIFICACIÓN DE USUARIO---------------------
+// verificamos si el usuario esta autentificado en nuestra base de datos. De no estarlo, se le manda directamente a "iniciosesion.html".
 window.onload = function () {
   onAuthStateChanged(auth, async (user) => {
     if (!user) {
@@ -14,108 +16,87 @@ window.onload = function () {
     } else {
       authenticatedUser = user;
 
+      // una vez verificado, guardamos el nombre del usuario para mostrarlo en la página, arriba a la izquierda.
       const userName = user.displayName || "Usuario";
       const userNameElement = document.getElementById("user-name");
       if (userNameElement) {
         userNameElement.textContent = userName;
-      } else {
-        console.error("El elemento 'user-name' no fue encontrado en el DOM.");
       }
 
-      verificarSessionData();
+      // antes de mostrar la información de la aplicación, llamamos a una función que verificará la llave maestra del usuario.
       try {
         await cargarClaveMaestra(authenticatedUser.uid);
         cargarDatosApp();
-      } catch (error) {
-        console.error("Error al cargar la clave maestra:", error);
-        alert("Error al cargar la clave maestra. Intenta de nuevo.");
-        window.location.href = "llavero.html";
-      }
+      } catch {}
     }
   });
 };
 
-
 // ---------------------CERRAR SESIÓN---------------------
+// cuando el botón de cerrar sesión sea pulsado, se ejecutará el cierre de sesión con una función de firebase hacia el usuario actual.
+// una vez cerrada la sesión, se mandará al iniciosesión, dejando la variable de usuario autentificado vacía.
 document.getElementById("logout-button")?.addEventListener("click", async () => {
   try {
     await signOut(auth);
     window.location.href = "index.html";
     authenticatedUser = null;
     sessionStorage.removeItem("userMasterKey");
-  } catch (error) {
-    console.error("Error al cerrar sesión:", error);
-    alert("No se pudo cerrar sesión. Inténtalo de nuevo.");
-  }
+  } catch {}
 });
 
-
 // ---------------------FUNCIONES DE CLAVE MAESTRA---------------------
-async function cargarClaveMaestra(uid) {
-  const userDocRef = doc(db, "USUARIOS", uid);
-  const userDoc = await getDoc(userDocRef);
+// función que verifica si la llave maestra se ha introducido correctamente.
+// cuando obtengamos la llave maestra, la guardamos para usarla posteriormente como clave para descifrar las claves de las aplicaciones.
+async function cargarClaveMaestra() {
 
-  if (!userDoc.exists()) {
-    throw new Error("Usuario no encontrado en la base de datos.");
-  }
-
-  const userData = userDoc.data();
-  const masterKeyInput = await requestMasterKey(); // Solicitar la llave maestra al usuario
-
-  if (!masterKeyInput) {
-    throw new Error("La llave maestra es requerida.");
-  }
+  const masterKeyInput = await requestMasterKey();
 
   const encryptionKey = await getEncryptionKey(masterKeyInput);
-  sessionStorage.setItem("userMasterKey", masterKeyInput); // Guardar temporalmente la llave
+  sessionStorage.setItem("userMasterKey", masterKeyInput);
   return encryptionKey;
 }
 
+// -------------------PEDIR LLAVE MAESTRA-------------------
+// con esta función creamos una ventana emergente donde el usuario introducirá su llave maestra.
+// en caso de no introducir nada se mostrará una alerta.
+// una vez introducida, se guarda la llave que se verificará más adelante cuando se cargen los datos de la aplicación
+function requestMasterKey() {
+  return new Promise((resolve) => {
+    const modal = document.getElementById("masterKeyModal");
+    const input = document.getElementById("masterKeyInput");
+    const button = document.getElementById("submitMasterKey");
 
-// -------------------VERIFICAR DATOS-------------------
-function verificarSessionData() {
-  const selectedAppId = sessionStorage.getItem("selectedAppId");
-  if (!selectedAppId) {
-    alert("No se pudo cargar la información de la aplicación. Por favor, selecciona una app desde el llavero.");
-    window.location.href = "llavero.html";
-  }
+    modal.style.display = "flex";
+
+    button.addEventListener("click", () => {
+      const masterKey = input.value;
+      if (!masterKey) {
+        alert("Por favor, introduce tu llave maestra.");
+        return;
+      }
+      modal.style.display = "none";
+      resolve(masterKey);
+    });
+  });
 }
 
 
 // -------------------CARGAR DATOS-------------------
+// se cargan los datos de la aplicación seleccionada en el llavero.
 async function cargarDatosApp() {
   const selectedAppId = sessionStorage.getItem("selectedAppId");
-
-  if (!authenticatedUser || !selectedAppId) {
-    console.error("Faltan datos del usuario o ID de la app.");
-    return;
-  }
-
   try {
     const appDocRef = doc(db, "USUARIOS", authenticatedUser.uid, "APP", selectedAppId);
     const appSnapshot = await getDoc(appDocRef);
-
-    if (!appSnapshot.exists()) {
-      alert("La aplicación seleccionada no existe o fue eliminada.");
-      window.location.href = "llavero.html";
-      return;
-    }
-
     const appData = appSnapshot.data();
 
-    if (!appData.appContra || !appData.iv) {
-      throw new Error("Faltan campos necesarios para el descifrado (appContra o iv).");
-    }
-
+    // verificación de que la llave mestra coincide con la que guardó el usuario en el registro.
+    // si no coincide, obtenemos el error y mostramos una alerta para que informar al usuario y lo enviamos a "llavero.html".
     const masterKey = sessionStorage.getItem("userMasterKey");
-    if (!masterKey) {
-      throw new Error("No se encontró la llave maestra en la sesión.");
-    }
-
     const encryptionKey = await getEncryptionKey(masterKey);
     const decryptedPassword = await decryptPassword(appData.appContra, appData.iv, encryptionKey);
-
     appData.appContra = decryptedPassword;
+
     actualizarDOM(appData);
   } catch (error) {
     alert("Llave maestra incorrecta, vuelve a intentarlo.");
@@ -123,7 +104,7 @@ async function cargarDatosApp() {
   }
 }
 
-
+// si a la hora de cargar los datos no hay ningún error, pasamos la información de la aplicación a su sitio correspondiente.
 function actualizarDOM(appData) {
   const campos = {
     "app-name": appData.appName || "Sin nombre",
@@ -137,31 +118,29 @@ function actualizarDOM(appData) {
     const elemento = document.getElementById(id);
     if (elemento) {
       elemento.value = value;
-    } else {
-      console.warn(`Elemento con ID ${id} no encontrado en el DOM.`);
     }
   }
 }
 
-
 // --------------------DESCIFRAR CONTRASEÑA-------------------
+// cogemos la contraseña cifrada, el vector de inicialización y la llave de descifrado. 
 async function decryptPassword(encryptedPassword, ivHex, encryptionKey) {
-  const iv = hexToBuffer(ivHex); // Convertir IV de Hex a Uint8Array
-  const encryptedBuffer = hexToBuffer(encryptedPassword); // Convertir contraseña de Hex a Uint8Array
+  const iv = hexToBuffer(ivHex); 
+  const encryptedBuffer = hexToBuffer(encryptedPassword); 
 
   const decryptedContent = await crypto.subtle.decrypt(
     {
       name: "AES-GCM",
-      iv: iv,  // Vector de inicialización
+      iv: iv,
     },
-    encryptionKey,  // Usar la misma clave derivada para descifrar
+    encryptionKey,
     encryptedBuffer
   );
 
+  // devuelve la contraseña descifrada
   const decoder = new TextDecoder();
-  return decoder.decode(decryptedContent);  // Retornar la contraseña descifrada
+  return decoder.decode(decryptedContent);
 }
-
 
 // --------------------UTILIDAD PARA CONVERTIR HEX A BUFFER-------------------
 function hexToBuffer(hex) {
@@ -172,8 +151,9 @@ function hexToBuffer(hex) {
   return Uint8Array.from(hex.match(/.{1,2}/g).map(byte => parseInt(byte, 16)));
 }
 
-
 // --------------------FUNCIÓN PARA OBTENER CLAVE DE DESCIFRADO-------------------
+// generamos la clave de cifrado a partir de la llave maestra.
+// usamos el algoritmo AES-GCM
 async function getEncryptionKey(masterKey) {
   const encoder = new TextEncoder();
   const keyMaterial = encoder.encode(masterKey);
@@ -200,30 +180,8 @@ async function getEncryptionKey(masterKey) {
   );
 }
 
-
-// -------------------PEDIR LLAVE MAESTRA-------------------
-function requestMasterKey() {
-  return new Promise((resolve) => {
-    const modal = document.getElementById("masterKeyModal");
-    const input = document.getElementById("masterKeyInput");
-    const button = document.getElementById("submitMasterKey");
-
-    modal.style.display = "flex";
-
-    button.addEventListener("click", () => {
-      const masterKey = input.value;
-      if (!masterKey) {
-        alert("Por favor, introduce tu llave maestra.");
-        return;
-      }
-      modal.style.display = "none";
-      resolve(masterKey);
-    });
-  });
-}
-
-
 // -----------------------MOSTRAR CONTRASEÑA-----------------------------
+// hacemos que cuando se pulse el ojo muestre u oculte el contenido de la contraseña.
 document.addEventListener("DOMContentLoaded", () => {
   const togglePasswordButton = document.querySelector("#togglePasswordVisibility");
   const passwordInput = document.querySelector("#password");
@@ -238,8 +196,8 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
-
 // --------------------------ELIMINAR APP-----------------------------------
+// funcionalidad para eliminar la aplicación de la base de datos.
 async function eliminarAplicacion(appId) {
   try {
     const appDocRef = doc(db, "USUARIOS", authenticatedUser.uid, "APP", appId);
@@ -248,30 +206,22 @@ async function eliminarAplicacion(appId) {
     
     alert("Aplicación eliminada con éxito.");
     window.location.href = "llavero.html"; 
-  } catch (error) {
-    console.error("Error al eliminar la aplicación:", error);
-    alert("No se pudo eliminar la aplicación. Inténtalo de nuevo.");
-  }
+  } catch {}
 }
 
+// si el usuario pulsa el botón de eliminar aplicación, llamamos a la función y mostramos mensaje de confirmación para completar la acción
 document.getElementById("deleteAppButton")?.addEventListener("click", async () => {
-  const selectedAppId = sessionStorage.getItem("selectedAppId");
   
-  if (!selectedAppId) {
-    alert("No se ha seleccionado ninguna aplicación.");
-    return;
-  }
-
+  const selectedAppId = sessionStorage.getItem("selectedAppId");
   const confirmDelete = confirm("¿Estás seguro de que deseas eliminar esta aplicación?");
   if (confirmDelete) {
     await eliminarAplicacion(selectedAppId);
   }
 });
 
-
 // -------------------EDITAR-------------------
-document.getElementById("editAppButton")?.addEventListener("click", habilitarEdicion);
-
+// funcionalidad para habilitar la edición de los campos de la aplicación.
+// para diferenciar que el modo edición está activo, ponemos el fondo amarillento.
 function habilitarEdicion() {
   const campos = ["app-name", "app-URL", "user", "password", "comment"];
 
@@ -284,6 +234,7 @@ function habilitarEdicion() {
   });
 
   const editButton = document.getElementById("editAppButton");
+  // modificamos el texto del boton "Editar"
   if (editButton) {
     editButton.textContent = "Guardar cambios";
     editButton.removeEventListener("click", habilitarEdicion); 
@@ -291,14 +242,13 @@ function habilitarEdicion() {
   }
 }
 
+// cuando el usuario pulsa el botón editar llamamos a la función de edición.
+document.getElementById("editAppButton")?.addEventListener("click", habilitarEdicion);
+
 // -------------------GUARDAR CAMBIOS-------------------
+// función que recogerá todos los campos de nuevo para guardar las modificaciones.
 async function guardarCambios() {
   const selectedAppId = sessionStorage.getItem("selectedAppId");
-
-  if (!selectedAppId) {
-    alert("No se ha seleccionado ninguna aplicación.");
-    return;
-  }
 
   const appName = document.getElementById("app-name").value.trim();
   const appUrl = document.getElementById("app-URL").value.trim();
@@ -306,6 +256,7 @@ async function guardarCambios() {
   const appPassword = document.getElementById("password").value.trim();
   const appComment = document.getElementById("comment").value.trim();
 
+  // nos aseguramos de que los campos obligatorios tengan información.
   if (!appName || !appUser || !appPassword) {
     alert("Por favor, completa los campos obligatorios: Nombre APP, Usuario y Contraseña.");
     return;
@@ -313,10 +264,6 @@ async function guardarCambios() {
 
   try {
     const masterKey = sessionStorage.getItem("userMasterKey");
-    if (!masterKey) {
-      throw new Error("No se encontró la llave maestra en la sesión.");
-    }
-
     const encryptionKey = await getEncryptionKey(masterKey); 
     const { encrypted, iv } = await encryptPassword(appPassword, encryptionKey); 
 
@@ -334,23 +281,20 @@ async function guardarCambios() {
 
     alert("¡Aplicación actualizada con éxito!");
     window.location.href = "llavero.html";
-  } catch (error) {
-    console.error("Error al actualizar los datos de la aplicación:", error);
-    alert("No se pudo guardar los cambios. Intenta de nuevo.");
-  }
+  } catch {}
 }
 
-
 // -------------------CIFRAR CONTRASEÑA-------------------
+// volvemos a usar el cifrado de la contraseña como hacemos al crear una nueva aplicación
 async function encryptPassword(password, encryptionKey) {
   const encoder = new TextEncoder();
   const passwordBuffer = encoder.encode(password);
 
-  const iv = crypto.getRandomValues(new Uint8Array(12)); // Generar un IV único
+  const iv = crypto.getRandomValues(new Uint8Array(12));
   const encryptedBuffer = await crypto.subtle.encrypt(
     {
       name: "AES-GCM",
-      iv: iv, // Vector de inicialización
+      iv: iv,
     },
     encryptionKey,
     passwordBuffer
@@ -362,7 +306,6 @@ async function encryptPassword(password, encryptionKey) {
   };
 }
 
-
 // -------------------UTILIDAD PARA CONVERTIR BUFFER A HEX-------------------
 function bufferToHex(buffer) {
   return Array.from(new Uint8Array(buffer))
@@ -370,8 +313,8 @@ function bufferToHex(buffer) {
     .join("");
 }
 
-
 // ------------------------FUNCION PORTAPAPELES----------------------------
+// para que el portapapeles funcione, hacemos que según el portapapeles que se pulse, copie el contenido del input pertinente
 document.addEventListener("DOMContentLoaded", () => {
   function copiarAlPortapapeles(inputId) {
     const inputElement = document.getElementById(inputId);
