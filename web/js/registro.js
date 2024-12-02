@@ -1,38 +1,45 @@
+// Importamos las dependencias necesarias
 import { db, auth } from './firebase.js';
 import { createUserWithEmailAndPassword, updateProfile } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-auth.js";
 import { doc, setDoc } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-firestore.js";
 
 
-// --------------------FUNCION OJOS REGISTRO--------------------------------
-function togglePasswordVisibility(toggleId, inputId) {
+// --------------------FUNCION MOSTRAR/OCULTAR CONTRASEÑA--------------------------------
+// Hacemos la funcion que cuando se pulse el icono del ojo, muestre o oculte el texto
+function visibilidadcontra(toggleId, inputId) {
     document.getElementById(toggleId).addEventListener('click', function () {
         var passwordInput = document.getElementById(inputId);
         var icon = this.querySelector('i');
-        
+        //Si el input esta oculto, al pulsar el ojo nos mostrara la contraseña
+        //y cambiara el icono, de ojo a ojo con slash
         if (passwordInput.type === 'password') {
-            passwordInput.type = 'text'; // Muestra la contraseña
+            passwordInput.type = 'text';
             icon.classList.remove('fa-eye');
-            icon.classList.add('fa-eye-slash'); // Cambia a ojo cerrado
+            icon.classList.add('fa-eye-slash');
         } else {
-            passwordInput.type = 'password'; // Oculta la contraseña
+            //Ocultamos la contraseña y cambiamos el icono
+            //del ojo con slash al ojo abierto
+            passwordInput.type = 'password'; 
             icon.classList.remove('fa-eye-slash');
-            icon.classList.add('fa-eye'); // Cambia a ojo abierto
+            icon.classList.add('fa-eye');
         }
     });
 }
 
-togglePasswordVisibility('toggle-password', 'password');
-togglePasswordVisibility('toggle-confirmPassword', 'confirmPassword');
-togglePasswordVisibility('toggle-masterKey', 'masterKey');
-togglePasswordVisibility('toggle-confirmMasterKey', 'confirmMasterKey');
+//Llamadas a la funcion, creada anteriormente
+visibilidadcontra('toggle-password', 'password');
+visibilidadcontra('toggle-confirmPassword', 'confirmPassword');
+visibilidadcontra('toggle-masterKey', 'masterKey');
+visibilidadcontra('toggle-confirmMasterKey', 'confirmMasterKey');
 
 
-// --------------------FORMULARIO REGISTRO--------------------------------
+// --------------------FORMULARIO GENERAL--------------------------------
+// Esperamos al envio del formulario y evitamos que si el registro falla, la pagina se recargue y borre los datos introducidos
 const registro = document.getElementById("registroForm");
 registro.addEventListener("submit", (e) => {
-    e.preventDefault(); // Evita que el formulario recargue la página
+    e.preventDefault();
 
-    // Obtener los elementos de los campos del formulario
+    //Cojemos los elementos que necesitaremos en este js, y los guardamos en las variables que usaremos
     const nombreInput = document.getElementById("nombre");
     const emailInput = document.getElementById("email");
     const passwordInput = document.getElementById("password");
@@ -40,27 +47,24 @@ registro.addEventListener("submit", (e) => {
     const masterKeyInput = document.getElementById("masterKey");
     const confirmMasterKeyInput = document.getElementById("confirmMasterKey");
 
-    // Limpiar las clases de validación anteriores
+    // Eliminamos las posibles clases de validación anteriores
     [nombreInput, emailInput, passwordInput, confirmPasswordInput, masterKeyInput, confirmMasterKeyInput].forEach(input => {
         input.classList.remove("is-invalid");
     });
 
-    // Validaciones
+    // -------------------VALIDACIONES----------------
     let isValid = true;
-
     // Validar nombre
     if (!nombreInput.value.trim()) {
         nombreInput.classList.add("is-invalid");
         isValid = false;
     }
-
     // Validar email
     if (!emailInput.value.includes("@")) {
         emailInput.classList.add("is-invalid");
         isValid = false;
     }
-
-    // Validar contraseña y confirmación
+    // Validar contraseña y la confirmacion de esta
     if (passwordInput.value.length < 16) {
         passwordInput.classList.add("is-invalid");
         isValid = false;
@@ -69,8 +73,7 @@ registro.addEventListener("submit", (e) => {
         confirmPasswordInput.classList.add("is-invalid");
         isValid = false;
     }
-
-    // Validar llave maestra y confirmación
+    // Validar llave maestra y la confirmacion de esta
     if (masterKeyInput.value.length < 18) {
         masterKeyInput.classList.add("is-invalid");
         isValid = false;
@@ -79,8 +82,7 @@ registro.addEventListener("submit", (e) => {
         confirmMasterKeyInput.classList.add("is-invalid");
         isValid = false;
     }
-
-    // Si pasa todas las validaciones, registrar el usuario
+    // Si todas las validaciones son correctas, registramos al usuario
     if (isValid) {
         registrarUsuario(
             emailInput.value,
@@ -92,43 +94,43 @@ registro.addEventListener("submit", (e) => {
 });
 
 
-// --------------------FUNCIÓN PARA REGISTRAR USUARIO--------------------------------
+// --------------------REGISTRO DE USUARIO--------------------------------
 async function registrarUsuario(email, password, nombre, masterKey) {
     try {
-        // Crear un nuevo usuario con el correo electrónico y la contraseña
+        // Usando una funcion que importamos de firebase, registramos al usuario
+        // con su email y contraseña, que mas tarde se usaran para los login
         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
         const user = userCredential.user;
 
-        // Configurar el displayName del usuario en Firebase Authentication
+        // Añadimos el displayName del usuario, para usarlo en firebase authentication
         await updateProfile(user, { displayName: nombre });
 
         const { hash: masterKeyHash, salt } = await hashPassword(masterKey);
-        // Guardar el nombre, correo y llave maestra cifrada del usuario en Firestore
+        // Guardamos el nombre, el email y la masterkey de manera cifrada
+        // asi conseguimos que no solo viaje encriptado, sino que tambien viaje cifrado
         await setDoc(doc(db, "USUARIOS", user.uid), {
             nombre: nombre,
             email: email,
-            masterKey: masterKeyHash, // Llave cifrada
+            masterKey: masterKeyHash,
             salt: salt 
         });
 
-        // Alerta de éxito
+        //Avisamos al usuario de que el registro ha sido exitoso
         alert("¡Registro exitoso!");
 
-        // Redirigir a la página de inicio de sesión
+        //Y cargamos la pantalla de inicio de sesion.
         window.location.href = "iniciosesion.html";
-    } catch (error) {
-        // Manejo de errores
-        console.error("Error al registrar el usuario");
-        alert("Error al registrar el usuario");
-    }
+    } catch {}
 }
 
-// --------------------FUNCIÓN PARA CIFRAR LA LLAVE MAESTRA--------------------------------
+// --------------------CIFRADO DE LA LLAVE MAESTRA--------------------------------
+// Generamos las funciones y creamos el salt, para el hash
 async function hashPassword(password) {
     const encoder = new TextEncoder();
-    const salt = crypto.getRandomValues(new Uint8Array(16)); // Genera un salt aleatorio
+    const salt = crypto.getRandomValues(new Uint8Array(16));
 
-    // Importa la clave de la contraseña
+    // Importamos unc clave criptográfica a partir de una contraseña 
+    // para usarla con el algoritmo de cifrado PBKDF2
     const passwordKey = await crypto.subtle.importKey(
         "raw",
         encoder.encode(password),
@@ -137,7 +139,8 @@ async function hashPassword(password) {
         ["deriveKey"]
     );
 
-    // Deriva la clave usando PBKDF2
+    // Se deriva una clave segura usando PBKDF2 con una salt
+    //para luego usarla en cifrado AES-GCM de 256 bits.
     const key = await crypto.subtle.deriveKey(
         {
             name: "PBKDF2",
@@ -154,13 +157,14 @@ async function hashPassword(password) {
     // Exporta la clave derivada en formato raw
     const hashBuffer = await crypto.subtle.exportKey("raw", key);
 
+    // Preparamos el decifrado de la contraseña
     return {
         hash: bufferToHex(hashBuffer),
         salt: bufferToHex(salt)
     };
 }
 
-// Convierte un ArrayBuffer a una cadena hexadecimal
+// Convierte un buffer a una cadena hexadecimal
 function bufferToHex(buffer) {
     return [...new Uint8Array(buffer)]
         .map(b => b.toString(16).padStart(2, '0'))

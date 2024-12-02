@@ -1,121 +1,99 @@
+//Importamos las dependencias necesarias
 import { db, auth } from './firebase.js';
 import { signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-auth.js";
 import { collection, getDocs } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-firestore.js";
 
-// Variable global para almacenar el usuario autenticado
+// Variable global para almacenar el usuario autenticado.
 let authenticatedUser = null;
 
-// ---------------------VERIFICACIÓN DE USUARIO EN LLAVERO---------------------
-window.onload = function() {
+// ---------------------VERIFICACIÓN DE USUARIO---------------------
+// verificamos si el usuario esta autentificado en nuestra base de datos. De no estarlo, se le manda directamente a "iniciosesion.html".
+window.onload = function () {
   onAuthStateChanged(auth, async (user) => {
     if (!user) {
-      // Redirigir si no hay usuario
-      window.location.href = 'iniciosesion.html';
+      window.location.href = "iniciosesion.html";
     } else {
-      // Guardar el usuario autenticado en la variable global
       authenticatedUser = user;
 
-      // Guardar UID y nombre en sessionStorage (opcional)
+      // una vez verificado, guardamos el nombre del usuario para mostrarlo en la página, arriba a la izquierda.
       const userName = user.displayName || "Usuario";
-      sessionStorage.setItem("userName", userName);
-      sessionStorage.setItem("userUid", user.uid);
-
-      // Mostrar nombre del usuario en la interfaz
       const userNameElement = document.getElementById("user-name");
       if (userNameElement) {
         userNameElement.textContent = userName;
-      } else {
-        console.error("El elemento 'user-name' no fue encontrado en el DOM.");
       }
-
-      // Cargar aplicaciones usando la variable global
       await cargarApps();
+      // antes de mostrar la información de la aplicación, llamamos a una función que verificará la llave maestra del usuario.
+      try {
+        await cargarClaveMaestra(authenticatedUser.uid);
+      } catch {}
     }
   });
 };
 
 
-// ---------------------------------CERRAR SESIÓN--------------------
-document.getElementById('logout-button')?.addEventListener('click', async () => {
+// ---------------------CERRAR SESIÓN---------------------
+// cuando el botón de cerrar sesión sea pulsado, se ejecutará el cierre de sesión con una función de firebase hacia el usuario actual
+// una vez cerrada la sesión, se mandará al iniciosesión, dejando la variable de usuario autentificado vacía
+document.getElementById("logout-button")?.addEventListener("click", async () => {
   try {
-    await signOut(auth); // Redirigir al usuario al índice después de cerrar sesión
-    window.location.href = 'index.html';
+    await signOut(auth);
+    window.location.href = "index.html";
     authenticatedUser = null;
-  } catch (error) {
-    console.error("Error al cerrar sesión:", error);
-    alert("No se pudo cerrar sesión. Inténtalo de nuevo.");
-  }
+    sessionStorage.removeItem("userMasterKey");
+  } catch {}
 });
 
 
 // ---------------------------------CARGAR APPS--------------------
 async function cargarApps() {
   const appList = document.getElementById("appList");
-  
-  // Verificar si el contenedor de las apps existe
-  if (!appList) {
-    console.error("No se encontró el elemento 'appList' en el DOM.");
-    return;
-  }
-
-  if (!authenticatedUser) {
-    console.error("No hay un usuario autenticado.");
-    return;
-  }
-
   try {
     const appsCollection = collection(db, "USUARIOS", authenticatedUser.uid, "APP");
     const querySnapshot = await getDocs(appsCollection);
+    // Limpiamos contenido previo
+    appList.innerHTML = ""; 
 
-    appList.innerHTML = ""; // Limpiar contenido previo
-
+    //Si no hay apps en el llavero, mostramos un texto que avisa al usuario
     if (querySnapshot.empty) {
-      appList.innerHTML = `<p class="text-center text-muted">No tienes aplicaciones guardadas.</p>`;
+      appList.innerHTML = `<p class="text-center text-muted hidden-text">No tienes aplicaciones guardadas.</p>`;
       return;
     }
 
+    //Asignamos los datos de la app a una id
     querySnapshot.forEach((doc) => {
       const app = doc.data();
-      app.id = doc.id; // Añadir manualmente el ID del documento al objeto app
+      app.id = doc.id;
       const appElement = crearAppElement(app);
       appList.appendChild(appElement);
     });
-  } catch (error) {
-    console.error("Error al cargar las aplicaciones:", error);
-    alert("Ocurrió un error al cargar tus aplicaciones. Inténtalo más tarde.");
-  }
+  } catch {}
 }
 
-// ---------------------------------CREAR ELEMENTO APP--------------------
+// ---------------------------------CREAMOS LOS ELEMENTOS DE LA APP--------------------
+//Elementos de los que mostraremos los datos en en contenedor
 function crearAppElement(app) {
   const template = document.getElementById("appTemplate")?.content.cloneNode(true);
-
-  if (!template) {
-    console.error("El template 'appTemplate' no fue encontrado en el DOM.");
-    return;
-  }
-
   const appTitle = template.querySelector(".app-title");
   const appUrl = template.querySelector(".app-url");
   const appUser = template.querySelector(".app-user");
   const appComment = template.querySelector(".app-comment");
 
+  // Si encontramos los elementos, asignamos los datos de la aplicación
   if (appTitle) appTitle.textContent = app.appName;
   if (appUrl) appUrl.textContent = app.appUrl || "";
   if (appUser) appUser.textContent = `Usuario: ${app.appUser}`;
   if (appComment) appComment.textContent = app.comment || "";
 
+  //Boton de detalles, para poder consultarlos y manipularlos
   const detailsButton = template.querySelector("button");
+  //Asignacion de id y redireccion, de los detalles
   if (detailsButton) {
     detailsButton.addEventListener("click", () => {
-      // Guardamos el ID de la app seleccionada
       sessionStorage.setItem("selectedAppId", app.id);
-      console.log("ID de la app seleccionada:", app.id); // Depuración
+      console.log("ID de la app seleccionada:", app.id);
       window.location.href = "app.html";
     });
-  } else {
-    console.error("El botón para ver detalles no fue encontrado en el template.");
-  }
-
+  } else {}
+  //Devuelve el contenedor con los datos ya modificados
   return template;
 }
