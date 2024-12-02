@@ -69,7 +69,8 @@
 <details>
   <summary>Seguridad 🔽</summary>
   
-  - TLS/SSL
+  - NGINX TLS (de manera interna). 
+  - Cloudflare SSL (de manera externa).
 </details>
 
 <details>
