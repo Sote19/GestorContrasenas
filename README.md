@@ -50,10 +50,8 @@
 
 <details>
   <summary>Back-end 🔽</summary>
-  
-  - Python
-  - Java Script
-  - PHP (lo intentaremos)
+
+   - Java Script
 </details>
 
 <details>
@@ -65,7 +63,7 @@
 <details>
   <summary>Cifrado 🔽</summary>
   
-  - Según vayamos avanzando con el proyecto elegiremos una de las 3 opciones: AES-256, bcrypt/Argon2, PBKDF2.
+  - En nuestro proyecto hemos elegido estas opciones de cifrado: HASH, PBKDF2.
 </details>
 
 <details>
