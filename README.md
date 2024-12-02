@@ -44,7 +44,8 @@
   <summary>Front-end 🔽</summary>
 
   - HTML
-  - CSS con ayuda de Bootstrap
+  - CSS
+  - Bootstrap
   - Colores que usaremos en el front-end: #234C17 y #B5FFA6
 </details>
 
@@ -52,6 +53,7 @@
   <summary>Back-end 🔽</summary>
 
    - Java Script
+   - Node.JS
 </details>
 
 <details>
@@ -80,17 +82,12 @@
   <summary>Software 🔽</summary>
   
   - Visual Studio
-  - Google Firebase
+  - Trello
   - GitHub
-  - Bootstrap
-  - Node.JS
   - Cloudflare
   - Pi-hole
   - Nginx
 </details>
-
->  [!NOTE]
->  El software puede aumentarse conforme vayamos avanzando con el proyecto y adquiriendo nuevos conocimientos.</p>
 
 ## 🔨  Arquitectura del sistema
 <details>
