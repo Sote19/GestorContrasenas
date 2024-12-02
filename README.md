@@ -64,9 +64,9 @@
   <summary>Cifrado 🔽</summary>
   
   En nuestro proyecto hemos elegido estas opciones de cifrado:
-  - PBKDF2 + salt estático para las contraseñas de las aplicaciones web que guarde el usuario y un salt dinámico para la masterkey
-  - AES-GCM + uso de vector de inicialización
-  - Hash
+  - PBKDF2 + salt estático para las contraseñas de las aplicaciones web que guarde el usuario y un salt dinámico para la masterkey.
+  - AES-GCM + uso de vector de inicialización.
+  - Hash.
 </details>
 
 <details>
