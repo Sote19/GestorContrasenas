@@ -14,15 +14,15 @@
 <details>
   <summary>Explicación 🔽</summary>
 
-   Nuestros objetivos desde un inicio se han respetado con solidez, ya que todos los integrantes perseguiamos los mismos objetivos y las motivaciones eran muy parecidas.
-   Desde que decidimos crear un gestor de contraseñas en forma de aplicación web, queriamos que las contraseñas de esta se almacenaran y transportaran de manera cifrada, además todas las contraseñas serían gestionadas por una contraseña maestra. Esta contraseña maestra enlazara la Base de Datos con la aplicacion web.
+Nuestros objetivos desde un inicio se han respetado con solidez, ya que todos los integrantes perseguíamos los mismos objetivos y las motivaciones eran muy parecidas.
+Desde que decidimos crear un gestor de contraseñas en forma de aplicación web, queríamos que las contraseñas de esta se almacenaran y transportaran de manera cifrada, además todas las contraseñas serían gestionadas por una contraseña maestra. Esta contraseña maestra enlazará la Base de Datos con la aplicación web.
    
-   Además de cara al usuario queremos facilitar la vida a los usuarios para que gasten el tiempo mínimo en buscar, añadir o manejar sus datos personales de autenticación.
-   Y con la seguridad de que sus datos estan bien protegidos en nuestro gestor.
+Además de cara al usuario queremos facilitar la vida a los usuarios para que gasten el tiempo mínimo en buscar, añadir o manejar sus datos personales de autenticación.
+Y con la seguridad de que sus datos están bien protegidos en nuestro gestor.
    
-   Y de manera personal buscaremos trabajar con herramientas, aplicaciones, lenguajes, servicios... nuevos para nosotros, para conseguir alcanzar nuevos conocimientos y conceptos que consideramos que nos serán útiles en nuestra carrera profesional.
+Y de manera personal buscaremos trabajar con herramientas, aplicaciones, lenguajes y servicios nuevos para nosotros para conseguir alcanzar nuevos conocimientos y conceptos que consideramos que nos serán útiles en nuestra carrera profesional.
    
-   *Con todo esto hemos realizado la siguiente estructura, donde resume los objetivos que buscaremos cumplir.*
+*Con todo esto hemos realizado la siguiente estructura, donde resume los objetivos que buscaremos cumplir.*
 
 - **1 (Objetivo General)** - Gestionar contraseñas de manera sencilla y segura
 - - **1.1 (Objetivo Específico)** - Programar un gestor de contraseñas  
