@@ -13,6 +13,18 @@
 ## 🎯  Objetivo que se persigue
 <details>
   <summary>Explicación 🔽</summary>
+ OG.1 (Objetivo General) - Gestionar contraseñas de manera sencilla y segura
+   OE.1.1 (Objetivo Especifico) - Programar un gestor de contraseñas
+     OO.1.1.1 (Objetivo Operativo) - Aplicar los conceptos aprendidos
+   OE.1.1 (Objetivo Especifico) - Potenciar la sencillez y la seguridad
+     OO.1.1.1 (Objetivo Operativo) - Desarrollar un front-end intuitivo
+     OO.1.1.2 (Objetivo Operativo) - Desarrollar un back-end seguro
+ 
+ OG.2 (Objetivo General) - Aumentar nuestros conocimientos
+   OE2.1 (Objetivo Especifico) - Alcanzar ámbitos y conceptos nuevos
+     OO.2.1.1 (Objetivo Operativo) - Hacer un trabajo personal extraescolar, para abastecer-nos de nueva teoria.
+     OO.2.1.2 (Objetivo Operativo) - Proponernos retos grupales, para mantener una buena línea de aprendizaje.
+ 
   Nuestro objetivo es crear una aplicación web que gestione usuarios y contraseñas de manera cifrada. Además, tendremos una BBDD segura protegida por una única contraseña maestra que será enlazada a la app. Queremos facilitar la vida a los usuarios para que gasten el tiempo mínimo en buscar, añadir o manejar sus datos personales de autenticación.
 </details>
 
