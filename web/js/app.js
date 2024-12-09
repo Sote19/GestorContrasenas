@@ -47,14 +47,51 @@ document.getElementById("logout-button")?.addEventListener("click", async () => 
 // ---------------------FUNCIONES DE CLAVE MAESTRA---------------------
 // función que verifica si la llave maestra se ha introducido correctamente.
 // cuando obtengamos la llave maestra, la guardamos para usarla posteriormente como clave para descifrar las claves de las aplicaciones.
-async function cargarClaveMaestra() {
+async function cargarClaveMaestra(userId) {
+  try {
+    console.log("Inicio de carga de clave maestra");
+    
+    const masterKey = await requestMasterKey();
+    console.log("Llave maestra ingresada:", masterKey);
 
-  const masterKeyInput = await requestMasterKey();
+    const docRef = doc(db, "USUARIOS", authenticatedUser.uid);
+    const docSnap = await getDoc(docRef);
+    console.log("Documento de usuario obtenido:", docSnap.exists());
 
-  const encryptionKey = await getEncryptionKey(masterKeyInput);
-  sessionStorage.setItem("userMasterKey", masterKeyInput);
-  return encryptionKey;
+    if (!docSnap.exists()) {
+      throw new Error("El documento del usuario no existe.");
+    }
+
+    const salt = docSnap.data().salt;
+    console.log("Salt obtenido:", salt);
+
+    if (!salt) {
+      throw new Error("Salt no encontrado en Firestore.");
+    }
+
+    const localmasterKey = sessionStorage.getItem("userMasterKey");
+    console.log("Llave maestra local (en sesión):", localmasterKey);
+
+    const derivedKey = await deriveKey(masterKey, salt);
+    console.log("Llave derivada calculada:", derivedKey);
+
+    const derivedKeyHex = bufferToHex(await crypto.subtle.exportKey("raw", derivedKey));
+    console.log("Llave derivada en hexadecimal:", derivedKeyHex);
+
+    if (derivedKeyHex !== localmasterKey) {
+      console.error("Error: Llave maestra incorrecta.");
+      throw new Error("Llave maestra incorrecta.");
+    }
+
+    console.log("Llave maestra validada correctamente.");
+    return derivedKey;
+
+  } catch (error) {
+    console.error("Error en cargarClaveMaestra:", error.message);
+    throw error; // Para que se gestione correctamente el flujo de error
+  }
 }
+
 
 // -------------------PEDIR LLAVE MAESTRA-------------------
 // con esta función creamos una ventana emergente donde el usuario introducirá su llave maestra.
@@ -80,29 +117,89 @@ function requestMasterKey() {
   });
 }
 
+async function deriveKey(masterKey, salt) {
+  try {
+    console.log("Inicio de derivación de clave. MasterKey:", masterKey, "Salt:", salt);
+
+    const encoder = new TextEncoder();
+    const keyMaterial = encoder.encode(masterKey);
+    console.log("Key material preparado:", keyMaterial);
+
+    const saltBuffer = hexToBuffer(salt);
+    console.log("Salt convertido a buffer:", saltBuffer);
+
+    const rawKey = await crypto.subtle.importKey(
+      "raw",
+      keyMaterial,
+      { name: "PBKDF2" },
+      false,
+      ["deriveBits", "deriveKey"]
+    );
+    console.log("Raw key importada:", rawKey);
+
+    // Cambiar extractable: true
+    const derivedKey = await crypto.subtle.deriveKey(
+      {
+        name: "PBKDF2",
+        salt: saltBuffer,
+        iterations: 100000,
+        hash: "SHA-256",
+      },
+      rawKey,
+      { name: "AES-GCM", length: 256 },
+      true, // Aseguramos que la clave es exportable
+      ["encrypt", "decrypt"]
+    );
+
+    console.log("Clave derivada:", derivedKey);
+    return derivedKey;
+
+  } catch (error) {
+    console.error("Error en deriveKey:", error.message);
+    throw error;
+  }
+}
+
 
 // -------------------CARGAR DATOS-------------------
 // se cargan los datos de la aplicación seleccionada en el llavero.
 async function cargarDatosApp() {
   const selectedAppId = sessionStorage.getItem("selectedAppId");
+  console.log("Cargando datos de la aplicación. ID seleccionada:", selectedAppId);
+
   try {
     const appDocRef = doc(db, "USUARIOS", authenticatedUser.uid, "APP", selectedAppId);
     const appSnapshot = await getDoc(appDocRef);
+
+    if (!appSnapshot.exists()) {
+      console.error("No se encontró la aplicación con el ID proporcionado.");
+      throw new Error("Aplicación no encontrada.");
+    }
+
     const appData = appSnapshot.data();
+    console.log("Datos de la aplicación obtenidos:", appData);
 
-    // verificación de que la llave mestra coincide con la que guardó el usuario en el registro.
-    // si no coincide, obtenemos el error y mostramos una alerta para que informar al usuario y lo enviamos a "llavero.html".
     const masterKey = sessionStorage.getItem("userMasterKey");
-    const encryptionKey = await getEncryptionKey(masterKey);
-    const decryptedPassword = await decryptPassword(appData.appContra, appData.iv, encryptionKey);
-    appData.appContra = decryptedPassword;
+    if (!masterKey) {
+      throw new Error("Llave maestra no encontrada en la sesión.");
+    }
 
+    const encryptionKey = await getEncryptionKey(masterKey);
+    console.log("Clave de descifrado obtenida:", encryptionKey);
+
+    const decryptedPassword = await decryptPassword(appData.appContra, appData.iv, encryptionKey);
+    console.log("Contraseña descifrada:", decryptedPassword);
+
+    appData.appContra = decryptedPassword;
     actualizarDOM(appData);
+
   } catch (error) {
+    console.error("Error al cargar datos de la aplicación:", error.message);
     alert("Llave maestra incorrecta, vuelve a intentarlo.");
     window.location.href = "llavero.html";
   }
 }
+
 
 // si a la hora de cargar los datos no hay ningún error, pasamos la información de la aplicación a su sitio correspondiente.
 function actualizarDOM(appData) {

@@ -1,7 +1,7 @@
 //Importamos las dependencias necesarias
 import { db, auth } from './firebase.js';
 import { signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-auth.js";
-import { collection, getDocs } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-firestore.js";
+import { collection, doc, getDocs } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-firestore.js";
 
 // Variable global para almacenar el usuario autenticado.
 let authenticatedUser = null;
@@ -21,11 +21,13 @@ window.onload = function () {
       if (userNameElement) {
         userNameElement.textContent = userName;
       }
+
       await cargarApps();
-      // antes de mostrar la información de la aplicación, llamamos a una función que verificará la llave maestra del usuario.
+
       try {
         await cargarClaveMaestra(authenticatedUser.uid);
-      } catch {}
+      } catch{};
+
     }
   });
 };
@@ -43,6 +45,19 @@ document.getElementById("logout-button")?.addEventListener("click", async () => 
   } catch {}
 });
 
+// ---------------------FUNCIONES DE CLAVE MAESTRA---------------------
+// función que verifica si la llave maestra se ha introducido correctamente.
+// cuando obtengamos la llave maestra, la guardamos para usarla posteriormente como clave para descifrar las claves de las aplicaciones.
+async function cargarClaveMaestra() {
+
+  const docRef = doc(db, "USUARIOS", authenticatedUser.uid);
+  const docSnap = await getDoc(docRef);
+  const masterKey = docSnap.data().masterKey;
+
+  sessionStorage.setItem("userMasterKey", masterKey);
+  return
+
+}
 
 // ---------------------------------CARGAR APPS--------------------
 async function cargarApps() {
@@ -93,7 +108,7 @@ function crearAppElement(app) {
       console.log("ID de la app seleccionada:", app.id);
       window.location.href = "app.html";
     });
-  } else {}
-  //Devuelve el contenedor con los datos ya modificados
+  } 
   return template;
 }
+
