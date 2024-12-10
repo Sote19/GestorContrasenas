@@ -1,7 +1,7 @@
 //Importamos las dependencias necesarias
 import { db, auth } from './firebase.js';
 import { signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-auth.js";
-import { collection, doc, getDocs } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-firestore.js";
+import { collection, doc, getDocs, getDoc } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-firestore.js";
 
 // Variable global para almacenar el usuario autenticado.
 let authenticatedUser = null;
@@ -22,10 +22,11 @@ window.onload = function () {
         userNameElement.textContent = userName;
       }
 
-      await cargarApps();
+
 
       try {
         await cargarClaveMaestra(authenticatedUser.uid);
+        await cargarApps();
       } catch{};
 
     }
