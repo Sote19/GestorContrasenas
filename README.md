@@ -1,12 +1,12 @@
- # ASIX2_Gestor de Contraseñas_GTX <br> Trabajo realizado por Gerard Soteras, Tim Kalugin y Xavi Conde
+# ASIX2_Gestor de Contraseñas_GTX <br> Trabajo realizado por Gerard Soteras, Tim Kalugin y Xavi Conde
 
 ## 💡  Explicación de la idea del proyecto
 <details>
   <summary>Explicación 🔽</summary>
  
- En este proyecto nos vamos a centrar en crear una aplicación web que funcione como un gestor de contraseñas. La idea es que esta web permita crear un usuario y que pueda añadir sus aplicaciones, webs, usuarios y contraseñas de forma fácil e intuitiva, pero siempre con seguridad. 
+ En este proyecto nos vamos a centrar en crear una aplicación web que funcione como un gestor de contraseñas. La idea es que esta web permita a los usuarios crear una cuenta y añadir aplicaciones, webs, usuarios y contraseñas de forma fácil e intuitiva, pero siempre con seguridad. 
  
- Nos vamos a enfocar principalmente en el back-end, pero también intentaremos que el front-end esté bien diseñado para que sea accesible para cualquier usuario. Nuestro gestor podrá almacenar todas las contraseñas de forma cifrada, y estarán gestionadas por una contraseña maestra (masterkey).
+ Nos enfocaremos principalmente en el back-end, pero también intentaremos que el front-end esté bien diseñado para que sea accesible para cualquier usuario. Nuestro gestor podrá almacenar todas las contraseñas de forma cifrada, y estarán gestionadas por una llave maestra (masterkey).
   
   La seguridad que vamos a implementar como desarrolladores incluye: contraseñas cifradas, una base de datos segura, y una masterkey con un cifrado más robusto.
   Para los usuarios, la seguridad se basará en dos cosas: su contraseña de usuario y la masterkey. Así, los usuarios podrán gestionar todas sus cuentas y contraseñas de manera centralizada, segura y sencilla.
@@ -16,11 +16,11 @@
 <details>
   <summary>Explicación 🔽</summary>
 
-Nuestros objetivos desde un inicio se han respetado con solidez, ya que todos los integrantes perseguíamos los mismos objetivos y las motivaciones eran muy parecidas.
+Hemos mantenido con solidez nuestros objetivos iniciales, ya que todos los integrantes perseguíamos los mismos objetivos y las motivaciones eran muy parecidas.
 Desde que decidimos crear un gestor de contraseñas en forma de aplicación web, queríamos que las contraseñas de esta se almacenaran y transportaran de manera cifrada, además todas las contraseñas serían gestionadas por una contraseña maestra. Esta contraseña maestra enlazará la Base de Datos con la aplicación web.
    
 Además, de cara al usuario, queremos facilitar la vida a los usuarios para que empleen el tiempo mínimo en buscar, añadir o manejar sus datos personales de autenticación.
-Y con la seguridad de que sus datos están bien protegidos en nuestro gestor.
+Además, garantizamos que sus datos estarán protegidos en nuestro gestor.
    
 Y de manera personal buscaremos trabajar con herramientas, aplicaciones, lenguajes y servicios nuevos para nosotros para conseguir alcanzar nuevos conocimientos y conceptos que consideramos que nos serán útiles en nuestra carrera profesional.
    
@@ -35,7 +35,7 @@ Y de manera personal buscaremos trabajar con herramientas, aplicaciones, lenguaj
 
 - **2 (Objetivo General)** - Aumentar nuestros conocimientos  
 - - **2.1 (Objetivo Específico)** - Alcanzar ámbitos y conceptos nuevos  
-- - - **2.1.1 (Objetivo Operativo)** - Hacer un trabajo personal extraescolar, para abastecernos de nueva teoría  
+- - - **2.1.1 (Objetivo Operativo)** - Hacer un trabajo personal extraescolar, para adquirir nuevos conocimientos teóricos  
 - - - **2.1.2 (Objetivo Operativo)** - Proponernos retos grupales, para mantener una buena línea de aprendizaje
 
 </details>
@@ -43,9 +43,9 @@ Y de manera personal buscaremos trabajar con herramientas, aplicaciones, lenguaj
 ## 📝  Organización y roles del equipo
 <details>
   <summary>Organización 🔽</summary>
-  Al ser un grupo que en el primer año del grado ya trabajamos juntos en varios proyectos, la organización ha sido muy fácil.
+  Al ser un grupo que en el primer año del grado ya trabajamos juntos en varios proyectos, la organización resultó sencilla.
   
-  Hemos decidido que todos haremos de todo, pero cada uno tendrá un rol de “líder” en cada apartado en el que hemos distribuido el proyecto, este líder será el encargado únicamente de marcar el tempo y de comunicar al resto del grupo cómo vamos en relación con los objetivos y fechas acordados al inicio.
+  Hemos decidido que todos haremos de todo, pero cada uno tendrá un rol de “líder” en cada apartado en el que hemos distribuido el proyecto, este líder será el encargado únicamente de marcar el ritmo y de comunicar al resto del grupo cómo vamos en relación con los objetivos y fechas acordados al inicio.
   
   Al final de cada clase se pondrá en común el trabajo de cada integrante, con el objetivo de que todas las personas en todo momento sepan que se ha hecho ese día y si algún día hay una baja, que se pueda seguir trabajando con normalidad.
   
@@ -55,9 +55,9 @@ Y de manera personal buscaremos trabajar con herramientas, aplicaciones, lenguaj
 <details>
   <summary>Roles 🔽</summary>  
   
-  - Xavi - Front-end, Programación, ProxMox, escritos (GitHub)
+  - Xavi - Front-end, Programación, Proxmox, escritos (GitHub)
   - Gerard - Back-end cifrado, Redes, escritos (GitHub)
-  - Tim - Back-end BBDD, ProxMox, gestores de tareas y escritos (GitHub)
+  - Tim - Back-end BBDD, Proxmox, gestores de tareas y escritos (GitHub)
 </details>
 
 > [!IMPORTANT]
@@ -70,13 +70,13 @@ Y de manera personal buscaremos trabajar con herramientas, aplicaciones, lenguaj
   - HTML
   - CSS
   - Bootstrap
-  - Colores que usaremos en el front-end: #234C17 y #B5FFA6
+  - Colores a utilizar en el front-end: #234C17 y #B5FFA6
 </details>
 
 <details>
   <summary>Back-end 🔽</summary>
 
-   - Java Script
+   - JavaScript
    - Node.JS
 </details>
 
@@ -121,7 +121,7 @@ Y de manera personal buscaremos trabajar con herramientas, aplicaciones, lenguaj
   
   Las tres capas se dividirán:
   - Cliente: Esta parte interactuará con el usuario, es decir, la mayoría del front-end estará en esta capa.
-  - Servidor: Manejará la parte lógica y la base de datos y se encargará del procesado de solicitudes. También se gestionará el cifrado y las contraseñas
+  - Servidor: Manejará la parte lógica y la base de datos y se encargará del procesamiento de solicitudes. También se gestionará el cifrado y las contraseñas
   - BBDD: Aquí se almacenarán los datos persistentes, como las contraseñas cifradas y las cuentas de usuario.
 </details>
 
@@ -148,7 +148,7 @@ Para garantizar una experiencia de usuario intuitiva y coherente, hemos trabajad
   Como se muestra en el mockup, nuestra web será sencilla. Cuando entremos a la web por primera vez, nos encontraremos con un panel sencillo que nos dará dos opciones, "Iniciar sesión" y "Registrarse".<br>
   Cada opción nos mandará a la página correspondiente, cuyo diseño será parecido al ya visto, con la diferencia que los títulos referenciarán dónde nos encontramos.
   
-  En la página de registrarse nos saldrá un pequeño "cuestionario" que nos solicitará correo electrónico, contraseña para entrar, nombre de usuario y llave maestra. Además, habrá un botón que permitirá ir a la página de iniciar sesión si ya tienes una cuenta registrada.
+  En la página de registro aparecerá un pequeño formulario que nos solicitará correo electrónico, contraseña para entrar, nombre de usuario y llave maestra. Además, habrá un botón que permitirá ir a la página de iniciar sesión si ya tienes una cuenta registrada.
   
   En la página de iniciar sesión nos mostrará los espacios correspondientes para introducir el usuario y la contraseña previamente registrada en la web. También estará disponible la opción de "¿Has olvidado tu contraseña?", "¿No tienes cuenta? Regístrate ya", la casilla para activar si quieres recordar el dispositivo y un ojo que mostrará la contraseña, ya que cuando se escribe no se muestra.
   
@@ -156,7 +156,7 @@ Para garantizar una experiencia de usuario intuitiva y coherente, hemos trabajad
   
   A la hora de registrar una aplicación, se pedirá el nombre de la aplicación, la URL del sitio web de la aplicación, el usuario y si se quiere generar una contraseña o introducir una personal. También habrá un espacio para poner comentarios. Una vez configurado, se usará un botón con "Guardar" para finalizar la acción de agregar una aplicación.  
   
-  Una vez tengamos algunas aplicaciones registradas, pulsando el botón "Ver detalles", aparecerá una ventana donde se deberá introducir la llave maestra. En caso de introducirla correctamente, se mostrará la información previamente introducida para la aplicación correspondiente y tres botones: "Editar", "Volver" y "Eliminar". Si la llave maestra es erronea, se redirige al usuario a la página principal de la web.
+  Una vez tengamos algunas aplicaciones registradas, pulsando el botón "Ver detalles", aparecerá una ventana donde se deberá introducir la llave maestra. En caso de introducirla correctamente, se mostrará la información previamente introducida para la aplicación correspondiente y tres botones: "Editar", "Volver" y "Eliminar". Si la llave maestra es errónea, se redirige al usuario a la página principal de la web.
 </details>
 
 <details>
@@ -181,7 +181,7 @@ Para garantizar una experiencia de usuario intuitiva y coherente, hemos trabajad
 <details>
   <summary>Explicación 🔽</summary>
   Hemos optado por una paleta de colores en tonos verdes, que van desde un verde oscuro (#234C17) a un verde más claro (#B5FFA6). Estos colores están pensados para transmitir una sensación de seguridad, estabilidad y confianza, características fundamentales en un gestor de contraseñas. 
-  El verde también está asociado con zonas seguras y aprobadas, lo que refuerza la idea de que los usuarios estarán en un entorno protegido para almacenar su información sensible. Además, los colores blanco (#ffffff) y negro (#000000) se usan como base para asegurar legibilidad y simplicidad, sin distraer la atención de la funcionalidad principal de la plataforma.
+  El verde también está asociado con zonas seguras y aprobadas, lo que refuerza la idea de que los usuarios estarán en un entorno protegido para almacenar su información sensible. Además, los colores blanco (#FFFFFF) y negro (#000000) se usan como base para asegurar legibilidad y simplicidad, sin distraer la atención de la funcionalidad principal de la plataforma.
 </details>
 
 <details>
@@ -208,7 +208,7 @@ Para garantizar una experiencia de usuario intuitiva y coherente, hemos trabajad
 <hr>
 
 # PROXMOX
-Proxmox Virtual Environment, o Proxmox VE, entorno de virtualización de servidores de código abierto. Es una distribución de GNU/Linux basada en Debian, con una versión modificada del Kernel Ubuntu LTS​ y permite el despliegue y la gestión de máquinas virtuales y contenedores LXC.
+Proxmox Virtual Environment (Proxmox VE) es un entorno de virtualización de servidores de código abierto. Es una distribución de GNU/Linux basada en Debian, con una versión modificada del Kernel Ubuntu LTS​ y permite desplegar y gestionar máquinas virtuales y contenedores LXC.
 
 Para la creación de nuestro proyecto, vamos a usar Proxmox. Utilizaremos uno de los ordenadores disponibles en el aula para montar nuestro servidor PROXMOX, con el que trabajaremos para crear todos los servicios que necesitamos.
 
@@ -216,7 +216,7 @@ Para la creación de nuestro proyecto, vamos a usar Proxmox. Utilizaremos uno de
 <details>
   <summary>Explicación 🔽</summary>
   Dentro de Proxmox, configuraremos una red NAT para que todas las máquinas virtuales que creemos tengan conexión entre ellas.
-  Como elementos principales, tendremos tres Ubuntu Servers. Uno de ellos hará de router virtual, proporcionando DHCP. El otro nos proporcionara el hosting usando Nginx y un tercero nos proporcionará un hosting de respaldo. 
+  Como elementos principales, tendremos tres Ubuntu Servers. Uno de ellos funcionará como router virtual y proporcionará DHCP El otro nos proporcionara el hosting usando Nginx y un tercero nos proporcionará un hosting de respaldo. 
   Estos tres servidores acompañados de una maquina virtual que trabajará como cliente y un contenedor LXC que nos proporcionará el servicio DNS utilizando Pi-Hole.
     
   Para crear la red NAT con la que se comunicarán las máquinas dentro de Proxmox, añadiremos un "Linux Bridge" y lo configuraremos para crear la red interna, a la que llamaremos vmbr1. Por defecto, la red externa (en nuestro caso la del aula) se llama vmbr0.
@@ -224,8 +224,8 @@ Para la creación de nuestro proyecto, vamos a usar Proxmox. Utilizaremos uno de
   El proceso que seguimos fue el siguiente: primero, instalamos y configuramos la máquina router. Al añadir la máquina, le asignamos la nueva interfaz de red que creamos anteriormente en el apartado de hardware. Una vez configurado el router, duplicamos la máquina para crear el equipo cliente, y modificamos el netplan para que tenga su propia dirección IP dentro de la red interna. En los anexos dejamos el primer borrador de la arquitectura de red que hicimos.
   
   ### Configuración de QEMU
-  Instalaremos tanto en la máquina cliente como en la máquina router el paquete qemu-guest-agent. Gracias a esto, podremos administrar las máquinas virtuales de una manera más fácil.
-  Una vez instalado en las máquinas, debemos configurar las máquinas virtuales en las opciones que nos ofrece Proxmox.
+  Instalaremos en la máquina cliente y en el router el paquete qemu-guest-agent. Gracias a esto, podremos administrar las máquinas virtuales de una manera más fácil.
+  Una vez instalado en las máquinas, es necesario configurar las máquinas virtuales que nos ofrece Proxmox.
 </details>
 
 > 📎 [**Ver _anexo 1_ para entorno ProxMox**](#anexo-1-entorno-proxmox)
@@ -233,7 +233,7 @@ Para la creación de nuestro proyecto, vamos a usar Proxmox. Utilizaremos uno de
 ## 🕸️  Arquitectura de Red
 <details>
   <summary>Explicación 🔽</summary>
-  Para nuestro proyecto, hemos configurado una red virtual utilizando Proxmox, en la cual hemos desplegado todos los servicios esenciales para nuestro gestor de contraseñas. En la imagen, se puede observar cómo hemos dividido el "Entorno Aula" y el "Entorno Proxmox".
+  Para nuestro proyecto, hemos configurado una red virtual utilizando Proxmox, en la cual hemos desplegado todos los servicios esenciales para nuestro gestor de contraseñas. En la imagen se observa la división entre el 'Entorno Aula' y el 'Entorno Proxmox'.
   En el Entorno Aula (100.77.20.0/24), contamos con acceso a internet y dispositivos físicos que se comunican con el router, mientras que en el Entorno Proxmox (10.20.30.0/24), hemos creado una red privada donde residen los servidores y servicios internos, proporcionando un entorno controlado para nuestro sistema.
   
   Cada dispositivo en Proxmox cumple un rol específico:
@@ -267,7 +267,7 @@ Para la creación de nuestro proyecto, vamos a usar Proxmox. Utilizaremos uno de
 </details>
 
 > [!IMPORTANT]
-> Las funciones del cliente y Nginx se verán modificas por la futura integración de Cloudflare en el proyecto. Más adelante veremos como afecta.
+> Las funciones del cliente y Nginx se verán modificadas por la futura integración de Cloudflare en el proyecto. Más adelante veremos como afecta.
 
 ## 🛠️  Configuración de ROUTER
 <details>
