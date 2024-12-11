@@ -129,10 +129,9 @@ Y de manera personal buscaremos trabajar con herramientas, aplicaciones, lenguaj
   |---------------|----------------------|-------------------------|--------------|
   | **Proxmox**   |Proxmox-VE 8.2        | 93Gb / 8Gb              |  Hypervisor  |
   | **Router**    |Ubuntu server 22.04.2 | 14Gb / 4Gb              |  DHCP        |
-  | **Cliente**   |Ubuntu server 22.04.2 | 14Gb / 4Gb              |      -       |
   | **FireBase**  |Ubuntu server 22.04.2 | 14Gb / 4Gb              |Base de datos |
-  | **Pi-Hole**   | -                    | -                       |      DNS     |
-  | **NGinx**     | -                    | -                       |      Web     |
+  | **Pi-Hole**   |Debian 12.7.0         | 14Gb / 512Mb            |      DNS     |
+  | **NGinx**     |Ubuntu server 22.04.2 | 14Gb / 4Gb              |    Hosting   |
 </details>
 
 <hr>
