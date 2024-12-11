@@ -524,7 +524,7 @@ Una vez rellenado ya tendremos todo configurado y nuestra página web corriendo 
 
 > 📎 [**Ver _anexo 7_ para configuración de CloudFare**](#anexo-7-configuración-cloudflare)
 > 
-> 🚩 [Ver informe de errores](#errores-con-configuración-de-cloudfare)
+> 🚩 [Ver informe de errores](#errores-con-configuración-de-cloudflare)
  
 
 # 📎 Anexos
