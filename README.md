@@ -453,8 +453,6 @@ git clone <URL_DEL_REPOSITORIO> /var/www/gtx.com
   Ahora, al buscar gestorgtx.com en la red interna de Proxmox, los dispositivos obtienen la dirección interna y pueden acceder directamente a la página web alojada en Nginx.
 </details>
 
-> 📎 [**Ver _anexo 6_ para configuración de Nginx**](#anexo-6-configuración-nginx)
-> 
 > 🚩 [Ver informe de errores](#errores-con-nginx)
 
 <hr>
@@ -522,10 +520,11 @@ Después de esto, tendremos que rellenar un formulario como el siguiente
 Una vez rellenado ya tendremos todo configurado y nuestra página web corriendo en ```https```
 </details>
 
-> 📎 [**Ver _anexo 7_ para configuración de CloudFare**](#anexo-7-configuración-cloudflare)
+> 📎 [**Ver _anexo 6_ para configuración de CloudFare**](#anexo-6-configuración-cloudflare)
 > 
 > 🚩 [Ver informe de errores](#errores-con-configuración-de-cloudflare)
  
+<hr>
 
 # 📎 Anexos
 ## Anexo 1 (entorno ProxMox)
@@ -533,7 +532,7 @@ Una vez rellenado ya tendremos todo configurado y nuestra página web corriendo 
   <summary>Ver anexo 🔽</summary>
   
   ### Adaptador puente
-  Asignamos al router que use un adaptador puente para que pueda comunicar el interior de la red, con el exterior. Esto lo hacemos configurando el vmbr0 con la red externa y añadiendo un nuevo adaptador vmbr 1 con la ip de la red interna.
+  Asignamos al router que use un adaptador puente para que pueda comunicar el interior de la red, con el exterior. Esto lo hacemos configurando el vmbr0 con la red externa y añadiendo un nuevo adaptador vmbr1 con la IP de la red virtual.
   
   ![adaptador puente](assets_bf/adaptador_puente_prox.png)
   ### Interfaz de red para el router
@@ -555,7 +554,7 @@ Una vez rellenado ya tendremos todo configurado y nuestra página web corriendo 
   <summary>Ver anexo 🔽</summary>
   
   ### Netplan del router
-  Esta configuración es extremadamente importante para que el router garantice la total comunicación entre la red interna y la externa, en la primera parte vemos la configuración para la red 100.77.20.0/24 (externa) y en la segunda parte 10.20.30.0/24 (interna).
+  Esta configuración es extremadamente importante para que el router garantice la total comunicación entre la red interna y la externa, en la primera parte vemos la configuración para la red 100.77.20.0/24 (externa) y en la segunda parte 10.20.30.0/24 (virtual).
   
   ![netplan de router](assets_bf/netplan_router.png)
   ### Archivo sysctl
@@ -563,15 +562,16 @@ Una vez rellenado ya tendremos todo configurado y nuestra página web corriendo 
   
   ![sysctl](assets_bf/sysctl.png)
   ### Archivo de configuración DHCP en el router
-  Añadimos y modificamos las lineas necesarias en para que el router haga de DHCP en la red 10.20.30.0/24. Para garantizar la seguridad y la redundancia de IP's dentro de esta red, ademas configuramos una linea para que empiece a asignar IP's a partir de la 10.20.30.20, para poder añadir contenedores, equipos y servidores sin que afecten a la asignacion de IP's.
+  Añadimos y modificamos las lineas necesarias en para que el router haga de DHCP en la red 10.20.30.0/24. Para garantizar la seguridad y la redundancia de IP's dentro de esta red, además configuramos una línea para que empiece a asignar IP's a partir de la 10.20.30.20, para poder añadir contenedores, equipos y servidores sin que afecten a la asignacion de IP's.
   
   ![configuracion dhcp](assets_bf/configuracion_dhcp.png)
-  ### Archivo de configuración DHCP-ISC en el router
+  ### Archivo de configuración ISC-DHCP en el router
   Con estas líneas le pedimos al router que asigne direcciones IP solo en la interfaz ens19 para IPv4, usando las rutas de configuración y PID predeterminadas. No está configurado para IPv6.
 
   ![configuracion isc](assets_bf/router_isc_dhcp.png)
   ### Configuración IPtables
   PREROUTING: Redirige el tráfico entrante en el puerto 80 (HTTP) de la interfaz ens18 hacia la IP interna 10.20.30.20:80.
+  
   POSTROUTING: Aplica MASQUERADE en la interfaz ens18, permitiendo que las direcciones IP privadas salgan a Internet usando la IP pública de la interfaz.
   
   ![configuracion iptables](assets_bf/iptables.png)
@@ -603,7 +603,7 @@ Una vez rellenado ya tendremos todo configurado y nuestra página web corriendo 
   Y hacemos un ping hasta una IP que exista en la red interna, para ver si el router enruta correctamente los paquetes y comunica ambas redes.
   
   ![ping a google](assets_bf/pinggoogle.png)
-  ### Conexión hacia red exterior con IP dinámica + comprovación de conexión hacia la red exterior.
+  ### Conexión hacia red exterior con IP dinámica y comprobación de conexión hacia la red exterior.
   Aquí mostramos que todo funciona correctamente, viendo que la IP es asignada por el router y que sale el tráfico al exterior.
   
   ![verificación final cliente](assets_bf/configuracion_cliente_dhcp.png)
@@ -618,7 +618,7 @@ Una vez rellenado ya tendremos todo configurado y nuestra página web corriendo 
   
   ![configuración de archivo pi-hole](assets_bf/resolvconf.png)
   ### Archivo de automatización de arranque persistente
-  El archivo anterior, se actualiza automáticamente por culpa de la [configuración predeterminada](#errores-pi-hole-dns-server) del *contenedor* y del mismo *proxmox*, haciendo asi que la unica manera de solucionarlo sea modificando directamente el archivo ```/tmp/crontab.7mqIpj/crontab```.
+  El archivo anterior, se actualiza automáticamente por culpa de la configuración predeterminada [(ver Informe de errores > Errores Pi-Hole DNS server)](#errores-pi-hole-dns-server) del *contenedor* y del mismo *proxmox*, haciendo así que la única manera de solucionarlo sea modificando directamente el archivo ```/tmp/crontab.7mqIpj/crontab```.
   
   ![configuración de archivo pi-hole arranque](assets_bf/crontab.png)
 </details>
@@ -638,13 +638,7 @@ Una vez rellenado ya tendremos todo configurado y nuestra página web corriendo 
    ![Database](assets_bf/firebase_database.png)
 </details>
 
-## Anexo 6 (configuración Nginx)
-<details>
-  <summary>Ver anexo 🔽</summary>
-  falta introducir imagenes
-</details>
-
-## Anexo 7 (configuración CloudFlare)
+## Anexo 6 (configuración CloudFlare)
 <details>
   <summary>Ver anexo 🔽</summary>
 
@@ -720,11 +714,7 @@ crontab -e
 <details>
   <summary>Ver informe 🔽</summary>
 
-> problemas a la hora de desplegar la web por carpeta public erronea
-> 
-> problema con obtención de datos de la web, hay que modificar una regla en firebase database
->
-> como no hemos acabado la configuración, esta parte está por acabar
+Al hacer el deploy completo con el comando ```firebase deploy```, nos daba un error y no nos permitía finalizar el hosteo, investigando encontramos que era un error común y que la solución es especificar que solo haremos el deploy del hosteo, para evitar que otros elementos del propio Firebase, nos provoquen un error, esto lo haremos con ```firebase deploy --only hosting```.
 </details>
 
 ## Errores con Nginx
@@ -732,7 +722,8 @@ crontab -e
   <summary>Ver informe 🔽</summary>
   Inicialmente, Nginx no funcionaba debido a un conflicto con el puerto 80, ya que había un servicio Apache2 ejecutándose y bloqueando el puerto. 
 
-  ✅**SOLUCIÓN**
+
+✅**SOLUCIÓN**
 
   **Paso 1:** *Detener el servicio Apache2*
 
@@ -752,19 +743,10 @@ sudo systemctl status nginx
 ```
 </details>
 
-## Errores con Firebase Hosting
-<details>
-  <summary>Ver informe 🔽</summary>
- 
-Al hacer el deploy completo con el comando ```firebase deploy```, nos daba un error y no nos permitía finalizar el hosteo, investigando encontramos que era un error común y que la solución es especificar que solo haremos el deploy del hosteo, para evitar que otros elementos del propio Firebase, nos provoquen un error, esto lo haremos con ```firebase deploy --only hosting```.
-</details>
-
 ## Errores con configuración de Cloudflare
 <details>
   <summary>Ver informe 🔽</summary>
-  Antes de saber que Alina nos cediria un subdominio, nuestra pagina estaba alojada en Firebase Hosting, esto nos creo muchos problemas ya que Firebase no permitia la sincronización con Cloudflare. Asi que tubimos que configurar Nginx de manera correcta para alojar nuestra página web.
- 
- <hr>
+  Antes de saber que Alina nos cedería un subdominio, nuestra página estaba alojada en Firebase Hosting, esto nos creó muchos problemas, ya que Firebase no permitía la sincronización con Cloudflare. Así que tuvimos que configurar Nginx de manera correcta para alojar nuestra página web.
  
   Cuando entrabamos en la página web nos saltaba el siguiente error.
   ```
