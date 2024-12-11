@@ -207,7 +207,7 @@ Para garantizar una experiencia de usuario intuitiva y coherente, hemos trabajad
 
 <hr>
 
-# PROXMOX
+# 🚀 PROXMOX
 Proxmox Virtual Environment (Proxmox VE) es un entorno de virtualización de servidores de código abierto. Es una distribución de GNU/Linux basada en Debian, con una versión modificada del Kernel Ubuntu LTS​ y permite desplegar y gestionar máquinas virtuales y contenedores LXC.
 
 Para la creación de nuestro proyecto, vamos a usar Proxmox. Utilizaremos uno de los ordenadores disponibles en el aula para montar nuestro servidor PROXMOX, con el que trabajaremos para crear todos los servicios que necesitamos.
@@ -318,7 +318,7 @@ sudo iptables -t nat -A PREROUTING -i ens18 -p tcp --dport 80 -j DNAT --to-desti
 
 > 📎 [**Ver _anexo 2_ para configuración del Router**](#anexo-2-configuración-del-router)
 >
-> 🚩 [Ver informe de errores.](#errores-con-el-router)
+> 🚩 [Ver informe de errores](#errores-con-el-router)
 
 ## 🛠️  Configuración de CLIENTE
 <details>
@@ -353,7 +353,7 @@ sudo bash basic-install.sh
 
 > 📎 [**Ver _anexo 4_ para configuración Pi-hole**](#anexo-4-configuración-pi-hole)
 > 
-> 🚩 [Ver informe de errores.](#errores-pi-hole-dns-server)
+> 🚩 [Ver informe de errores](#errores-pi-hole-dns-server)
 
 ## 🛠️  Configuración de Firebase
 <details>
@@ -410,7 +410,7 @@ La principal información que tenemos para iniciar el hosteo de la página web e
 
 > 📎 [**Ver _anexo 5_ para configuración de Firebase**](#anexo-5-configuración-firebase)
 > 
-> 🚩 [Ver informe de errores.](#errores-con-firebase)
+> 🚩 [Ver informe de errores](#errores-con-firebase)
 
 ## 🛠️  Configuración de Nginx
 <details>
@@ -455,7 +455,9 @@ git clone <URL_DEL_REPOSITORIO> /var/www/gtx.com
 
 > 📎 [**Ver _anexo 6_ para configuración de Nginx**](#anexo-6-configuración-nginx)
 > 
-> 🚩 [Ver informe de errores.](#errores-con-nginx)
+> 🚩 [Ver informe de errores](#errores-con-nginx)
+
+<hr>
 
 #  ☁️ CloudFlare
 Cloudflare es una empresa que ofrece servicios muy potentes de seguridad y optimización de páginas webs. Se beneficia de su CDN que acelera la carga de las páginas, mientras que su tecnología de protección contra ataques DDoS y amenazas cibernéticas asegura la estabilidad y seguridad de los sitios. Además, optimiza el tráfico web para mejorar la experiencia del usuario y reducir la carga en los servidores.
@@ -522,7 +524,7 @@ Una vez rellenado ya tendremos todo configurado y nuestra página web corriendo 
 
 > 📎 [**Ver _anexo 7_ para configuración de CloudFare**](#anexo-7-configuración-cloudflare)
 > 
-> 🚩 [Ver informe de errores.](#errores-con-configuración-de-cloudfare)
+> 🚩 [Ver informe de errores](#errores-con-configuración-de-cloudfare)
  
 
 # 📎 Anexos
@@ -660,6 +662,7 @@ Una vez rellenado ya tendremos todo configurado y nuestra página web corriendo 
 
  Dentro de ```/etc/nginx/nginx.conf``` debemos añadir las siguientes líneas, dentro del apartado de ```http```:
  ![ScriptNginx](assets_bf/scriptnginx.png)
+</details>
 
 <hr>
 
