@@ -520,7 +520,7 @@ Después de esto, tendremos que rellenar un formulario como el siguiente
 Una vez rellenado ya tendremos todo configurado y nuestra página web corriendo en ```https```
 </details>
 
-> 📎 [**Ver _anexo 6_ para configuración de CloudFare**](#anexo-6-configuración-cloudflare)
+> 📎 [**Ver _anexo 6_ para configuración de CloudFlare**](#anexo-6-configuración-cloudflare)
 > 
 > 🚩 [Ver informe de errores](#errores-con-configuración-de-cloudflare)
  
@@ -759,5 +759,3 @@ sudo systemctl status nginx
  ```
 Una vez cambiado esto, nginx debería poder acceder a estos archivos y mostrarlos sin problema.
 </details>
-
-
