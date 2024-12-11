@@ -1,4 +1,4 @@
-# ASIX2_Gestor de Contraseñas_GTX <br> Trabajo realizado por Gerard Soteras, Tim Kalugin y Xavi Conde
+# ASIX2_Gestor de Contraseñas_GTX <br> Desarrolladores: Xavi Conde, Tim Kalugin, Gerard Soteras
 
 ## 💡  Explicación de la idea del proyecto
 <details>
