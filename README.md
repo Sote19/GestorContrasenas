@@ -355,7 +355,7 @@ sudo bash basic-install.sh
 > 
 > 🚩 [Ver informe de errores.](#errores-pi-hole-dns-server)
 
-## 🛠️  Configuración de Base de Datos
+## 🛠️  Configuración de Firebase
 <details>
   <summary>Explicación 🔽</summary>
   Para nuestro proyecto, en lugar de usar una base de datos relacional como MySQL, optaremos por una base de datos no relacional gracias a Firestore. Ya que es un tipo de base de datos que hasta ahora no hemos visto y además en un entorno totalmente nuevo para nuestro desarrollo. Además, es un sistema que trabaja en tiempo real y almacena los datos en la nube, esto encaja a la perfección para nuestro proyecto.
@@ -364,60 +364,47 @@ sudo bash basic-install.sh
   Los datos obtenidos de los usuarios se almacenará de la siguiente manera:
 
 ```
-APPS (Colección)
-├── app_id_1
-│   ├── nombre_app: ""           (Nombre de la aplicación)
-│   └── url_app: ""              (URL de la aplicación)
-
 USUARIOS (Colección)
-├── user_id_1
+├── id_usuario (Documento)
 │   ├── email: ""                (Correo electrónico del usuario)
+│   ├── masterkey: ""            (Clave maestra utilizada para el cifrado)
 │   ├── nombre: ""               (Nombre del usuario)
-│   ├── password_registro: ""    (Contraseña del registro, debe estar hasheada)
-│   ├── master_key: ""           (Clave maestra para cifrado/descifrado)
-│   └── passwords                (Colección de contraseñas)
-│       ├── password_1
-│       │   ├── nombre_app: ""   (Nombre de la aplicación)
-│       │   ├── username_app: "" (Nombre de usuario en la app)
-│       │   └── password_app: "" (Contraseña de la app, cifrada)
-│       ├── password_2
-│       │   ├── nombre_app: ""   (Nombre de la aplicación)
-│       │   ├── username_app: "" (Nombre de usuario en la app)
-│       │   └── password_app: "" (Contraseña de la app, cifrada)
+│   ├── salt: ""                 (Salt para reforzar la seguridad del cifrado)
+│   └── APP (Colección)
+│       ├── id_app (Documento)
+│       │   ├── appContra: ""    (Contraseña de la aplicación, cifrada)
+│       │   ├── appName: ""      (Nombre de la aplicación)
+│       │   ├── appUrl: ""       (URL de la aplicación)
+│       │   ├── appUser: ""      (Nombre de usuario en la aplicación)
+│       │   ├── comment: ""      (Comentario opcional sobre la aplicación)
+│       │   └── iv: ""           (Vector de inicialización para el cifrado)
 │       └── ...
-└── user_id_2
+└── id_usuario_2
     └── ...
 ```
 
 La instalación paso a paso nos la facilita el propio firebse, en la siguiente guía: https://firebase.google.com/docs/database/web/start?hl=es-419.
 
-Para un mejor manejo de los datos abriremos el puerto 2220, para poder hacer la conexión *ssh máquina física* - *máquina firebase*.
+Durante la configuración de Firebase, abriremos el puerto 2220 para poder hacer la conexión *ssh máquina física* - *máquina firebase*.
 Instalamos firebase en la máquina virtual con ```sudo npm install -g firebase-tools``` y nos logeamos usando ```firebase login```, para empezara trabajar dentro de nuestro Firebase.
 
+A partir de aqui tenemos la opción de trabajar por comandos o en su interfaz gráfica que encontramos en la web. Nosotros hemos decidio crear la base de datos de manera gráfica.
 
-A partir de aqui tenemos la opción de trabajar por comandos o en su interfaz gráfica que encontramos en la web. Nosotros hemos decidio crear la BD de manera gráfica.
-Y este seria su esquema final:
+Firebase tiene la opción de modificar un elemento al que llama **reglas**, estas nos permiten controlar el acceso a la base de datos y el almacenamiento. Para que no nos devuelva un error de conexión *archivos de la página web* *firebase hosting*, hemos tenido que modificar las reglas y permitir que los usuarios puedan modificar la base de datos.
+Destacar, que una vez que toda la conexión este en funcionamiento, esta regla será modificada para garantizar la seguridad de la propia base de datos.
 </details>
 
 <details>
- <summary>Imagen init Firebase 🔽</summary>
+ <summary>Reglas Firestore 🔽</summary>
  
- ![Init](assets_bf/firebase_init.png)
-</details>
-
-<details>
- <summary>Imagen estructura base de datos 🔽</summary>
- 
- ![Database](assets_bf/firebase_database.png)
+ ![reglas firestore](assets_bf/reglas_firestore.png)
 </details>
 
 
-> 📎 [**Ver _anexo 5_ para configuración de la base de datos**](#anexo-5-configuración-base-de-datos)
+> 📎 [**Ver _anexo 5_ para configuración de Firebase**](#anexo-5-configuración-firebase)
 > 
-> 🚩 [Ver informe de errores.](#errores-con-la-base-de-datos-firebase)
+> 🚩 [Ver informe de errores.](#errores-con-firebase)
 
-> [!WARNING]
-> Falta añadir info y REGLAS DE SEGURIDAD
 
 ## 🛠️  Configuración del hosting
 <details>
@@ -427,9 +414,6 @@ Hemos decidido hostear la página web en Firebase, ya que al tener la BD alojada
 La principal información que tenemos para iniciar el hosteo de la página web, es crear un archivo ```.js```, para añadir un script con las credenciales de nuestro Firebase.
 Aunque nosotros hemos tenido que aplicar algunos cambios a este, para garantizar el correcto funcionamiento del hosting:
 
-Firebase tiene la opción de modificar un elemento al que llama **reglas**, estas nos permiten controlar el acceso a la base de datos y el almacenamiento. Para que no nos devuelva un error de conexión *archivos de la página web* *firebase hosting*, hemos tenido que modificar las reglas y permitir que los usuarios puedan modificar la base de datos, y asi quedaria la regla.
-´´´ REGLA ´´´
-Destacar, que una vez que toda la conexión este en funcionamiento, esta regla será modificada para garantizar la seguridad de la propia base de datos
 </details>
 
 <details>
@@ -614,14 +598,16 @@ Una vez creado el túnel, el recuadro que nos sale en verde en esta captura, nos
   ![configuración de archivo pi-hole arranque](assets_bf/crontab.png)
 </details>
 
-## Anexo 5 (configuración Base de Datos)
+## Anexo 5 (configuración Firebase)
 <details>
   <summary>Ver anexo 🔽</summary>
 
   ### Archivo JS para comunicar web-firebase
   Asignamos nuestras claves y la información necesaria en este script de JS, que te facilita el mismo Firebase. Para generar una conexión entre la página web y el servicio de firestore database.
   
-  ![Firebase connexión](assets_bf/conex_firebase.png)
+  ![Firebase connexión](assets_bf/script_js.png)
+
+   ![Database](assets_bf/firebase_database.png)
 </details>
 
 ## Anexo 6 (configuración Nginx)
@@ -725,7 +711,7 @@ crontab -e
   Con estos pasos, se asegura que el contenedor de Pi-hole utilice su propio servidor DNS de manera persistente, permitiendo un filtrado efectivo del tráfico DNS y manteniendo la configuración deseada entre reinicios.
 </details>
 
-## Errores con la base de datos FireBase
+## Errores con Firebase
 <details>
   <summary>Ver informe 🔽</summary>
 
