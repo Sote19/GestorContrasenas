@@ -3,8 +3,10 @@
 ## 💡  Explicación de la idea del proyecto
 <details>
   <summary>Explicación 🔽</summary>
-  En este proyecto nos vamos a centrar en crear una aplicación web que funcione como un gestor de contraseñas. La idea es que esta web permita crear un usuario y que pueda añadir sus aplicaciones, webs, usuarios y contraseñas de forma fácil e intuitiva, pero siempre con seguridad. Nos vamos a enfocar principalmente en el back-end, pero también intentaremos que el front-end esté bien diseñado para que sea accesible para cualquier usuario.
-  Nuestro gestor podrá almacenar todas las contraseñas de forma cifrada, y estarán gestionadas por una contraseña maestra (masterkey).
+ 
+ En este proyecto nos vamos a centrar en crear una aplicación web que funcione como un gestor de contraseñas. La idea es que esta web permita crear un usuario y que pueda añadir sus aplicaciones, webs, usuarios y contraseñas de forma fácil e intuitiva, pero siempre con seguridad. 
+ 
+ Nos vamos a enfocar principalmente en el back-end, pero también intentaremos que el front-end esté bien diseñado para que sea accesible para cualquier usuario. Nuestro gestor podrá almacenar todas las contraseñas de forma cifrada, y estarán gestionadas por una contraseña maestra (masterkey).
   
   La seguridad que vamos a implementar como desarrolladores incluye: contraseñas cifradas, una base de datos segura, y una masterkey con un cifrado más robusto.
   Para los usuarios, la seguridad se basará en dos cosas: su contraseña de usuario y la masterkey. Así, los usuarios podrán gestionar todas sus cuentas y contraseñas de manera centralizada, segura y sencilla.
@@ -17,7 +19,7 @@
 Nuestros objetivos desde un inicio se han respetado con solidez, ya que todos los integrantes perseguíamos los mismos objetivos y las motivaciones eran muy parecidas.
 Desde que decidimos crear un gestor de contraseñas en forma de aplicación web, queríamos que las contraseñas de esta se almacenaran y transportaran de manera cifrada, además todas las contraseñas serían gestionadas por una contraseña maestra. Esta contraseña maestra enlazará la Base de Datos con la aplicación web.
    
-Además de cara al usuario queremos facilitar la vida a los usuarios para que gasten el tiempo mínimo en buscar, añadir o manejar sus datos personales de autenticación.
+Además, de cara al usuario, queremos facilitar la vida a los usuarios para que empleen el tiempo mínimo en buscar, añadir o manejar sus datos personales de autenticación.
 Y con la seguridad de que sus datos están bien protegidos en nuestro gestor.
    
 Y de manera personal buscaremos trabajar con herramientas, aplicaciones, lenguajes y servicios nuevos para nosotros para conseguir alcanzar nuevos conocimientos y conceptos que consideramos que nos serán útiles en nuestra carrera profesional.
@@ -53,13 +55,13 @@ Y de manera personal buscaremos trabajar con herramientas, aplicaciones, lenguaj
 <details>
   <summary>Roles 🔽</summary>  
   
-  - Xavi - Front-end y VMs
-  - Gerard - Back-end cifrado y presentaciones(PP, Genially…), escritos(GitHub)
-  - Tim - Back-end BBDD y gestores de tareas
+  - Xavi - Front-end, Programación, ProxMox, escritos (GitHub)
+  - Gerard - Back-end cifrado, Redes, escritos (GitHub)
+  - Tim - Back-end BBDD, ProxMox, gestores de tareas y escritos (GitHub)
 </details>
 
 > [!IMPORTANT]
-> Los líderes informan del tiempo, no quiere decir que trabajen más en esas áreas que otro compañero.</p>
+> Los líderes informan del tiempo, no quiere decir que trabajen más en esas áreas que otro compañero.
 
 ## 💻  Tecnologías a utilizar (lenguajes, framework, sistemas, software...)
 <details>
@@ -88,15 +90,16 @@ Y de manera personal buscaremos trabajar con herramientas, aplicaciones, lenguaj
   <summary>Cifrado 🔽</summary>
   
   En nuestro proyecto hemos elegido estas opciones de cifrado:
-  - PBKDF2 + salt estático para las contraseñas de las aplicaciones web que guarde el usuario y un salt dinámico para la masterkey.
+  - PBKDF2 + salt 
   - AES-GCM + uso de vector de inicialización.
-  - Hash.
+  - AES-256
+  - Hexadecimal
 </details>
 
 <details>
-  <summary>Seguridad 🔽</summary>
+  <summary>Certificados 🔽</summary>
   
-  - NGINX TLS (de manera interna). 
+  - OpenSSL -> TLS (de manera interna). 
   - Cloudflare SSL (de manera externa).
 </details>
 
@@ -123,7 +126,7 @@ Y de manera personal buscaremos trabajar con herramientas, aplicaciones, lenguaj
 </details>
 
 <details>
-  <summary>Tabla de arquitectura de los sistestemas 🔽</summary>
+  <summary>Tabla de arquitectura de los sistemas 🔽</summary>
   
   | Máquina       | S.O                  | Almacenamiento / Memoria| Servicio     | 
   |---------------|----------------------|-------------------------|--------------|
@@ -145,15 +148,15 @@ Para garantizar una experiencia de usuario intuitiva y coherente, hemos trabajad
   Como se muestra en el mockup, nuestra web será sencilla. Cuando entremos a la web por primera vez, nos encontraremos con un panel sencillo que nos dará dos opciones, "Iniciar sesión" y "Registrarse".<br>
   Cada opción nos mandará a la página correspondiente, cuyo diseño será parecido al ya visto, con la diferencia que los títulos referenciarán dónde nos encontramos.
   
-  En la página de registrarse nos saldrá un pequeño "cuestionario" que nos solicitará correo electrónico, contraseña para entrar y nombre de usuario. Además, habrá un botón que permitirá ir a la página de iniciar sesión si ya tienes una cuenta registrada.
+  En la página de registrarse nos saldrá un pequeño "cuestionario" que nos solicitará correo electrónico, contraseña para entrar, nombre de usuario y llave maestra. Además, habrá un botón que permitirá ir a la página de iniciar sesión si ya tienes una cuenta registrada.
   
   En la página de iniciar sesión nos mostrará los espacios correspondientes para introducir el usuario y la contraseña previamente registrada en la web. También estará disponible la opción de "¿Has olvidado tu contraseña?", "¿No tienes cuenta? Regístrate ya", la casilla para activar si quieres recordar el dispositivo y un ojo que mostrará la contraseña, ya que cuando se escribe no se muestra.
   
-  Una vez dentro, nos mostrará una ventana que pedirá registrar la llave maestra. Una vez configurada, el diseño de la web será simple. Se mostrarán las aplicaciones que hemos guardado en el gestor, con un botón que agregará una aplicación en la parte superior.
+  Una vez iniciada la sesión, el diseño de la web será simple. Se mostrarán las aplicaciones que hemos guardado en el gestor, con un botón que agregará una aplicación en la parte superior.
   
-  A la hora de registrar una aplicación, se pedirá la URL del sitio web de la aplicación, el usuario y si se quiere generar una contraseña o introducir una personal. También habrá un espacio para poner comentarios. Una vez configurado, se usará un botón con "Guardar" para finalizar la acción de agregar una aplicación.  
+  A la hora de registrar una aplicación, se pedirá el nombre de la aplicación, la URL del sitio web de la aplicación, el usuario y si se quiere generar una contraseña o introducir una personal. También habrá un espacio para poner comentarios. Una vez configurado, se usará un botón con "Guardar" para finalizar la acción de agregar una aplicación.  
   
-  Una vez tengamos algunas aplicaciones registradas, seleccionando alguna de ellas accederemos a una ventana donde se mostrará la información previamente introducida para la aplicación correspondiente y dos botones: "Editar" y "Eliminar", además de una cruz en la parte superior por si queremos salir de la ventana, regresando a la vista general de la web.
+  Una vez tengamos algunas aplicaciones registradas, pulsando el botón "Ver detalles", aparecerá una ventana donde se deberá introducir la llave maestra. En caso de introducirla correctamente, se mostrará la información previamente introducida para la aplicación correspondiente y tres botones: "Editar", "Volver" y "Eliminar". Si la llave maestra es erronea, se redirige al usuario a la página principal de la web.
 </details>
 
 <details>
@@ -205,18 +208,18 @@ Para garantizar una experiencia de usuario intuitiva y coherente, hemos trabajad
 <hr>
 
 # PROXMOX
-Proxmox Virtual Environment, o Proxmox VE, entorno de virtualización de servidores de código abierto. Es una distribución de GNU/Linux basada en Debian, con una versión modificada del Kernel Ubuntu LTS​ y permite el despliegue y la gestión de máquinas virtuales y contenedores.
+Proxmox Virtual Environment, o Proxmox VE, entorno de virtualización de servidores de código abierto. Es una distribución de GNU/Linux basada en Debian, con una versión modificada del Kernel Ubuntu LTS​ y permite el despliegue y la gestión de máquinas virtuales y contenedores LXC.
 
-Para la creación de nuestro proyecto, vamos a usar Proxmox. Utilizaremos uno de los ordenadores disponibles en el aula para montar nuestro equipo PROXMOX, con el que trabajaremos para crear todos los servicios que necesitamos.
+Para la creación de nuestro proyecto, vamos a usar Proxmox. Utilizaremos uno de los ordenadores disponibles en el aula para montar nuestro servidor PROXMOX, con el que trabajaremos para crear todos los servicios que necesitamos.
 
 ## 🟠  Entorno ProxMox
 <details>
   <summary>Explicación 🔽</summary>
   Dentro de Proxmox, configuraremos una red NAT para que todas las máquinas virtuales que creemos tengan conexión entre ellas.
-  Como elementos principales, tendremos dos Ubuntu Servers. Uno de ellos hará de router virtual, proporcionando DHCP. El otro será un equipo cliente. 
-  Una vez tengamos estas dos máquinas configuradas correctamente, procederemos a crear e integrar una máquina que funcionará como base de datos y otra que proporcione servicio DNS.
-  
-  Para crear la red NAT con la que se comunicarán las máquinas dentro de Proxmox, añadiremos un "Linux Bridge" y lo configuraremos para crear la red "interna", a la que llamaremos vmbr1. Por defecto, la red externa (en nuestro caso la del aula) se llama vmbr0.
+  Como elementos principales, tendremos tres Ubuntu Servers. Uno de ellos hará de router virtual, proporcionando DHCP. El otro nos proporcionara el hosting usando Nginx y un tercero nos proporcionará un hosting de respaldo. 
+  Estos tres servidores acompañados de una maquina virtual que trabajará como cliente y un contenedor LXC que nos proporcionará el servicio DNS utilizando Pi-Hole.
+    
+  Para crear la red NAT con la que se comunicarán las máquinas dentro de Proxmox, añadiremos un "Linux Bridge" y lo configuraremos para crear la red interna, a la que llamaremos vmbr1. Por defecto, la red externa (en nuestro caso la del aula) se llama vmbr0.
   
   El proceso que seguimos fue el siguiente: primero, instalamos y configuramos la máquina router. Al añadir la máquina, le asignamos la nueva interfaz de red que creamos anteriormente en el apartado de hardware. Una vez configurado el router, duplicamos la máquina para crear el equipo cliente, y modificamos el netplan para que tenga su propia dirección IP dentro de la red interna. En los anexos dejamos el primer borrador de la arquitectura de red que hicimos.
   
@@ -230,14 +233,14 @@ Para la creación de nuestro proyecto, vamos a usar Proxmox. Utilizaremos uno de
 ## 🕸️  Arquitectura de Red
 <details>
   <summary>Explicación 🔽</summary>
-  Para nuestro proyecto, hemos configurado una red local utilizando Proxmox, en la cual hemos desplegado todos los servicios esenciales para nuestro gestor de contraseñas. En la imagen, se puede observar cómo hemos dividido el "Entorno Aula" y el "Entorno Proxmox".
-  En el Entorno Aula (con la red 100.77.20.0/24), contamos con acceso a internet y dispositivos físicos que se comunican con el router, mientras que en el Entorno Proxmox (red 10.20.30.0/24), hemos creado una red privada donde residen los servidores y servicios internos, proporcionando un entorno controlado para nuestro sistema.
+  Para nuestro proyecto, hemos configurado una red virtual utilizando Proxmox, en la cual hemos desplegado todos los servicios esenciales para nuestro gestor de contraseñas. En la imagen, se puede observar cómo hemos dividido el "Entorno Aula" y el "Entorno Proxmox".
+  En el Entorno Aula (100.77.20.0/24), contamos con acceso a internet y dispositivos físicos que se comunican con el router, mientras que en el Entorno Proxmox (10.20.30.0/24), hemos creado una red privada donde residen los servidores y servicios internos, proporcionando un entorno controlado para nuestro sistema.
   
   Cada dispositivo en Proxmox cumple un rol específico:
   - Router: conecta ambas redes, actúa como gateway y distribuye direcciones IP mediante DHCP en la red de Proxmox.
   - Pi-hole (10.20.30.2): configurado como servidor DNS, filtra y redirige las solicitudes DNS dentro de la red interna.
-  - Cliente Nginx (10.20.30.20): ofrece el servicio web (Nginx) accesible desde la red del aula mediante una regla en IPTables.
-  - Firebase: proporciona los servicios de base de datos y almacenamiento necesarios para el funcionamiento del gestor de contraseñas.
+  - Nginx (10.20.30.20): ofrece el servicio web (Nginx), primeramente accesible desde la red del aula mediante una regla en IPTables. 
+  - Firebase: proporciona los servicios de base de datos y hosting necesarios para el funcionamiento del gestor de contraseñas.
   
   En la imagen, los dispositivos que ofrecen servicios se encuentran subrayados en verde, mientras que aquellos que consumen servicios están subrayados en rojo.
   También se ha indicado si las IPs son estáticas para facilitar la configuración y el acceso a cada servicio. De esta forma, el diseño asegura que cada dispositivo esté claramente identificado y cumpla su función en la red interna de Proxmox.
@@ -256,22 +259,26 @@ Para la creación de nuestro proyecto, vamos a usar Proxmox. Utilizaremos uno de
   |------------------|--------------------------------------------|-------------------------------------|-------------------------------|
   | Proxmox          | 100.77.20.113                              | 100.77.20.1                         | 100.77.20.0/24                |
   | VM Ubuntu Router | 100.77.20.77 (externa)<br>10.20.30.1 (interna) | 100.77.20.1 (externa)<br>10.20.30.1 (interna) | vmbr0 (100.77.20.0/24)<br>vmbr1 (10.20.30.0/24) |
-  | VM Ubuntu Cliente| DHCP                                       | 10.20.30.1                          | vmbr1 (10.20.30.0/24)         |
   | Nginx            | DHCP (fija por MAC a la IP 10.20.30.20)    | 10.20.30.1                          | vmbr1 (10.20.30.0/24)         | 
   | Pihole           | 10.20.30.5                                 | 10.20.30.1                          | vmbr1 (10.20.30.0/24)         |
   | FireBase         | 10.20.30.6                                 | 10.20.30.1                          | vmbr1 (10.20.30.0/24)         |
+  | VM Ubuntu Cliente| DHCP                                       | 10.20.30.1                          | vmbr1 (10.20.30.0/24)         |
+
 </details>
+
+> [!IMPORTANT]
+> Las funciones del cliente y Nginx se verán modificas por la futura integración de Cloudflare en el proyecto. Más adelante veremos como afecta.
 
 ## 🛠️  Configuración de ROUTER
 <details>
   <summary>Explicación 🔽</summary>
-  Primero configuramos la red del router. Para ello cambiaremos el netplan ajustando las IP según la red interna previamente creada o la externa. Con ens18 identificaremos la red exterior y con ens19 la red interna.
+  Primero configuramos la red del router. Para ello cambiaremos el netplan ajustando las IP según la red, virtual o aula. Con ens18 identificaremos la red del aula y con ens19 la red virtual.
   Además, hemos implementado el servicio de DHCP en el router para que todos los dispositivos que estén dentro de la red virtual puedan obtener una IP sin necesidad de asignarla manualmente.
   
   ### Configuración de DHCP
   Para configurar el servicio DHCP, primero lo instalaremos en el router con el comando correspondiente. Luego crearemos una copia de seguridad del archivo de configuración para conservar la configuración original. Procederemos a editar el archivo de configuración y, en nuestro caso, hemos asignado el rango de IPs de *10.20.30.20* a *10.20.30.50*.
   
-  También configuraremos la IP *10.20.30.20* para que siempre se asigne a la máquina que contiene el servicio de Nginx. Esto nos permitirá abrir el puerto 80 con IPTables y dirigirlo hacia esta dirección IP, logrando que podamos acceder a nuestra página de Nginx desde los ordenadores del aula. Además, modificaremos el archivo ```isc-dhcp-server``` para indicar al router que funcione como servidor DHCP en la interfaz ens19.
+  También configuraremos la IP *10.20.30.20* para que siempre se asigne a la máquina, haciendo uso de su MAC, que contiene el servicio de Nginx. Esto nos permitirá abrir el puerto 80 con IPTables y dirigirlo hacia esta dirección IP, logrando que podamos acceder a nuestra página de Nginx desde los ordenadores del aula. Además, modificaremos el archivo ```isc-dhcp-server``` para indicar al router que funcione como servidor DHCP en la interfaz ens19.
 
 ```
 # comandos usados
@@ -285,8 +292,8 @@ sudo nano /etc/default/isc-dhcp-server                  # modificación del arch
   ### Configuración de IPTables
   Para permitir que el cliente tenga acceso a la red exterior, debemos instalar y configurar IPTables en el router para habilitar el redireccionamiento del tráfico. Para ello, modificaremos el archivo ```/etc/sysctl.conf```. Dentro de este archivo, descomentaremos una línea que permitirá reenviar el tráfico entre las diferentes interfaces de red hacia el router que tenemos en Proxmox.
   
-  También añadiremos una regla para permitir el tránsito por el puerto 80 y, de este modo, poder acceder al servicio de Nginx desde un ordenador del aula, que está fuera de la red interna de Proxmox.
-  En el archivo de configuración, verificaremos si hay alguna regla habilitada en IPTables y añadiremos una nueva para realizar el enmascaramiento NAT en el tráfico saliente de la interfaz de red ens18. Configuraremos una regla que permita que el tráfico de la red interna fluya hacia la red externa. Por último, añadiremos una regla adicional para que las solicitudes desde la red interna puedan regresar, logrando así una comunicación bidireccional.
+  También añadiremos una regla para permitir el tránsito por el puerto 80 y de este modo poder acceder al servicio de Nginx desde un ordenador del aula.
+  En el archivo de configuración verificaremos si hay alguna regla habilitada en IPTables y añadiremos una nueva para realizar el enmascaramiento NAT en el tráfico saliente de la interfaz de red ens18. Configuraremos una regla que permita que el tráfico de la red interna fluya hacia la red externa. Por último, añadiremos una regla adicional para que las solicitudes desde la red interna puedan regresar, logrando así una comunicación bidireccional.
   
   Una vez finalizadas las configuraciones de IPTables, guardaremos dichas reglas con el comando adecuado. Para que las reglas de IPTables se mantengan después de reiniciar el sistema, instalaremos el paquete *iptables-persistent*.
 
@@ -316,11 +323,11 @@ sudo iptables -t nat -A PREROUTING -i ens18 -p tcp --dport 80 -j DNAT --to-desti
 ## 🛠️  Configuración de CLIENTE
 <details>
   <summary>Explicación 🔽</summary>
-  Configuramos la red del router cambiando el netplan para usar la interfaz ens19 con una IP dentro de la red. Como aún no hemos configurado ningún servicio DHCP, asignaremos la IP estática 10.20.30.5.
+  Configuramos la red del cliente, cambiando el netplan para usar la interfaz ens19, con una IP dentro de la red. Como aún no hemos configurado ningún servicio DHCP, asignaremos la IP estática 10.20.30.5.
   Una vez tengamos el servicio DHCP configurado, modificaremos nuevamente el netplan para conseguir que la interfaz obtenga una IP dinámica.
   
   ### Comprobación de conexión entre máquinas
-  Una vez configurado el netplan tanto en el router como en el cliente, realizamos un ping entre ambas máquinas para comprobar que hay conexión dentro de la red NAT que hemos creado.
+  Una vez configurado el netplan tanto en el router como en el cliente, realizamos un ping entre ambas máquinas para comprobar que hay conexión dentro de la red virtual que hemos creado.
   Tras verificar el correcto funcionamiento de la red, haremos un ping desde el router y el cliente hacia la red exterior, como por ejemplo a "google.com". Si obtenemos conexión, podremos concluir que tanto el router como el cliente están bien configurados.
 </details>
 
@@ -330,8 +337,8 @@ sudo iptables -t nat -A PREROUTING -i ens18 -p tcp --dport 80 -j DNAT --to-desti
 <details>
   <summary>Explicación 🔽</summary>
   
-  Para crear un servidor DNS dentro de nuestra red interna, hemos decidido usar la herramient pi-hole y ejecutarla dentro de un contenedor ya que nunca habiamos usado pihole ni contendores y asi hemos podido hacer una primera toma de contacto con ambos.
-  Despues de crear el contenedor de proxmox con el hardware especificado en la tabla "Arquitectura del sistema" usamos el comando que te indican en la pagina oficial de pi-hole.
+  Para crear un servidor DNS dentro de nuestra red interna, hemos decidido usar la herramient Pi-Hole y ejecutarla dentro de un contenedor LXC ya que nunca habiamos usado Pi-Hole ni contendores y asi hemos podido hacer una primera toma de contacto con ambos.
+  Despues de crear el contenedor de Proxmox con el hardware especificado en la tabla "Arquitectura del sistema" usamos el comando que te indican en la pagina oficial de Pi-Hole.
   
 ```
 git clone --depth 1 https://github.com/pi-hole/pi-hole.git Pi-hole
@@ -341,7 +348,7 @@ sudo bash basic-install.sh
   Lo tenemos que hacer con "git clone" ya que en el propio contenedor el comando "curl" no lo reconoce. 
   Una vez hecho esto trabajaremos todo el servidor DNS dentro del archivo ```/etc/resolv.conf```.
   Pondremos todas las lineas de ese archivo, comentadas.
-  Añadiremos la linea "nameserver 127.0.0.1" para que el mismo contenedor de pi-hole sea su propio servidor DNS.
+  Añadiremos la línea "nameserver 127.0.0.1" para que el mismo contenedor de Pi-Hole sea su propio servidor DNS.
 </details>
 
 > 📎 [**Ver _anexo 4_ para configuración Pi-hole**](#anexo-4-configuración-pi-hole)
@@ -351,9 +358,9 @@ sudo bash basic-install.sh
 ## 🛠️  Configuración de Base de Datos
 <details>
   <summary>Explicación 🔽</summary>
-  Para nuestro proyecto, crearemos una máquina que alojará nuestra base de datos. En lugar de usar una base de datos relacional como MySQL, optaremos por una base de datos no relacional gracias a Firebase. Ya que es un tipo de base de datos que hasta ahora no hemos visto y además en un entorno totalmente nuevo para nuestro desarrollo. Además, es un sistema que trabaja en tiempo real y almacena los datos en la nube, esto encaja a la perfección para nuestro proyecto.
+  Para nuestro proyecto, en lugar de usar una base de datos relacional como MySQL, optaremos por una base de datos no relacional gracias a Firestore. Ya que es un tipo de base de datos que hasta ahora no hemos visto y además en un entorno totalmente nuevo para nuestro desarrollo. Además, es un sistema que trabaja en tiempo real y almacena los datos en la nube, esto encaja a la perfección para nuestro proyecto.
 
-  Después de una investigación sobre el funcionamiento de las BD NO relacionales, nuestra primera propuesta para la Base de Datos es la que mostraremos a continuación, pero no descartamos cambios futuros.
+  Después de una investigación sobre el funcionamiento de las BBDD NO relacionales, nuestra primera propuesta para la Base de Datos es la que mostraremos a continuación, pero no descartamos cambios futuros.
   Los datos obtenidos de los usuarios se almacenará de la siguiente manera:
 
 ```
