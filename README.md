@@ -358,6 +358,7 @@ sudo bash basic-install.sh
 ## 🛠️  Configuración de Firebase
 <details>
   <summary>Explicación 🔽</summary>
+  ### Firestore
   Para nuestro proyecto, en lugar de usar una base de datos relacional como MySQL, optaremos por una base de datos no relacional gracias a Firestore. Ya que es un tipo de base de datos que hasta ahora no hemos visto y además en un entorno totalmente nuevo para nuestro desarrollo. Además, es un sistema que trabaja en tiempo real y almacena los datos en la nube, esto encaja a la perfección para nuestro proyecto.
 
   Después de una investigación sobre el funcionamiento de las BBDD NO relacionales, nuestra primera propuesta para la Base de Datos es la que mostraremos a continuación, pero no descartamos cambios futuros.
@@ -392,35 +393,23 @@ A partir de aqui tenemos la opción de trabajar por comandos o en su interfaz gr
 
 Firebase tiene la opción de modificar un elemento al que llama **reglas**, estas nos permiten controlar el acceso a la base de datos y el almacenamiento. Para que no nos devuelva un error de conexión *archivos de la página web* *firebase hosting*, hemos tenido que modificar las reglas y permitir que los usuarios puedan modificar la base de datos.
 Destacar, que una vez que toda la conexión este en funcionamiento, esta regla será modificada para garantizar la seguridad de la propia base de datos.
-</details>
 
 <details>
  <summary>Reglas Firestore 🔽</summary>
  
- ![reglas firestore](assets_bf/reglas_firestore.png)
+ ![reglas firebase](assets_bf/reglas_firebase.png)
 </details>
+
+### Firebase hosting
+Hemos decidido hostear la página web en Firebase, ya que al tener la BD alojada en esa misma plataforma, evitaremos problemas futuros de vinculación o compatibilidad.
+La principal información que tenemos para iniciar el hosteo de la página web es crear un archivo ```.js``` para añadir un script con las credenciales de nuestro Firebase, aunque nosotros hemos tenido que aplicar algunos cambios a este, para garantizar el correcto funcionamiento del hosting.
+</details>
+
 
 
 > 📎 [**Ver _anexo 5_ para configuración de Firebase**](#anexo-5-configuración-firebase)
 > 
 > 🚩 [Ver informe de errores.](#errores-con-firebase)
-
-
-## 🛠️  Configuración del hosting
-<details>
-  <summary>Explicación 🔽</summary>
- 
-Hemos decidido hostear la página web en Firebase, ya que al tener la BD alojada en esa misma plataforma, evitaremos problemas futuros de vinculación o compatibilidad.
-La principal información que tenemos para iniciar el hosteo de la página web, es crear un archivo ```.js```, para añadir un script con las credenciales de nuestro Firebase.
-Aunque nosotros hemos tenido que aplicar algunos cambios a este, para garantizar el correcto funcionamiento del hosting:
-
-</details>
-
-<details>
-<summary> Script Vinculador 🔽</summary>
- 
-![Script](assets_bf/script_js.png)
-</details>
 
 ## 🛠️  Configuración de Nginx
 <details>
@@ -602,11 +591,14 @@ Una vez creado el túnel, el recuadro que nos sale en verde en esta captura, nos
 <details>
   <summary>Ver anexo 🔽</summary>
 
-  ### Archivo JS para comunicar web-firebase
+  ### Script vinculador
   Asignamos nuestras claves y la información necesaria en este script de JS, que te facilita el mismo Firebase. Para generar una conexión entre la página web y el servicio de firestore database.
   
   ![Firebase connexión](assets_bf/script_js.png)
 
+  ### Distribución base de datos
+  Aquí vemos de manera gráfica toda la distribución de los datos en la base de datos, tanto las Colecciones, Documentos y Campos.
+  
    ![Database](assets_bf/firebase_database.png)
 </details>
 
